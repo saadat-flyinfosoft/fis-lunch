@@ -68,7 +68,7 @@ const Header = () => {
             <div className="flex items-center">
                 {/* Replace 'logo.svg' with your actual logo */}
 
-                <Image width="140" height="100" src={"https://i.ibb.co/9Tp3Wd4/FISLM.png"} alt="Logo" className="mr-1 md:mr-4" />
+                <Image width="130" height="100" src={"https://i.ibb.co/9Tp3Wd4/FISLM.png"} alt="Logo" className="mr-1 md:mr-4" />
                 {/* <h1 className="text-white text-lg font-bold">TS Blood Donation</h1> */}
             </div>
             <nav className="flex items-center gap-2 md:gap-6">
