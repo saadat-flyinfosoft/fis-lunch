@@ -56,7 +56,7 @@ const Page = () => {
                     <Manage></Manage>
                 </div>
                 <div className='bg-blue-500 p-4 w-full md:w-3/4'>
-                    <h2 className='font-bold'>Dashboard</h2>
+                    <h2 className=' text-xl font-bold my-4'>Dashboard</h2>
 
                     <div class="relative">
                         <div class="absolute inset-y-0 start-0 flex items-center  pointer-events-none">
