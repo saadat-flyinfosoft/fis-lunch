@@ -1,9 +1,9 @@
 "use client"
 import { useContext } from 'react';
-import useUsers from '../components/hooks/useUsers';
+import useUsers from '../components/Hooks/useUsers';
 import Manage from '../manage/page';
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
-import useAxiosPublic from '../components/hooks/useAxiosPublic';
+import useAxiosPublic from '../components/Hooks/useAxiosPublic';
 import Swal from 'sweetalert2'
 
 const Page = () => {
