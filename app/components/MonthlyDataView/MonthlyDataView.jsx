@@ -1,5 +1,5 @@
 import React from 'react';
-import useUsers from '../../../Hooks/useUsers';
+import useUsers from '../../../Hook/useUsers';
 
 const MonthlyDataView = ({ data }) => {
     const { users } = useUsers();

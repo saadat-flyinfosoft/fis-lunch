@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import BookingButton from '../BookingButton/BookingButton';
-import useBookings from '../../../Hooks/useBookings';
+import useBookings from '../../../Hook/useBookings';
 
 const Hero = () => {
     const { lunches, refetch } = useBookings()
