@@ -4,7 +4,7 @@ import { IoMdMenu } from "react-icons/io";
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
-import useUsers from '../components/asbcHooks/useUsers';
+import useUsers from '../../Hooks/useUsers';
 
 
 const Page = () => {
