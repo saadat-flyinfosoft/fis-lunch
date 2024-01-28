@@ -3,9 +3,9 @@ import { BsCalendarDate } from "react-icons/bs";
 import React, { useContext, useEffect, useState } from 'react';
 import Manage from '../manage/page';
 import DatePicker from 'react-datepicker';
-import useAxiosPublic from '../components/hooks/useAxiosPublic';
+import useAxiosPublic from '../components/Hooks/useAxiosPublic';
 import moment from 'moment';
-import useUsers from "../components/hooks/useUsers";
+import useUsers from "../components/Hooks/useUsers";
 import { AuthContext } from "../components/AuthProvider/AuthProvider";
 import MonthlyDataView from "../components/MonthlyDataView/MonthlyDataView";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,7 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 
-const Dashboard = () => {
+const Page = () => {
 
     const axiosPublic = useAxiosPublic();
     const [selectedDate, setSelectedDate] = useState(null);
@@ -111,4 +111,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Page;

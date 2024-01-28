@@ -16,14 +16,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className='max-w-screen-xl mx-auto'>
       <head>
-      <link rel="icon" href="../app/favicon.png" />
+        <link rel="icon" href="../app/favicon.png" />
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.min.css" rel="stylesheet" type="text/css" />
+        
       </head>
 
       <body className={inter.className}>
         <AuthProvider>
           <Header></Header>
-          {/* <Manage></Manage> */}
           {children}
         </AuthProvider>
       </body>

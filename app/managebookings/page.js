@@ -2,7 +2,7 @@ import Manage from '../manage/page';
 import React from 'react';
 
 
-const managebookings = () => {
+const Page = () => {
     return (
         <div className='flex'>
             <div className='bg-transparent'>
@@ -16,4 +16,4 @@ const managebookings = () => {
     );
 };
 
-export default managebookings;
+export default Page;

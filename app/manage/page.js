@@ -4,10 +4,10 @@ import { IoMdMenu } from "react-icons/io";
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
-import useUsers from '../components/hooks/useUsers';
+import useUsers from '../components/Hooks/useUsers';
 
 
-const Manage = () => {
+const Page = () => {
 
     const { user } = useContext(AuthContext);
     const { users, } = useUsers();
@@ -80,4 +80,4 @@ const Manage = () => {
     );
 };
 
-export default Manage;
+export default Page;
