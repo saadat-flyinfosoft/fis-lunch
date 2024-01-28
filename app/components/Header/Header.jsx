@@ -71,7 +71,7 @@ const Header = () => {
                 <Image width="140" height="100" src={"https://i.ibb.co/9Tp3Wd4/FISLM.png"} alt="Logo" className="mr-1 md:mr-4" />
                 {/* <h1 className="text-white text-lg font-bold">TS Blood Donation</h1> */}
             </div>
-            <nav className="flex items-center gap-6">
+            <nav className="flex items-center gap-2 md:gap-6">
                 {
                     isAdmin.length > 0 ?
 
@@ -118,7 +118,7 @@ const Header = () => {
                         {user ?
                             (
                                 <div>
-                                    <p className='text-blue-700 font-semibold text-xs'>{user?.displayName.slice(0, 7)}</p>
+                                    <p className='text-blue-700 font-semibold text-xs'>{user?.displayName.slice(0, 9)}</p>
                                     <button
                                         onClick={handleGoogleLogIn}
                                         className={` border rounded px-2 text-white hover:text-gray-300 ${user ? 'bg-red-500' : 'bg-red-500'
