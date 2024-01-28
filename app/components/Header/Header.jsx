@@ -81,7 +81,7 @@ const Header = () => {
                                 href="/"
                                 className="text-blue-700 flex items-center font-semibold mr-1 md:mr-4 hover:text-gray-600"
                                 activeClassName="text-gray-300"
-                            ><TiHomeOutline className="text-blue-700 text-2xl hover:text-red-500"></TiHomeOutline>
+                            ><TiHomeOutline className="text-blue-700 text-2xl ml-2 hover:text-red-500"></TiHomeOutline>
 
                             </Link>
 
