@@ -76,7 +76,7 @@ const Header = () => {
                     isAdmin.length > 0 ?
 
 
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2 md:gap-6">
                             <Link
                                 href="/"
                                 className="text-blue-700 flex items-center font-semibold mr-1 md:mr-4 hover:text-gray-600"
@@ -111,7 +111,7 @@ const Header = () => {
                 <div className='flex gap-2'>
 
                     <div className='flex justify-center items-center gap-2'>
-                        <Image className='rounded-xl ' width="45" height="100" src={user ? user?.photoURL : 'https://i.ibb.co/X5pYtby/FISLM-i.png'} alt=''></Image>
+                        <Image className='rounded-xl ' width="50" height="100" src={user ? user?.photoURL : 'https://i.ibb.co/X5pYtby/FISLM-i.png'} alt=''></Image>
 
                     </div>
                     <div className='flex flex-col justify-center'>
