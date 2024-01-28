@@ -76,7 +76,7 @@ const Header = () => {
                     isAdmin.length > 0 ?
 
 
-                        <div className="flex items-center gap-2 md:gap-6">
+                        <div className="flex items-center gap-6">
                             <Link
                                 href="/"
                                 className="text-blue-700 flex items-center font-semibold mr-1 md:mr-4 hover:text-gray-600"
@@ -118,7 +118,7 @@ const Header = () => {
                         {user ?
                             (
                                 <div>
-                                    <p className='text-blue-700 font-semibold text-xs'>{user?.displayName.slice(0, 10)}</p>
+                                    <p className='text-blue-700 font-semibold text-xs'>{user?.displayName.slice(0, 7)}</p>
                                     <button
                                         onClick={handleGoogleLogIn}
                                         className={` border rounded px-2 text-white hover:text-gray-300 ${user ? 'bg-red-500' : 'bg-red-500'
