@@ -76,7 +76,7 @@ const Header = () => {
                     isAdmin.length > 0 ?
 
 
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2 md:gap-6">
                             <Link
                                 href="/"
                                 className="text-blue-700 flex items-center font-semibold mr-1 md:mr-4 hover:text-gray-600"
