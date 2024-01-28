@@ -14,11 +14,7 @@ const Page = () => {
     const { lunches } = useBookings()
     const axiosPublic = useAxiosPublic();
 
-    console.log(lunches);
-
     const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
-
-    console.log(users);
 
     // const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
 
