@@ -1,9 +1,9 @@
 "use client"
 import React, { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
-import useAxiosPublic from '../../../app/components/Hooks/useAxiosPublic';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2'
-import useUsers from '../../../app/components/Hooks/useUsers';
+import useUsers from '../Hooks/useUsers';
 
 
 
