@@ -5,9 +5,10 @@ import { useContext } from 'react';
 import Swal from 'sweetalert2';
 import Link from 'next/link'
 import Image from 'next/image'
-import { AuthContext } from '../AuthProvider/AuthProvider';
-import useAxiosPublic from "../Hooks/useAxiosPublic";
-import useUsers from "../Hooks/useUsers";
+import { AuthContext } from '../../../app/components/AuthProvider/AuthProvider';
+import useAxiosPublic from "../../../app/components/Hooks/useAxiosPublic";
+import useUsers from "../../../app/components/Hooks/useUsers";
+
 
 
 const Header = () => {
