@@ -11,8 +11,10 @@ const Page = () => {
 
     const { user } = useContext(AuthContext);
     const { users, refetch } = useUsers();
+    const { lunches } = useBookings()
     const axiosPublic = useAxiosPublic();
-    const {lunches} = useBookings()
+
+    console.log(lunches);
 
     const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
 
@@ -97,7 +99,6 @@ const Page = () => {
     };
 
     const handleDelete = (id) => {
-        console.log(id);
 
         Swal.fire({
             title: "Are you sure?",
