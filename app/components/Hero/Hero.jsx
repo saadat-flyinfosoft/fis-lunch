@@ -20,7 +20,7 @@ const Hero = () => {
         >
             <div className="absolute inset-0 bg-black opacity-50"></div>
 
-            <h1 className="text-3xl font-bold z-10 pl">FlyInfoSoft Lunch Manager</h1>
+            <h1 className="text-2xl font-bold z-10 pl">FlyInfoSoft Lunch Manager</h1>
 
             <div className="mt-4 z-10 flex flex-col items-center">
 
