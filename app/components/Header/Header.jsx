@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import Link from 'next/link'
 import Image from 'next/image'
 import { AuthContext } from '../AuthProvider/AuthProvider';
-import useAxiosPublic from "../../../app/components//useAxiosPublic";
+import useAxiosPublic from "../../../app/components/useAxiosPublic";
 import useUsers from "../../../app/components/Hooks/useUsers";
 
 
