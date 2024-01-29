@@ -7,13 +7,13 @@ import useUsers from '../../../Hooks/useUsers';
 
 
 
-const Lunches = ({onRefresh}) => {
+const Lunches = ({ onRefresh }) => {
 
     const { user } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
-    const { users, } = useUsers();
+    const { users, refetch } = useUsers();
 
     const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
 
@@ -25,6 +25,7 @@ const Lunches = ({onRefresh}) => {
         });
     }
     const handleBtnWait = () => {
+        refetch();
         Swal.fire({
             title: "Wait for a while",
             text: "Admin will verify your Identity of FlyInfoSoft",
