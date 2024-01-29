@@ -22,6 +22,11 @@ const Page = () => {
     const { users, } = useUsers();
     const [days, setDays] = useState([]);
 
+    // todo set fault current date 
+    const currentDate = moment();
+    const formattedDate = currentDate.format('MM/YYYY');
+    console.log(formattedDate); // 
+
     const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
 
     const handleDateChange = (date) => {
@@ -55,7 +60,7 @@ const Page = () => {
                 <div className='bg-transparent md:w-1/4'>
                     <Manage></Manage>
                 </div>
-                <div className='bg-blue-500 p-4 w-full md:w-3/4'>
+                <div className='bg-blue-500  px-1 md:px-12 p-4 w-full'>
                     <h2 className=' text-xl font-bold my-4'>Dashboard</h2>
 
                     <div class="relative">

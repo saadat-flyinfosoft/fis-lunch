@@ -14,7 +14,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className='max-w-screen-xl mx-auto'>
+    <html lang="en" className='mx-auto'>
       <head>
         <link rel="icon" href="../app/favicon.png" />
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.min.css" rel="stylesheet" type="text/css" />

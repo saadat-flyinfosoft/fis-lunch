@@ -138,7 +138,7 @@ const Page = () => {
                 <div className='bg-transparent md:w-1/4'>
                     <Manage></Manage>
                 </div>
-                <div className='bg-blue-500 p-4 w-full md:w-3/4'>
+                <div className='bg-blue-500 px-1 md:px-12 p-4 w-full'>
                     <h2 className='font-bold'>Manage Users ({users.length})</h2>
                     {users.map((user, j) => (
                         <div className=' border my-1 p-2' key={j}>

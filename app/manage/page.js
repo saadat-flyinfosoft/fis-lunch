@@ -25,7 +25,7 @@ const Page = () => {
     return (
 
         isAdmin ?
-            <div className="drawer lg:drawer-open bg-white">
+            <div className="drawer lg:drawer-open bg-white w-full">
 
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content flex flex-col items-end p-2 justify-center lg:hidden">
