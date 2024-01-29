@@ -17,7 +17,6 @@ const Lunches = ({ onRefresh }) => {
 
     const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
 
-
     const handleBtnErr = () => {
         Swal.fire({
             title: "Please Login First!",
@@ -70,9 +69,12 @@ const Lunches = ({ onRefresh }) => {
                             console.log('lunch data Inserted to DB');
                             onRefresh();
                             Swal.fire({
-                                title: "Booked!",
+                                title: "Booked!!",
                                 text: "Your Lunch has been Booked.",
-                                icon: "success"
+                                icon: "success",
+                                position: "top-center",
+                                showConfirmButton: false,
+                                timer: 2000
                             });
                         }
                         else if (res.data.message) {

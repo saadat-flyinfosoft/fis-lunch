@@ -75,7 +75,6 @@ const Page = () => {
                             showMonthYearPicker
                             placeholderText="Select a month"
                             className="outline-none pl-10 p-1 rounded hover:cursor-pointer"
-
                         />
                     </div>
                     <div>
