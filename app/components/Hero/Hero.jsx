@@ -10,7 +10,7 @@ const Hero = () => {
 
     return (
         <div
-            className="relative h-[600px] flex flex-col justify-center items-center text-white text-center"
+            className="relative h-[100vh] flex flex-col justify-center items-center text-white text-center"
             style={{
                 backgroundImage: 'url("https://i.ibb.co/sFPBJqp/FIS-BG.jpg")',
                 backgroundSize: 'cover',
