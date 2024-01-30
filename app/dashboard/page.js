@@ -100,7 +100,7 @@ const Page = () => {
                                             </p>
                                             <div className="grid grid-cols-2 md:grid-cols-6 gap-1 ">
                                                 {item.data.map((names, i) => (
-                                                    <div key={i} className="bg-slate-0 text-center bg-green-600 rounded text-xs p-1 m-1">
+                                                    <div key={i} className="bg-slate-0 text-center bg-gray-100 text-black rounded text-xs p-1 m-1">
                                                         {names.name}
                                                     </div>
                                                 ))}
