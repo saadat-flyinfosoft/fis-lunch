@@ -1,9 +1,10 @@
+import Loading from "../Shared/Loading";
 
 
 const loading = () => {
     return (
         <div>
-            <h1>Loading..</h1>
+            <Loading></Loading>
         </div>
     );
 };
