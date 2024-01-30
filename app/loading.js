@@ -3,9 +3,7 @@ import Loading from "../Shared/Loading";
 
 const loading = () => {
     return (
-        <div>
-            <Loading></Loading>
-        </div>
+        <Loading></Loading>
     );
 };
 
