@@ -193,8 +193,8 @@ const Page = () => {
                 </div>
             </div>
             :
-            <div className='flex justify-center items-center'>
-                <h2>You are not an admin</h2>
+            <div className='text-center bg-white'>
+                <span className="loading text-blue-400 loading-spinner loading-lg"></span>
             </div>
 
     );

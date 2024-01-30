@@ -18,7 +18,7 @@ const MonthlyDataView = ({ data }) => {
         return count + uniqueEmails.size;
       }, 0);
       
-      console.log("Total Email Count:", totalEmailCount);
+      // console.log("Total Email Count:", totalEmailCount);
       
 
     

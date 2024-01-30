@@ -1,7 +1,7 @@
 "use client"
 import { TiHomeOutline } from "react-icons/ti";
 import { IoSettingsOutline } from "react-icons/io5";
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import Link from 'next/link'
 import Image from 'next/image'
@@ -16,8 +16,19 @@ const Header = () => {
     const { user, loading, googleLogin, logOut } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const { users } = useUsers();
+    const [localUser, setLocalUser] = useState(null);
 
-    const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
+    console.log('localUser', localUser);
+
+    useEffect(() => {
+        // Check if the user is already available in the local state
+        if (!localUser) {
+            setLocalUser(user);
+        }
+    }, [user, localUser]);
+
+
+    const isAdmin = users.filter(currentUser => currentUser.email === localUser?.email && currentUser.role === 'admin');
     // console.log('admin', isAdmin);
 
 
@@ -27,6 +38,7 @@ const Header = () => {
 
                 .then(result => {
                     const user = result.user;
+                    setLocalUser(user);
                     console.log('user:', user);
 
                     const data = {
@@ -103,7 +115,7 @@ const Header = () => {
 
                             </Link>
 
-                            
+
                         </div>
                 }
 
@@ -111,14 +123,14 @@ const Header = () => {
                 <div className='flex gap-2'>
 
                     <div className='flex justify-center items-center gap-2'>
-                        <Image className='rounded-xl ' width="50" height="100" src={user ? user?.photoURL : 'https://i.ibb.co/X5pYtby/FISLM-i.png'} alt=''></Image>
+                        <Image className='rounded-xl ' width="50" height="100" src={localUser ? localUser?.photoURL : 'https://i.ibb.co/X5pYtby/FISLM-i.png'} alt=''></Image>
 
                     </div>
                     <div className='flex flex-col justify-center'>
                         {user ?
                             (
                                 <div>
-                                    <p className='text-blue-700 font-semibold text-xs'>{user?.displayName.slice(0, 9)}</p>
+                                    <p className='text-blue-700 font-semibold text-xs'>{localUser?.displayName.slice(0, 9)}</p>
                                     <button
                                         onClick={handleGoogleLogIn}
                                         className={` border rounded px-2 text-white hover:text-gray-300 ${user ? 'bg-red-500' : 'bg-red-500'
