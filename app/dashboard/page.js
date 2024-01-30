@@ -9,6 +9,7 @@ import useUsers from "../../Hooks/useUsers";
 import { AuthContext } from "../components/AuthProvider/AuthProvider";
 import MonthlyDataView from "../components/MonthlyDataView/MonthlyDataView";
 import "react-datepicker/dist/react-datepicker.css";
+import Loading from "../../Shared/Loading";
 
 
 
@@ -57,9 +58,7 @@ const Page = () => {
 
     return (
         loading ?
-            <div className='text-center bg-white'>
-                <span className="loading text-blue-400 loading-spinner loading-lg"></span>
-            </div>
+            <Loading></Loading>
             :
             isAdmin.length ?
                 <div className='flex flex-col md:flex-row'>
@@ -116,9 +115,7 @@ const Page = () => {
 
                 </div>
                 :
-                <div className='text-center bg-white'>
-                    <span className="loading text-green-400 loading-spinner loading-lg"></span>
-                </div>
+                <></>
 
     );
 };

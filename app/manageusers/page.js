@@ -6,6 +6,7 @@ import { AuthContext } from '../components/AuthProvider/AuthProvider';
 import useAxiosPublic from '../components/asbcHooks/useAxiosPublic';
 import Swal from 'sweetalert2'
 import useBookings from '../../Hooks/useBookings';
+import Loading from '../../Shared/Loading';
 
 const Page = () => {
 
@@ -193,9 +194,7 @@ const Page = () => {
                 </div>
             </div>
             :
-            <div className='text-center bg-white'>
-                <span className="loading text-blue-400 loading-spinner loading-lg"></span>
-            </div>
+            <Loading></Loading>
 
     );
 };
