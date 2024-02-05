@@ -58,24 +58,35 @@ const Page = () => {
         day?.data?.some(guest => guest.email === 'guest@gmail.com')
     )?.data.find(guest => guest.email === 'guest@gmail.com')?.lunchQuantity - 1 || 0;
 
-    console.log('guestLunchQuantity',guestLunchQuantity);
-
-    const lunchQuantityPerDay = days?.map((item) => {
-        const sum = item.data.reduce((itemSum, itemData) => {
-            itemSum += itemData.lunchQuantity || 0;
-            return itemSum;
-        }, 0);
-        return sum;
-    }) || [];
-
-    console.log('---' ,days[0]?.data[0]?.lunchQuantity);
-    
-    
-
-    //   console.log('lunchQuantityPerDay:', lunchQuantityPerDay);
+    // console.log('guestLunchQuantity', guestLunchQuantity);
 
 
-    
+
+    const getGuestCount = (data) => {
+        let count = data.reduce((acc, item) => {
+            if (item?.type === 'guest') {
+                console.log('item::', item);
+                acc += item.lunchQuantity
+            }
+            return acc;
+        }, 0)
+        console.log('count::', count);
+        return count;
+    }
+
+    const getUserCount = (data) => {
+        let count = data.reduce((acc, item) => {
+            if (item?.type === 'user') {
+                console.log('item::', item);
+                acc += item.lunchQuantity
+            }
+            return acc;
+        }, 0)
+        console.log('count::', count);
+        return count;
+    }
+
+
 
 
     return (
@@ -118,7 +129,7 @@ const Page = () => {
                                     <div className="" key={item._id}>
                                         <div className="block bg-blue-500 m-1 gap-1 border md:flex items-center">
                                             <p className="bg-blue-700 rounded p-1 m-1 gap-1 flex">{item.date}
-                                                <span className="px-2 bg-blue-500 rounded-full">{item.data.length }</span>
+                                                <span className="px-2 bg-blue-500 rounded-full">{getGuestCount(item.data) + getUserCount(item.data)}</span>
                                             </p>
                                             <div className="grid grid-cols-2 md:grid-cols-6 gap-1 ">
                                                 {item.data.map((names, i) => (
