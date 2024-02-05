@@ -171,15 +171,15 @@ const Page = () => {
                                     <p className='w-32'>
                                         Note:
                                     </p>
-                                    <input
+                                    <textarea
                                         placeholder='Note'
-                                        type="text"
                                         className='w-40 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
                                         {...register('note', { required: true })}
                                     />
                                 </div>
-                                {errors.name && <span className='text-red-400'>*This field is required</span>}
+                                {errors.note && <span className='text-red-400'>*This field is required</span>}
                             </div>
+
                             <div className='block md:flex'>
                                 <div className='block md:flex'>
                                     <p className='w-32'>
@@ -205,7 +205,7 @@ const Page = () => {
                         </form>
                     </div>
 
-                    
+
 
 
                     {users.map((user, j) => (
@@ -216,12 +216,22 @@ const Page = () => {
                                     <p>Email: {user?.email}</p>
                                 </div>
 
-                                <button
-                                    onClick={() => handleBookForUser(user.name, user.email)}
-                                    className="border border-blue-700 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
-                                >
-                                    Book Lunch
-                                </button>
+                                {
+                                    user?.role === 'guest' ?
+                                        <button
+
+                                            className="border border-blue-700 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                        >
+                                            Book Lunch
+                                        </button>
+                                        :
+                                        <button
+                                            onClick={() => handleBookForUser(user.name, user.email)}
+                                            className="border border-blue-700 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                        >
+                                            Book Lunch
+                                        </button>
+                                }
                             </div>
 
                         </div>
