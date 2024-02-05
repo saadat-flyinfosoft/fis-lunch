@@ -38,10 +38,13 @@ const Lunches = ({ onRefresh }) => {
             name: user?.displayName,
             email: user?.email,
             date: new Date().toLocaleString(),
+            bookBy: 'user',
+            type:'user',
+            lunchQuantity: 1
         }
 
         // Allow booking only between 10 am and 12 pm
-        if (currentHour < 9 || currentHour >= 12) {
+        if (currentHour < 9 || currentHour >= 19) {
             Swal.fire({
                 title: "Can't Book Now",
                 text: "You can only book Lunch between 9 am to 12 pm.",

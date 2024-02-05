@@ -6,7 +6,7 @@ import useBookings from '../../../Hooks/useBookings';
 const Hero = () => {
     const { lunches, refetch } = useBookings()
 
-    // console.log(lunches?.data);
+    console.log(lunches?.data);
 
     return (
         <div
@@ -29,8 +29,14 @@ const Hero = () => {
                 <div className="mx-auto mt-16 grid grid-cols-2 md:grid-cols-3 gap-2">
                     {lunches &&
                         lunches?.data?.map((lunch, index) => (
-                            <div key={index} className=" border p-2 text-sm rounded-md shadow">
+                            <div key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
+
                                 {lunch?.name}
+
+                                {
+                                    lunch?.type === 'guest' &&
+                                    <span className='rounded-full border px-1 ml-1'>{lunch?.lunchQuantity}</span>
+                                }
                             </div>
                         ))}
                 </div>

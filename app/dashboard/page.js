@@ -54,6 +54,11 @@ const Page = () => {
     }, [])
 
 
+    const guestLunchQuantity = days?.find(day =>
+        day?.data?.some(guest => guest.email === 'guest@gmail.com')
+    )?.data.find(guest => guest.email === 'guest@gmail.com')?.lunchQuantity - 1 || 0;
+
+    console.log(guestLunchQuantity);
 
 
     return (
@@ -84,7 +89,7 @@ const Page = () => {
                         </div>
                         <div>
                             {
-                                days.length > 0 ? <MonthlyDataView data={days} />
+                                days.length > 0 ? <MonthlyDataView guestLunchQuantity={guestLunchQuantity} data={days} />
                                     :
                                     <div className='my-8'>
                                         <h2>No data found or Select a month first</h2>
@@ -96,12 +101,18 @@ const Page = () => {
                                     <div className="" key={item._id}>
                                         <div className="block bg-blue-500 m-1 gap-1 border md:flex items-center">
                                             <p className="bg-blue-700 rounded p-1 m-1 gap-1 flex">{item.date}
-                                                <span className="px-2 bg-blue-500 rounded-full">{item.data.length}</span>
+                                                <span className="px-2 bg-blue-500 rounded-full">{item.data.length + guestLunchQuantity}</span>
                                             </p>
                                             <div className="grid grid-cols-2 md:grid-cols-6 gap-1 ">
                                                 {item.data.map((names, i) => (
-                                                    <div key={i} className="bg-slate-0 text-center bg-gray-100 text-black rounded text-xs p-1 m-1">
-                                                        {names.name}
+                                                    <div key={i} className={`bg-slate-0 text-center bg-gray-100 text-black rounded text-xs p-1 m-1 ${names?.bookBy === 'admin' ? 'bg-yellow-100' : ''}`}>
+                                                        <div>
+                                                            {names.name}
+                                                            {
+                                                                names?.type === 'guest' &&
+                                                                <span className='rounded-full border px-1 ml-1'>{names?.lunchQuantity}</span>
+                                                            }
+                                                        </div>
                                                     </div>
                                                 ))}
                                             </div>

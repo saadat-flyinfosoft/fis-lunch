@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import useUsers from '../../Hooks/useUsers';
 import Manage from '../manage/page';
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
-import useAxiosPublic from '../components/asbcHooks/useAxiosPublic';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2'
 import useBookings from '../../Hooks/useBookings';
 import Loading from '../../Shared/Loading';

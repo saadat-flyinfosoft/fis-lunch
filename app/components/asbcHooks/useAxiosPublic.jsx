@@ -1,13 +1,13 @@
-import axios from "axios";
+// import axios from "axios";
 
 
-const axiosPublic = axios.create({
-    baseURL: 'https://fis-lunch-manager-server.vercel.app'
-})
+// const axiosPublic = axios.create({
+//     baseURL: 'https://fis-lunch-manager-server.vercel.app'
+// })
 
-const useAxiosPublic = () => {
+// const useAxiosPublic = () => {
     
-    return axiosPublic;
-};
+//     return axiosPublic;
+// };
 
-export default useAxiosPublic;
+// export default useAxiosPublic;
