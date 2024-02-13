@@ -19,6 +19,8 @@ const Page = () => {
 
     // const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
 
+    console.log(users)
+
 
     const handleAdmin = (id) => {
         console.log("Item ID to admin:", id);
