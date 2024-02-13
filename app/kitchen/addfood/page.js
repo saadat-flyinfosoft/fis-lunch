@@ -1,5 +1,5 @@
 "use client"
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import useUsers from '../../../Hooks/useUsers';
 import Kitchen from '../../kitchen/page'
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 import useBookings from '../../../Hooks/useBookings';
 import Loading from '../../../Shared/Loading';
 import { useForm } from 'react-hook-form';
+import axios from "axios"
 
 
 
@@ -16,7 +17,9 @@ const Page = () => {
     const { user } = useContext(AuthContext);
     const { users, refetch } = useUsers();
     const { lunches } = useBookings()
+    const [loading, setLoading] = useState(false);
     const axiosPublic = useAxiosPublic();
+    const [image, setImage] = useState();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
 
@@ -30,65 +33,92 @@ const Page = () => {
 
     const handleAddProduct = (formData) => {
 
-        
+
+        try {
+            Swal.fire({
+                title: "Add Item?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Add Now!"
+            }).then(async (result) => {
+                setLoading(true);
+                if (result.isConfirmed) {
+
+                    const formDataObject = new FormData();
+                    formDataObject.append('image', formData.image[0]);
+
+                    console.log('formData.image', formData.image);
 
 
-        const data = {
-            itemName: formData.itemName,
-            description: formData.description,
-            managerName: currentUserData?.managerName,
-            orgType: currentUserData?.orgType,
-            orgName: currentUserData?.orgName,
-            contactNumber: currentUserData?.contactNumber,
-            username: currentUserData?.username,
-            map: currentUserData?.map,
-            website: currentUserData?.website,
-            location: currentUserData?.location,
-            date: new Date().toLocaleString(),
+                    console.log('formData.image', formData.image);
+                    await axios.post(`https://api.imgbb.com/1/upload?key=22df347b4bca457e281cced937799c71`, formDataObject)
+                        .then(async (res) => {
+                            console.log(res.data.data.display_url);
+                            const imgURL = (res.data.data.display_url);
+                            setImage(res.data.data.display_url)
 
-        };
-        console.log('hiiii',data);
+                            const data = {
+                                itemName: formData.itemName,
+                                description: formData.description,
+                                managerName: currentUserData?.managerName,
+                                orgType: currentUserData?.orgType,
+                                orgName: currentUserData?.orgName,
+                                contactNumber: currentUserData?.contactNumber,
+                                username: currentUserData?.username,
+                                map: currentUserData?.map,
+                                website: currentUserData?.website,
+                                location: currentUserData?.location,
+                                image: imgURL,
+                                date: new Date().toLocaleString(),
 
+                            };
+                            console.log('hiiiiiiiiii', data);
 
-        Swal.fire({
-            title: "Add Item?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Add Now!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log(data);
+                            await axiosPublic.post(`/items`, data)
+                                .then(res => {
+                                    // console.log(res.data);
 
-                axiosPublic.post(`/kitchen`, data)
-                    .then(res => {
-                        // console.log(res.data);
+                                    if (res.data.insertedId || res.data.modifiedCount) {
 
-                        if (res.data.insertedId || res.data.modifiedCount) {
+                                        reset();
+                                        // onRefresh();
+                                        Swal.fire({
+                                            title: "Added!!",
+                                            icon: "success",
+                                            position: "top-center",
+                                            showConfirmButton: false,
+                                            timer: 2000
+                                        });
+                                        setLoading(false);
+                                    }
+                                    else if (res.data.message) {
 
-                            reset();
-                            // onRefresh();
-                            Swal.fire({
-                                title: "Added!!",
-                                icon: "success",
-                                position: "top-center",
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
-                        }
-                        else if (res.data.message) {
+                                        Swal.fire({
+                                            text: `${res.data.message}`,
+                                            icon: "warning"
+                                        });
+                                    }
 
-                            Swal.fire({
-                                title: "Already Booked!",
-                                icon: "warning"
-                            });
-                        }
-                    })
-            }
-        });
+                                })
+                        })
+                        .catch(error => {
+                            console.error("Error uploading image:", error);
+                        });
 
+                }
+            });
+        }
+        catch (error) {
+            console.error("Error during the process:", error);
+            setLoading(false);
+        }
     }
+
+    setTimeout(() => {
+        setLoading(false)
+    }, 5000);
 
 
 
@@ -147,12 +177,21 @@ const Page = () => {
                             </div>
 
 
-                            <button
-                                type="submit"
-                                className="w-full border bg-black hover:bg-blue-800 text-black hover:text-white text-sm font-semibold py-2 rounded"
-                            >
-                                Add Item
-                            </button>
+                            {
+                                !loading ?
+                                    <button
+                                        type="submit"
+                                        className="w-full border bg-black hover:bg-blue-800 text-black hover:text-white text-sm font-semibold py-2 rounded"
+                                    >
+                                        Add Item
+                                    </button>
+                                    :
+                                    <p
+                                        className="w-full border text-center border-blue-400 bg-gray-200 hover:bg-blue-800 text-blue-700 hover:text-white text-sm font-semibold py-2 rounded"
+                                    >
+                                        Uploading...
+                                    </p>
+                            }
                         </form>
 
                     </div>
