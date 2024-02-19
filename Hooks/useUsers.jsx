@@ -8,7 +8,7 @@ const useUsers = () => {
     const axiosPublic = useAxiosPublic();
 
     const fetchUsers = () => {
-        axiosPublic.get('/users')
+        axiosPublic.get('/person')
             .then(res => {
                 setUsers(res.data);
             })

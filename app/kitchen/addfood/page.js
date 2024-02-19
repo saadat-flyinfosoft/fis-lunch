@@ -131,11 +131,11 @@ const Page = () => {
             </div>
             <div className='bg-blue-500 px-1 md:px-12 p-4 w-full'>
 
-                <h2 className='font-bold mb-4'>Manage Items ({users.length})</h2>
+                <h2 className='font-bold mb-4'>Add New Item</h2>
                 <div className=''>
                     <div className=' border my-1 p-2'>
 
-                        <form className='block max-w-lg p-4 bg-gray-100 shadow-md rounded-md' onSubmit={handleSubmit(handleAddProduct)}>
+                        <form className='block w-full p-4 bg-gray-100 shadow-md rounded-md' onSubmit={handleSubmit(handleAddProduct)}>
 
 
                             <div className='mb-4'>

@@ -30,6 +30,7 @@ const Header = () => {
 
     const isAdmin = users.filter(currentUser => currentUser.email === localUser?.email && currentUser.role === 'admin');
     // console.log('admin', isAdmin);
+    console.log(users)
 
 
     const handleGoogleLogIn = () => {
@@ -44,9 +45,9 @@ const Header = () => {
                     const data = {
                         name: user.displayName,
                         email: user.email,
-                        date: new Date().toLocaleString(),
                         status: 'pending',
                         role: 'user'
+                        // date: new Date().toLocaleString()
                     }
                     console.log('data==', data);
                     if (user) {
@@ -60,7 +61,7 @@ const Header = () => {
                     }
 
                     // post req to save data to DB 
-                    axiosPublic.post(`/users`, data)
+                    axiosPublic.post(`/person`, data)
                         .then(res => {
                             console.log(res.data);
 
