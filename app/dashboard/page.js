@@ -95,7 +95,7 @@ const Page = () => {
             :
             isAdmin.length ?
                 <div className='flex flex-col md:flex-row'>
-                    <div className='bg-transparent z-0'>
+                    <div className='bg-transparent z-10'>
                         <Manage></Manage>
                     </div>
                     <div className='bg-blue-500  px-1 md:px-12 p-4 w-full'>

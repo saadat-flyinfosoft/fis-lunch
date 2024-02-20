@@ -106,13 +106,13 @@ const Header = () => {
 
                             </Link>
 
-                            <Link
+                            {/* <Link
                                 href="/kitchen/dashboard"
                                 className="text-blue-700 flex items-center font-semibold mr-1 md:mr-4 hover:text-gray-600"
                                 activeClassName="text-gray-300"
                             ><IoSettingsOutline className="text-red-700 text-2xl hover:text-red-500"></IoSettingsOutline>
 
-                            </Link>
+                            </Link> */}
                         </div>
                         :
                         <div className="flex mr-8 md:mr-0">
