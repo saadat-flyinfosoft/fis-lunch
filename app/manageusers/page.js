@@ -19,7 +19,7 @@ const Page = () => {
 
     // const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
 
-    console.log(users)
+    console.log(users.length)
 
 
     const handleAdmin = (id) => {

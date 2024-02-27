@@ -30,7 +30,7 @@ const Header = () => {
 
     const isAdmin = users.filter(currentUser => currentUser.email === localUser?.email && currentUser.role === 'admin');
     // console.log('admin', isAdmin);
-    console.log(users)
+    // console.log(users)
 
 
     const handleGoogleLogIn = () => {
