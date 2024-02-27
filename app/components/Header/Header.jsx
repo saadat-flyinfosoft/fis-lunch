@@ -18,7 +18,7 @@ const Header = () => {
     const { users } = useUsers();
     const [localUser, setLocalUser] = useState(null);
 
-    console.log('localUser', localUser);
+    console.log('localUser', localUser?.displayName, localUser?.email);
 
     useEffect(() => {
         // Check if the user is already available in the local state

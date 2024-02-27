@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
 
             }
 
-            console.log('current user:', currentUser);
+            console.log('current user:', currentUser?.displayName, currentUser?.email);
         })
 
         return () => {
