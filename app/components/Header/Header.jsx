@@ -61,7 +61,7 @@ const Header = () => {
                     }
 
                     // post req to save data to DB 
-                    axiosPublic.post(`/person`, data)
+                    axiosPublic.post(`/users`, data)
                         .then(res => {
                             console.log(res.data);
 
