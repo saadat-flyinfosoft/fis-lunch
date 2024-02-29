@@ -7,7 +7,7 @@ const MonthlyDataView = ({ data, guestLunchQuantity }) => {
   // Filter approved users
   const approvedUsers = users.filter(user => user?.status === 'approve');
 
-  console.log(data);
+  // console.log(data);
 
   // const userTotalLunch = (email) => {
   //   return data.reduce((count, item) => {

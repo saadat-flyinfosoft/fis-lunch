@@ -15,16 +15,18 @@ const Page = () => {
 
     const { user } = useContext(AuthContext);
     const { users, refetch } = useUsers();
-    const { lunches } = useBookings()
+    const { lunches, refetch: refetchLunches } = useBookings()
     const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
 
     const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
+    const guestData = lunches?.data?.filter(lunch => lunch.type === 'guest');
+    // console.log("guest", guestData)
 
     // const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
 
-    // console.log(users);
+    // console.log(isAdmin?.[0]?.name);
 
 
     const handleBookForUser = (name, email) => {
@@ -35,6 +37,7 @@ const Page = () => {
             email: email,
             date: new Date().toLocaleString(),
             bookBy: 'admin',
+            adminName: isAdmin?.[0]?.name,
             type: 'user',
             lunchQuantity: 1
         }
@@ -89,6 +92,7 @@ const Page = () => {
             email: 'guest@gmail.com',
             lunchQuantity: parseInt(formData.lunchQuantity),
             date: new Date().toLocaleString(),
+            adminName: isAdmin?.[0]?.name,
             bookBy: 'admin',
             type: 'guest'
         };
@@ -113,8 +117,9 @@ const Page = () => {
 
                         if (res.data.insertedId || res.data.modifiedCount) {
                             console.log('lunch data Inserted to DB');
+                            refetchLunches();
                             reset();
-                            // onRefresh();
+
                             Swal.fire({
                                 title: "Booked!!",
                                 text: "Guest Lunch has been Booked.",
@@ -159,12 +164,13 @@ const Page = () => {
                                     </p>
                                     <input
                                         placeholder='Ref Name'
+                                        defaultValue={guestData?.[0]?.name || ''}
                                         type="text"
-                                        className='w-40 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
+                                        className='w-full md:w-96 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
                                         {...register('name', { required: true })}
                                     />
                                 </div>
-                                {errors.name && <span className='text-red-400'>*This field is required</span>}
+                                {errors.name && <span className='text-red-400'>*Update field is required</span>}
                             </div>
                             <div className='block md:flex mb-2'>
                                 <div className='block md:flex'>
@@ -172,12 +178,13 @@ const Page = () => {
                                         Note:
                                     </p>
                                     <textarea
-                                        placeholder='Note'
-                                        className='w-40 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
+                                        placeholder='Write note here'
+                                        defaultValue={guestData?.[0]?.note || ''}
+                                        className='w-full md:w-96 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
                                         {...register('note', { required: true })}
                                     />
                                 </div>
-                                {errors.note && <span className='text-red-400'>*This field is required</span>}
+                                {errors.note && <span className='text-red-400'>*Update field is required</span>}
                             </div>
 
                             <div className='block md:flex'>
@@ -187,21 +194,33 @@ const Page = () => {
 
                                     </p>
                                     <input
-                                        defaultValue={1}
+                                    placeholder='Quantity'
+                                        defaultValue={guestData?.[0]?.lunchQuantity || ''}
                                         type="number"
                                         min="1"
-                                        className='w-40 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
+                                        className='w-full md:w-96 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
                                         {...register('lunchQuantity', { required: true, min: 1 })}
                                     />
                                 </div>
                                 {errors.lunchQuantity && <span className='text-red-400'>*At least 1</span>}
                             </div>
-                            <button
-                                type="submit"
-                                className="border border-white bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
-                            >
-                                Book Lunch
-                            </button>
+                            {
+                                guestData?.length ?
+                                    <button
+                                        type="submit"
+                                        className="border border-white bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
+                                    >
+                                        Update Lunch
+                                    </button>
+                                    :
+                                    <button
+                                        type="submit"
+                                        className="border border-white bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
+                                    >
+                                        Book Lunch
+                                    </button>
+                            }
+
                         </form>
                     </div>
 
