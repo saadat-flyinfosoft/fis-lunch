@@ -128,8 +128,8 @@ const Page = () => {
                                 days && days.map((item) => (
                                     <div className="" key={item._id}>
                                         <div className="block bg-blue-500 m-1 gap-1 border md:flex items-center">
-                                            <p className="bg-blue-700 w-[120px] rounded p-1 m-1 gap-1 flex">{item.date}
-                                                <span className="px-2 bg-blue-500 rounded-full">{getGuestCount(item.data) + getUserCount(item.data)}</span>
+                                            <p className="bg-blue-700 w-32 justify-center rounded p-1 m-1 gap-1 flex">{item.date}
+                                                <span className="px-2 text-sm flex items-center bg-blue-500 rounded-full">{getGuestCount(item.data) + getUserCount(item.data)}</span>
                                             </p>
                                             <div className="grid grid-cols-2 md:grid-cols-6 gap-1 ">
                                                 {item.data.map((names, i) => (
