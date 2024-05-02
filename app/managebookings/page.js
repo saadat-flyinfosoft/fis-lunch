@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 import useBookings from '../../Hooks/useBookings';
 import Loading from '../../Shared/Loading';
 import { useForm } from 'react-hook-form';
+import Priority from '../components/Priority/Priority';
 
 
 
@@ -152,7 +153,7 @@ const Page = () => {
                     <Manage></Manage>
                 </div>
                 <div className='bg-blue-500 px-1 md:px-12 p-4 w-full'>
-
+                    <Priority></Priority>
                     <h2 className='font-bold mb-4'>Manage Bookings ({users.length})</h2>
                     <div className='border my-1 p-2'>
                         {/* Form for handling bookings for guests */}

@@ -2,6 +2,7 @@
 import React from 'react';
 import BookingButton from '../BookingButton/BookingButton';
 import useBookings from '../../../Hooks/useBookings';
+import Priority from '../Priority/Priority';
 
 const Hero = () => {
     const { lunches, refetch } = useBookings()
@@ -19,7 +20,7 @@ const Hero = () => {
             }}
         >
             <div className="absolute inset-0 bg-black opacity-50"></div>
-
+            <Priority></Priority>
             <h1 className="text-2xl font-bold z-10 pl">FlyInfoSoft Lunch Manager</h1>
 
             <div className="mt-4 z-10 flex flex-col items-center">
