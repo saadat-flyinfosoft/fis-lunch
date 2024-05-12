@@ -11,6 +11,7 @@ const Priority = () => {
         { name: 'Work Naim', forbidden: 'Beef', allowed: 'Chicken, Rui' },
         { name: 'Sirajul Islam', forbidden: 'Beef', allowed: 'Chicken, Rui' },
         { name: 'Shapan Das', forbidden: 'Beef', allowed: 'Chicken, Rui' },
+        { name: 'Tanvir Ahmed', forbidden: 'null', allowed: 'Rui, Chicken' },
       ];
     
       return (
