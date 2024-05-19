@@ -43,11 +43,11 @@ const Lunches = ({ onRefresh }) => {
             lunchQuantity: 1
         }
 
-        // Allow booking only between 10 am and 12 pm
-        if (currentHour < 9 || currentHour >= 12) {
+        // Allow booking only between 4 am and 12 pm
+        if (currentHour < 4 || currentHour >= 12) {
             Swal.fire({
                 title: "Can't Book Now",
-                text: "You can only book Lunch between 9 am to 12 pm.",
+                text: "You can only book Lunch between 4 am to 12 pm.",
                 icon: "warning"
             });
             return;
@@ -55,7 +55,7 @@ const Lunches = ({ onRefresh }) => {
 
         Swal.fire({
             title: "Are you sure?",
-            text: "Booking Time: 9AM to 12PM",
+            text: "Booking Time: 4AM to 12PM",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
