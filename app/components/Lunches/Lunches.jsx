@@ -16,7 +16,6 @@ const Lunches = ({ onRefresh }) => {
     const { users, refetch } = useUsers();
 
     const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
-    console.log(currentUserData)
 
     const handleBtnErr = () => {
         Swal.fire({
@@ -36,7 +35,7 @@ const Lunches = ({ onRefresh }) => {
     const handleBtn = () => {
 
         const data = {
-            name: currentUserData?.name,
+            name: user?.displayName,
             email: user?.email,
             date: new Date().toLocaleString(),
             bookBy: 'user',
