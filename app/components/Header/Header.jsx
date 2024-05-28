@@ -155,7 +155,7 @@ const Header = () => {
                                 <button
                                     onClick={handleGoogleLogIn}
                                     className={` border rounded px-2 text-white hover:text-gray-300 ${user ? 'bg-red-500' : 'bg-blue-700'
-                                        }`}
+                                        }`} disabled={!users.length}
                                 >
                                     Login
                                 </button>

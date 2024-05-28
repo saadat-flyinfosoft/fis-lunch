@@ -1,11 +1,14 @@
 "use client"
-import React from 'react';
+import React, { useContext } from 'react';
 import BookingButton from '../BookingButton/BookingButton';
 import useBookings from '../../../Hooks/useBookings';
 import Priority from '../Priority/Priority';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 const Hero = () => {
     const { lunches, refetch } = useBookings()
+    const { user } = useContext(AuthContext);
+
 
     console.log(lunches?.data);
 
@@ -28,7 +31,7 @@ const Hero = () => {
                 <BookingButton loadedLunches={lunches} onRefresh={refetch} />
 
                 <div className="mx-auto mt-16 grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {lunches &&
+                    {lunches && user && 
                         lunches?.data?.map((lunch, index) => (
                             <div key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
 
