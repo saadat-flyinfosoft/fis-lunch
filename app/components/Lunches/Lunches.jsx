@@ -50,7 +50,8 @@ const Lunches = ({ onRefresh }) => {
             Swal.fire({
                 title: "Can't Book Now",
                 text: "You can only book Lunch between 8 am to 12 pm.",
-                icon: "warning"
+                icon: "warning",
+                timer: 4000
             });
             return;
         }
@@ -79,14 +80,15 @@ const Lunches = ({ onRefresh }) => {
                                 icon: "success",
                                 position: "top-center",
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 1000
                             });
                         }
                         else if (res.data.message) {
 
                             Swal.fire({
                                 title: "Already Booked!",
-                                icon: "warning"
+                                icon: "warning",
+                                timer: 2000
                             });
                         }
                     })
