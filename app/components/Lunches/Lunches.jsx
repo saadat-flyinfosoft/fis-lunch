@@ -18,7 +18,8 @@ const Lunches = ({ onRefresh }) => {
     const handleBtnErr = () => {
         Swal.fire({
             title: "Please Login First!",
-            icon: "warning"
+            icon: "warning",
+            timer: 1000
         });
     }
     const handleBtnWait = () => {
@@ -26,7 +27,8 @@ const Lunches = ({ onRefresh }) => {
         Swal.fire({
             title: "Wait for a while",
             text: "Admin will verify your Identity of FlyInfoSoft",
-            icon: "warning"
+            icon: "warning",
+            timer: 3000
         });
     }
 
@@ -51,7 +53,7 @@ const Lunches = ({ onRefresh }) => {
                 title: "Can't Book Now",
                 text: "You can only book Lunch between 8 am to 12 pm.",
                 icon: "warning",
-                timer: 4000
+                timer: 3000
             });
             return;
         }
