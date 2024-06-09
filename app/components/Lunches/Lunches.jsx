@@ -11,8 +11,6 @@ const Lunches = ({ onRefresh }) => {
 
     const { user } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
     const { users, refetch } = useUsers();
 
     const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
@@ -32,7 +30,11 @@ const Lunches = ({ onRefresh }) => {
         });
     }
 
-    const handleBtn = () => {
+    const handleBtn = async() => {
+
+        const currentTime = new Date();
+        const currentHour = currentTime.getHours();
+        console.log(currentHour)
 
         const data = {
             name: user?.displayName,
@@ -43,11 +45,11 @@ const Lunches = ({ onRefresh }) => {
             lunchQuantity: 1
         }
 
-        // Allow booking only between 4 am and 12 pm
-        if (currentHour < 4 || currentHour >= 12) {
+        // Allow booking only between 8 am and 12 pm
+        if (currentHour <= 8 || currentHour >= 12) {
             Swal.fire({
                 title: "Can't Book Now",
-                text: "You can only book Lunch between 4 am to 12 pm.",
+                text: "You can only book Lunch between 8 am to 12 pm.",
                 icon: "warning"
             });
             return;
@@ -55,7 +57,7 @@ const Lunches = ({ onRefresh }) => {
 
         Swal.fire({
             title: "Are you sure?",
-            text: "Booking Time: 4AM to 12PM",
+            text: "Booking Time: 8AM to 12PM",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -97,7 +99,7 @@ const Lunches = ({ onRefresh }) => {
     }
     return (
         <div>
-            {
+            {/* {
                 user ?
                     currentUserData[0]?.status === 'approve' ?
                         <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtn()}>Book Now</button>
@@ -107,6 +109,18 @@ const Lunches = ({ onRefresh }) => {
 
                     :
                     <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnErr()}>Book Now</button>
+            } */}
+            {
+                currentUserData[0]?.status === 'approve' &&
+                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtn()}>Book Now</button>
+            }
+            {
+                currentUserData[0]?.status === 'pending' &&
+                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnWait()}>Book Now⏳</button>
+            }
+            {
+                !user &&
+                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnErr()}>Book Now</button>
             }
         </div>
     );
