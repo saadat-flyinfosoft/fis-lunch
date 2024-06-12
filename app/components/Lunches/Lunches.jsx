@@ -36,7 +36,10 @@ const Lunches = ({ onRefresh }) => {
 
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
-        console.log(currentHour)
+        const currentMinutes = currentTime.getMinutes();
+        
+        // Log the current time for debugging
+        console.log(currentHour, currentMinutes);
 
         const data = {
             name: user?.displayName,
@@ -47,11 +50,23 @@ const Lunches = ({ onRefresh }) => {
             lunchQuantity: 1
         }
 
-        // Allow booking only between 8 am and 12 pm
-        if (currentHour <= 8 || currentHour >= 12) {
+        const startHour = 8;
+        const endHour = 11;
+        const startMinutes = 0;
+        const endMinutes = 59;
+        
+        console.log(`Current Time: ${currentHour}:${currentMinutes < 10 ? '0' + currentMinutes : currentMinutes}`);
+        
+        // Compare current time with booking window
+        if (
+            currentHour < startHour || 
+            (currentHour === startHour && currentMinutes < startMinutes) ||
+            currentHour > endHour ||
+            (currentHour === endHour && currentMinutes > endMinutes)
+        ) {
             Swal.fire({
                 title: "Can't Book Now",
-                text: "You can only book Lunch between 8 am to 12 pm.",
+                text: "You can only book Lunch between 8 AM to 12 PM.",
                 icon: "warning",
                 timer: 3000
             });
