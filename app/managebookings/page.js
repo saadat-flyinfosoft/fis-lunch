@@ -77,7 +77,8 @@ const Page = () => {
 
                             Swal.fire({
                                 title: "Already Booked!",
-                                icon: "warning"
+                                icon: "warning",
+                                timer: 2000
                             });
                         }
                     })
