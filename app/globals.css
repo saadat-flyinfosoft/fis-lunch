@@ -31,7 +31,7 @@ body {
 
 .swal2-popup {
   background-color: lightcyan !important;  
-  border: 1px solid #F15A29 !important; 
+  border: 1px solid #1D4ED8 !important; 
   border-radius: 3px !important; 
   /* color: red !important; */
   width: 400px !important;
@@ -46,7 +46,7 @@ body {
   font-weight: bold !important;
   width: auto !important;
   color: white !important;  
-  background-color: green !important;  
+  background-color: #1D4ED8 !important;  
   border: 1px solid white !important;  
   box-shadow: #222fb9;
   border-radius: 5px !important; 
@@ -55,7 +55,7 @@ body {
   font-size: 11px !important;
   font-weight: bold !important;
   color: white !important;  
-  background-color: #F15A29 !important;  
+  background-color: #EF4444 !important;  
   border: 1px solid white !important;  
   box-shadow: #222fb9;
   border-radius: 3px !important; 
@@ -63,7 +63,7 @@ body {
 }
 /* Style the title */
 .swal2-title {
-  color: #F15A29 !important; 
+  color: #1D4ED8 !important; 
   font-size: 20px !important;  
 }
 
