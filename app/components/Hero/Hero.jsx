@@ -1,12 +1,22 @@
 "use client"
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import BookingButton from '../BookingButton/BookingButton';
 import useBookings from '../../../Hooks/useBookings';
 import Priority from '../Priority/Priority';
- 
+
 const Hero = () => {
-    const { lunches, refetch } = useBookings()
- 
+    const { lunches, refetch } = useBookings();
+
+    const memoizedLunches = useMemo(() => {
+        return lunches?.data?.map((lunch, index) => (
+            <div key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
+                {lunch?.name}
+                {lunch?.type === 'guest' && (
+                    <span className='rounded-full border px-1 ml-1'>{lunch?.lunchQuantity}</span>
+                )}
+            </div>
+        ));
+    }, [lunches]);
 
     console.log(lunches?.data);
 
@@ -21,29 +31,16 @@ const Hero = () => {
             }}
         >
             <div className="absolute inset-0 bg-black opacity-50"></div>
-            <Priority></Priority>
+            <Priority />
             <h1 className="text-2xl font-bold z-10 pl">FlyInfoSoft Lunch Manager</h1>
 
             <div className="mt-4 z-10 flex flex-col items-center">
-
                 <BookingButton loadedLunches={lunches} onRefresh={refetch} />
 
                 <div className="mx-auto mt-16 grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {lunches &&
-                        lunches?.data?.map((lunch, index) => (
-                            <div key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
-
-                                {lunch?.name}
-
-                                {
-                                    lunch?.type === 'guest' &&
-                                    <span className='rounded-full border px-1 ml-1'>{lunch?.lunchQuantity}</span>
-                                }
-                            </div>
-                        ))}
+                    {memoizedLunches}
                 </div>
             </div>
-
         </div>
     );
 };

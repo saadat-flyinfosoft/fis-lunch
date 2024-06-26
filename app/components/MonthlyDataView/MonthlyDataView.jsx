@@ -1,7 +1,7 @@
 import React from 'react';
 import useUsers from '../../../Hooks/useUsers';
 
-const MonthlyDataView = ({ data, guestLunchQuantity }) => {
+const MonthlyDataView = ({ data }) => {
   const { users } = useUsers();
 
   // Filter approved users
