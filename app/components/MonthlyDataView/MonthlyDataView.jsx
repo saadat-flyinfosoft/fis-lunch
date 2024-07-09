@@ -55,7 +55,7 @@ const MonthlyDataView = ({ data }) => {
           <tr>
             <td className="border p-2 font-bold">Total Cost</td>
             {/* <td className="border p-2 font-bold">{(totalEmailCount + guestLunchQuantity) * 100}.00 BDT</td> */}
-            <td className="border p-2 font-bold">{(totalLunchCount) * 110}.00 BDT</td>
+            <td className="border p-2 font-bold">{(totalLunchCount) * 110} BDT</td>
           </tr>
         </tfoot>
       </table>
