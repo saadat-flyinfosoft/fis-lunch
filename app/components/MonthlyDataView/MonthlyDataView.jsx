@@ -7,13 +7,7 @@ const MonthlyDataView = ({ data }) => {
   // Filter approved users
   const approvedUsers = users.filter(user => user?.status === 'approve');
 
-  // console.log(data);
 
-  // const userTotalLunch = (email) => {
-  //   return data.reduce((count, item) => {
-  //     return count + item.data.filter(itemData => itemData.email === email).length;
-  //   }, 0);
-  // };
 
   const userTotalLunchQuantity = (email) => {
     return data.reduce((totalQuantity, item) => {
@@ -22,12 +16,6 @@ const MonthlyDataView = ({ data }) => {
         return totalQuantity + sum;
     }, 0);
 };
-
-
-  const totalEmailCount = data.reduce((count, item) => {
-    const uniqueEmails = new Set(item.data.map(itemData => itemData.email));
-    return count + uniqueEmails.size;
-  }, 0);
 
 
   const totalLunchCount = data.reduce((count, item) => {
@@ -54,7 +42,7 @@ const MonthlyDataView = ({ data }) => {
             <tr key={i}>
               <td className="border p-2 capitalize">{user.name}</td>
               <td className="border p-2">
-                {`Lunch: ${userTotalLunchQuantity(user.email)} (${userTotalLunchQuantity(user.email) * 100} BDT)`}
+                {`Lunch: ${userTotalLunchQuantity(user.email)} (${userTotalLunchQuantity(user.email) * 110} BDT)`}
               </td>
             </tr>
           ))}
@@ -67,7 +55,7 @@ const MonthlyDataView = ({ data }) => {
           <tr>
             <td className="border p-2 font-bold">Total Cost</td>
             {/* <td className="border p-2 font-bold">{(totalEmailCount + guestLunchQuantity) * 100}.00 BDT</td> */}
-            <td className="border p-2 font-bold">{(totalLunchCount) * 100}.00 BDT</td>
+            <td className="border p-2 font-bold">{(totalLunchCount) * 110}.00 BDT</td>
           </tr>
         </tfoot>
       </table>
