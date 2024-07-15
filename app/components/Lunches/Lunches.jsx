@@ -48,7 +48,7 @@ const Lunches = ({ onRefresh, lunches }) => {
         };
         console.log(data)
 
-        const startHour = 10;
+        const startHour = 8;
         const endHour = 11;
         const startMinutes = 0;
         const endMinutes = 59;
@@ -61,7 +61,7 @@ const Lunches = ({ onRefresh, lunches }) => {
         ) {
             Swal.fire({
                 title: "Can't Book Now",
-                text: "You can only book Lunch between 10 AM to 12 PM.",
+                text: "You can only book Lunch between 8 AM to 12 PM.",
                 icon: "warning",
                 timer: 3000
             });
@@ -69,8 +69,8 @@ const Lunches = ({ onRefresh, lunches }) => {
         }
 
         const { value: selectedMenuItem } = await Swal.fire({
-            title: "Booking Time: 10 AM to 12PM",
-            text: "Booking Time: 10 AM to 12PM",
+            title: "Booking Time: 8 AM to 12 PM",
+            text: "Booking Time: 8 AM to 12 PM",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -88,7 +88,7 @@ const Lunches = ({ onRefresh, lunches }) => {
                         )).join('') +
                         `<option value="common item">Any Common Item</option>`
                         :
-                        `<option value="" disabled selected>Updating Item...</option>
+                        `<option value="" disabled selected>Wait, Updating Items...</option>
                         <option value="common item">Any Common Item</option>` 
                     }
                 </select>
