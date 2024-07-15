@@ -67,9 +67,10 @@ const SelectMenu = () => {
         <div>
             <button
                 onClick={() => handleModalOpen()}
-                className=" w-auto  text-white text-sm font-semibold py-1 px-2 rounded"
+                className=" w-auto  text-white text-3xl font-semibold py-1 px-2 rounded"
               >
-                ☐
+                {/* ☐ */}
+                🍔
               </button>
             <dialog id="my_modal_select_menu" className="modal modal-center sm:modal-middle">
           <div className="modal-box ">
@@ -84,7 +85,7 @@ const SelectMenu = () => {
                     className="w-full md:w-72 p-1 rounded block text-center my-2 bg-slate-200 text-black border border-white focus:outline-none"
                     {...register('menu', { required: true })}
                   >
-                    <option value="">Select a menu</option>
+                    <option value="">Select an item</option>
                     {menu.map((item, index) => (
                       <option key={index} value={item.menu}>
                         {item.menu}
