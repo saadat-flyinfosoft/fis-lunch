@@ -64,6 +64,11 @@ const Page = () => {
                                 Manage Bookings
                             </p>
                         </Link>
+                        <Link href="/menu" className={`bg-blue-700 mr-1 border rounded border-transparent hover:border-white text-white font-bold py-2 px-4 `}>
+                            <p className='text-center'>
+                                Manage Menu
+                            </p>
+                        </Link>
 
 
 

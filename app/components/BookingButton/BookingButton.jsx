@@ -20,7 +20,7 @@ const BookingButton = ({ onRefresh, loadedLunches }) => {
     return (
         <div className='flex'>
             <span>
-                <Lunches onRefresh={onRefresh} />
+                <Lunches onRefresh={onRefresh} lunches={loadedLunches} />
             </span>
 
             {

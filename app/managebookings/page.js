@@ -1,5 +1,5 @@
 "use client"
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import useUsers from '../../Hooks/useUsers';
 import Manage from '../manage/page';
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
@@ -19,6 +19,7 @@ const Page = () => {
     const { lunches, refetch: refetchLunches } = useBookings()
     const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const [selectedItem, setSelectedItem] = useState('');
 
 
     const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
@@ -30,7 +31,104 @@ const Page = () => {
     // console.log(isAdmin?.[0]?.name);
 
 
-    const handleBookForUser = (name, email) => {
+    const handleBookForUser = async (name, email) => {
+        refetchLunches();
+
+        const data = {
+            name: name,
+            email:  email,
+            date: new Date().toLocaleString(),
+            bookBy: 'user',
+            type: 'user',
+            lunchQuantity: 1,
+            selectedMenu: selectedItem
+        };
+        console.log(data)
+
+
+        const { value: selectedMenuItem } = await Swal.fire({
+            title: "Booking Time: 10 AM to 12PM",
+            text: "Booking Time: 10 AM to 12PM",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Book Lunch!",
+            timer: 10000,
+            html: `
+            <div>
+                <select id="menuSelect">
+                    ${
+                        lunches?.menu?.length > 0 ?
+                        `<option value="">Select Item</option>` +
+                        lunches.menu.map((item, index) => (
+                            `<option key=${index} value="${item}">${item}</option>`
+                        )).join('') +
+                        `<option value="common item">Any Common Item</option>`
+                        :
+                        `<option value="" disabled selected>Updating Item...</option>
+                        <option value="common item">Any Common Item</option>` 
+                    }
+                </select>
+
+            </div>
+
+            `,
+            customClass: {
+                validationMessage: 'small-validation-message'
+            },
+            preConfirm: () => {
+                const selectedOption = document.getElementById('menuSelect');
+                const selectedMenuItem = selectedOption.value;
+                
+                if (!selectedMenuItem) {
+                    Swal.showValidationMessage('Please select an item');
+                    setTimeout(() => {
+                        const validationMessage = document.querySelector('.swal2-validation-message');
+                        if (validationMessage) {
+                            validationMessage.style.display = 'none';
+                        }
+                    }, 3000);
+                    return false;
+                }
+                
+                setSelectedItem(selectedMenuItem.trim()); // Set selected item here
+                return selectedMenuItem.trim();
+            },
+        
+        });
+        
+        
+
+        if (selectedMenuItem) {
+            console.log(selectedMenuItem)
+            setSelectedItem(selectedMenuItem); // Set selected item
+            data.selectedMenu = selectedMenuItem;
+            console.log(data)
+            axiosPublic.post(`/lunch`, data)
+                .then(res => {
+                    if (res.data.insertedId || res.data.modifiedCount) {
+                        refetchLunches();
+                        Swal.fire({
+                            title: "Booked!!",
+                            text: "Your Lunch has been Booked.",
+                            icon: "success",
+                            position: "top-center",
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    } else if (res.data.message) {
+                        Swal.fire({
+                            title: "Already Booked!",
+                            icon: "warning",
+                            timer: 2000
+                        });
+                    }
+                });
+        }
+    };
+    
+    const handleBookForUsers = (name, email) => {
 
 
         const data = {
@@ -154,7 +252,7 @@ const Page = () => {
                     <Manage></Manage>
                 </div>
                 <div className='bg-blue-500 px-1 md:px-12 p-4 w-full'>
-                    <Priority></Priority>
+                    {/* <Priority></Priority> */}
                     <h2 className='font-bold mb-4'>Manage Bookings ({users.length})</h2>
                     <div className='border my-1 p-2'>
                         {/* Form for handling bookings for guests */}
