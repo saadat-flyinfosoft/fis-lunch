@@ -66,7 +66,7 @@ const Page = () => {
                         )).join('') +
                         `<option value="common item">Any Common Item</option>`
                         :
-                        `<option value="" disabled selected>Updating Item...</option>
+                        `<option value="" disabled selected>Wait, Updating Items...</option>
                         <option value="common item">Any Common Item</option>` 
                     }
                 </select>
@@ -193,6 +193,7 @@ const Page = () => {
             lunchQuantity: parseInt(formData.lunchQuantity),
             date: new Date().toLocaleString(),
             adminName: isAdmin?.[0]?.name,
+            selectedMenu: 'common item',
             bookBy: 'admin',
             type: 'guest'
         };
