@@ -76,7 +76,7 @@ const Lunches = ({ onRefresh, lunches }) => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, Book Lunch!",
-            timer: 10000,
+            // timer: 10000,
             html: `
             <div>
                 <select id="menuSelect">
@@ -86,10 +86,10 @@ const Lunches = ({ onRefresh, lunches }) => {
                         lunches.menu.map((item, index) => (
                             `<option key=${index} value="${item}">${item}</option>`
                         )).join('') +
-                        `<option value="common item">Any Common Item</option>`
+                        `<option value="Common Item">Any Common Item</option>`
                         :
                         `<option value="" disabled selected>Wait, Updating Items...</option>
-                        <option value="common item">Any Common Item</option>` 
+                        <option value="Common Item">Any Common Item</option>` 
                     }
                 </select>
 

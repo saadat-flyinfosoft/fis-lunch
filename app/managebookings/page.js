@@ -64,10 +64,10 @@ const Page = () => {
                         lunches.menu.map((item, index) => (
                             `<option key=${index} value="${item}">${item}</option>`
                         )).join('') +
-                        `<option value="common item">Any Common Item</option>`
+                        `<option value="Common Item">Any Common Item</option>`
                         :
                         `<option value="" disabled selected>Wait, Updating Items...</option>
-                        <option value="common item">Any Common Item</option>` 
+                        <option value="Common Item">Any Common Item</option>` 
                     }
                 </select>
 

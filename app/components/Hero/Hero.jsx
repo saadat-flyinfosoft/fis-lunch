@@ -36,26 +36,20 @@ const Hero = () => {
         const menuCounts = {};
       
         lunches?.data?.forEach(user => {
-          const { selectedMenu, type, lunchQuantity } = user;
+          const { selectedMenu, lunchQuantity } = user;
           if (selectedMenu) {
-            if (type === 'guest' && lunchQuantity) {
-              if (menuCounts[selectedMenu]) {
-                menuCounts[selectedMenu] += lunchQuantity;
-              } else {
-                menuCounts[selectedMenu] = lunchQuantity;
-              }
+            const quantity = lunchQuantity || 1; // Use lunchQuantity || default to 1
+            if (menuCounts[selectedMenu]) {
+              menuCounts[selectedMenu] += quantity;
             } else {
-              if (menuCounts[selectedMenu]) {
-                menuCounts[selectedMenu]++;
-              } else {
-                menuCounts[selectedMenu] = 1;
-              }
+              menuCounts[selectedMenu] = quantity;
             }
           }
         });
       
         return menuCounts;
       };
+      
       
   
   const menuCounts = countSelectedMenu(lunches);
