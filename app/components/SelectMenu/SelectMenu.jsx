@@ -95,7 +95,7 @@ const SelectMenu = () => {
                 </div>
                 <button
                 type="submit"
-                className="border w-16 border-white bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
+                className="border w-16 shadow-sm border-white bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
               >
                 ✓
               </button>
@@ -106,7 +106,7 @@ const SelectMenu = () => {
               </div>
 
             </form>
-              <button onClick={() => handleModalClose()}  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+              <button onClick={() => handleModalClose()}  className="btn btn-sm  btn-circle btn-ghost absolute right-2 top-2"><span className='text-red-200'>✕</span></button>
             {/* <div className="modal-action">
               <form method="dialog">
                 <button className="btn">Close</button>

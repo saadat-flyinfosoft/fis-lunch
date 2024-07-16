@@ -104,7 +104,7 @@ const Hero = () => {
 
                                 {
                                     Object.entries(menuCounts).map(([menuItem, count]) => (
-                                        <p className='border text-gray-50 mt-1 uppercas bg-blue-800 gap-2 mx-2 md:mx-2 text-sm rounded-md px-2 md:px-4 ' key={menuItem}>
+                                        <p className='border text-gray-50 mt-1 uppercas bg-blue-800 gap-2 mx-2 md:mx-2 text-xs md:text-sm rounded-md px-2 md:px-4 ' key={menuItem}>
                                             {menuItem} : {count}
                                         </p>
                                     ))
