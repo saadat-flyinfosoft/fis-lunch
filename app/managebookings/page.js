@@ -38,7 +38,7 @@ const Page = () => {
             name: name,
             email:  email,
             date: new Date().toLocaleString(),
-            bookBy: 'user',
+            bookBy: 'admin',
             type: 'user',
             lunchQuantity: 1,
             selectedMenu: selectedItem
@@ -128,62 +128,7 @@ const Page = () => {
         }
     };
     
-    const handleBookForUsers = (name, email) => {
 
-
-        const data = {
-            name: name,
-            email: email,
-            date: new Date().toLocaleString(),
-            bookBy: 'admin',
-            adminName: isAdmin?.[0]?.name,
-            type: 'user',
-            lunchQuantity: 1
-        }
-
-
-
-        Swal.fire({
-            title: "Booking From Admin Panel!",
-            text: `Book Lunch for "${name}" ?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Book Now!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log(data);
-
-
-                axiosPublic.post(`/lunch`, data)
-                    .then(res => {
-                        // console.log(res.data);
-                        if (res.data.insertedId || res.data.modifiedCount) {
-                            console.log('lunch data Inserted to DB');
-
-                            Swal.fire({
-                                title: "Booked!!",
-                                text: "Lunch has been Booked.",
-                                icon: "success",
-                                position: "top-center",
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
-                        }
-                        else if (res.data.message) {
-
-                            Swal.fire({
-                                title: "Already Booked!",
-                                icon: "warning",
-                                timer: 2000
-                            });
-                        }
-                    })
-            }
-        });
-
-    }
     const handleBookForGuest = (formData) => {
 
         const data = {
