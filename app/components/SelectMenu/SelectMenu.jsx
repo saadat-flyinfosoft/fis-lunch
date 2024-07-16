@@ -95,7 +95,7 @@ const SelectMenu = () => {
                 </div>
                 <button
                 type="submit"
-                className="border w-16 shadow-sm border-white bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
+                className="border w-16 shadow border-white bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
               >
                 ✓
               </button>
