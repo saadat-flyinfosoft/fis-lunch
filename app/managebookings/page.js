@@ -193,7 +193,7 @@ const Page = () => {
             lunchQuantity: parseInt(formData.lunchQuantity),
             date: new Date().toLocaleString(),
             adminName: isAdmin?.[0]?.name,
-            selectedMenu: 'common item',
+            selectedMenu: 'Common Item',
             bookBy: 'admin',
             type: 'guest'
         };

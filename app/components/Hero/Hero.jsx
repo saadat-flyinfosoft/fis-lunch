@@ -32,22 +32,31 @@ const Hero = () => {
 
 
     // Function to count selectedMenu occurrences
-const countSelectedMenu = (lunches) => {
-    const menuCounts = {};
-  
-    lunches?.data?.forEach(user => {
-      const { selectedMenu } = user;
-      if (selectedMenu) {
-        if (menuCounts[selectedMenu]) {
-          menuCounts[selectedMenu]++;
-        } else {
-          menuCounts[selectedMenu] = 1;
-        }
-      }
-    });
-  
-    return menuCounts;
-  };
+    const countSelectedMenu = (lunches) => {
+        const menuCounts = {};
+      
+        lunches?.data?.forEach(user => {
+          const { selectedMenu, type, lunchQuantity } = user;
+          if (selectedMenu) {
+            if (type === 'guest' && lunchQuantity) {
+              if (menuCounts[selectedMenu]) {
+                menuCounts[selectedMenu] += lunchQuantity;
+              } else {
+                menuCounts[selectedMenu] = lunchQuantity;
+              }
+            } else {
+              if (menuCounts[selectedMenu]) {
+                menuCounts[selectedMenu]++;
+              } else {
+                menuCounts[selectedMenu] = 1;
+              }
+            }
+          }
+        });
+      
+        return menuCounts;
+      };
+      
   
   const menuCounts = countSelectedMenu(lunches);
   
@@ -94,7 +103,7 @@ const countSelectedMenu = (lunches) => {
                         <div className="modal-box h-auto">
                             <form method="dialog">
                             {/* if there is a button in form, it will close the modal */}
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-0 top-0 md:right-2 md:top-2"><span className='text-red-300'>✕</span></button>
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-0 top-0 "><span className='text-red-300'>✕</span></button>
                             </form>
                                 {/*  Start selected Menu Items  */}
                             <div className='grid grid-cols-2 gap-1 items-center'>
@@ -115,7 +124,7 @@ const countSelectedMenu = (lunches) => {
                                             <p className='border px-2 rounded-md flex justify-center text-gray-400 mt-1' key={i}>
                                                 <div className='flex flex-col items-center text-lg'>
                                                     <small>
-                                                        ({i+1}). {user.name} <span className='font-bold'>:</span> <span className='uppercas'>{user.selectedMenu}</span>
+                                                        ({i+1}). {user.name}{user.type === 'guest'&& <>({user.lunchQuantity})</> } <span className='font-bold'>:</span> <span className='uppercas'>{user.selectedMenu} </span>
                                                     </small>
                                                 </div>
                                             </p>
