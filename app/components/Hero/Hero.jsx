@@ -97,11 +97,11 @@ const countSelectedMenu = (lunches) => {
                             <button className="btn btn-sm btn-circle btn-ghost absolute right-0 top-0 md:right-2 md:top-2"><span className='text-red-300'>✕</span></button>
                             </form>
                                 {/*  Start selected Menu Items  */}
-                            <div className='grid grid-cols-2 md:flex justify-center gap-1 items-center'>
+                            <div className='grid grid-cols-2 gap-1 items-center'>
 
                                 {
                                     Object.entries(menuCounts).map(([menuItem, count]) => (
-                                        <p className='border text-gray-50 uppercas bg-blue-800 gap-2 mx-2 md:mx-2 text-sm rounded-md px-2 md:px-4 ' key={menuItem}>
+                                        <p className='border text-gray-50 mt-1 uppercas bg-blue-800 gap-2 mx-2 md:mx-2 text-sm rounded-md px-2 md:px-4 ' key={menuItem}>
                                             {menuItem} : {count}
                                         </p>
                                     ))
