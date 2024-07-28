@@ -118,7 +118,7 @@ const Hero = () => {
                                             <p className='border px-2 rounded-md flex justify-center text-gray-400 mt-1' key={i}>
                                                 <div className='flex flex-col items-center text-lg'>
                                                     <small>
-                                                        ({i+1}). {user.name}{user.type === 'guest'&& <>({user.lunchQuantity})</> } <span className='font-bold'>:</span> <span className='uppercas'>{user.selectedMenu} </span>
+                                                        <span className='text-xs md:text-sm'>({i+1}). {user.name}</span>{user.type === 'guest'&& <>({user.lunchQuantity})</> } <span className='font-bold'>:</span> <span className='uppercas'>{user.selectedMenu} </span>
                                                     </small>
                                                 </div>
                                             </p>
