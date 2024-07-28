@@ -21,7 +21,7 @@ const SelectMenu = () => {
       } = useForm();
 
     const handleModalOpen =  () => {
-        refetchLunch();
+        refetch();
          document.getElementById("my_modal_select_menu").showModal();
       };
     const handleModalClose =  () => {
