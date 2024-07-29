@@ -85,11 +85,12 @@ const Lunches = ({ onRefresh, lunches }) => {
                         `<option value="">Select Item</option>` +
                         lunches.menu.map((item, index) => (
                             `<option key=${index} value="${item}">${item}</option>`
-                        )).join('') +
-                        `<option value="Common Item">Any Common Item</option>`
+                        )).join('') 
+                        // +
+                        // `<option value="Common Item">Any Common Item</option>`
                         :
-                        `<option value="" disabled selected>Wait, Updating Items...</option>
-                        <option value="Common Item">Any Common Item</option>` 
+                        `<option value="" disabled selected>Wait, Updating Items...</option>` 
+                        // <option value="Common Item">Any Common Item</option>
                     }
                 </select>
 
