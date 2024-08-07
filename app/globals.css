@@ -98,3 +98,7 @@ body {
 }
 
 /* Global class for SweetAlert2  */
+
+.text-10px{
+  font-size: 10px !important;
+}
