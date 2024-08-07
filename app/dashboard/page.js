@@ -93,7 +93,7 @@ const Page = () => {
               className="bg-blue-700 w-32 justify-center rounded p-1 m-1 gap-1 flex  cursor-pointer hover:bg-blue-600 " 
               onClick={() => handleOpenModal(item)}
             >
-              <button className=" text-xs">ℹ️</button>
+              <button className=" text-xs">🗨️</button>
               {item.date}
               <span className="px-2 text-sm flex items-center bg-blue-500 rounded-full">
                 {getGuestCount(item.data) + getUserCount(item.data)}
