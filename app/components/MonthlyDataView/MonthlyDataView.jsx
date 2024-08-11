@@ -71,7 +71,7 @@ const MonthlyDataView = ({ data,date }) => {
               <td className="borders p-2 capitalize flex justify-between">
                 <span>{user.name}</span>
                 <span className='cursor-pointer hover:text-black p-1'>
-                  <span className='flex gap-1' onClick={() => handleDownload(user.email)}><span className='text-sm border rounded-md border-gray-300 hover:border-black'>⏬</span> xlsx</span>
+                  <span className='flex gap-1' onClick={() => handleDownload(user.email)}><span className='text-sm border rounded-md  hover:border-gray-300'>⏬</span> xlsx</span>
                 </span>
                 </td>
               <td className="border-x-2 p-2">
