@@ -10,6 +10,7 @@ import { AuthContext } from "../components/AuthProvider/AuthProvider";
 import MonthlyDataView from "../components/MonthlyDataView/MonthlyDataView";
 import "react-datepicker/dist/react-datepicker.css";
 import Loading from "../../Shared/Loading";
+import XlsxDownloadButton from "../components/XlsxDownloadButton/XlsxDownloadButton";
 
 const Page = () => {
   const axiosPublic = useAxiosPublic();
@@ -20,6 +21,7 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [activeDay, setActiveDay] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
+  const [downloadByDate, setDownloadByDate] = useState(null);
   const memoizeDays = useMemo(() => days, [days]);
 
   console.log(days)
@@ -40,12 +42,15 @@ const Page = () => {
       .get(`/monthly/?date=${formattedDate}`)
       .then((res) => {
         setDays(res.data);
+        setDownloadByDate(formattedDate);
       })
       .catch((error) => {
         console.error("Error fetching selected date data:", error);
       });
     setLoading(false);
   };
+  // console.log(formattedDate)
+  console.log(downloadByDate)
 
   useEffect(() => {
     handleDateChange(new Date());
@@ -144,6 +149,10 @@ const Page = () => {
       <div className="bg-blue-500 px-1 md:px-12 p-4 w-full">
         <h2 className="text-xl font-bold my-4">Dashboard</h2>
         
+        <XlsxDownloadButton 
+            date ={downloadByDate}>
+        </XlsxDownloadButton>
+        
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none">
             <BsCalendarDate className="text-xl m-2" />
@@ -159,7 +168,7 @@ const Page = () => {
         </div>
         <div>
           {memoizeDays.length > 0 ? (
-            <MonthlyDataView data={memoizeDays} />
+            <MonthlyDataView  date ={downloadByDate} data={memoizeDays} />
           ) : (
             <div className="my-8">
               <h2>No data found or Select a month first</h2>

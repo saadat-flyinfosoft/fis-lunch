@@ -1,11 +1,13 @@
 import React from 'react';
 import useUsers from '../../../Hooks/useUsers';
+import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 
-const MonthlyDataView = ({ data }) => {
+const MonthlyDataView = ({ data,date }) => {
   const { users } = useUsers();
 
   // Filter approved users
   const approvedUsers = users.filter(user => user?.status === 'approve');
+  const axiosPublic = useAxiosPublic()
 
 
 
@@ -23,6 +25,32 @@ const MonthlyDataView = ({ data }) => {
     return count + sum;
   }, 0);
 
+  const handleDownload = async (email) => {
+
+    try {
+        const response = await axiosPublic.get(`/download-user-excel`, {
+            params: { 
+              date: date,
+              email: email
+          },
+            responseType: 'blob' 
+            //  set response type to blob
+        });
+
+        console.log(response)
+
+        // Create a link element to trigger the download
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'data.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    } catch (error) {
+        console.error('Error downloading file:', error);
+    }
+};
 
 
 
@@ -39,9 +67,14 @@ const MonthlyDataView = ({ data }) => {
         </thead>
         <tbody>
           {approvedUsers.map((user, i) => (
-            <tr key={i}>
-              <td className="border p-2 capitalize">{user.name}</td>
-              <td className="border p-2">
+            <tr className='hover:bg-blue-400 ' key={i}>
+              <td className="borders p-2 capitalize flex justify-between ">
+                <span>{user.name}</span>
+                <span className='cursor-pointer hover:text-black p-1'>
+                  <span onClick={() => handleDownload(user.email)}><span className='text-sm border rounded-md border-gray-300 hover:border-black'>⏬</span> xlsx</span>
+                </span>
+                </td>
+              <td className="border-x-2 p-2">
                 {`Lunch: ${userTotalLunchQuantity(user.email)} (${userTotalLunchQuantity(user.email) * 110} BDT)`}
               </td>
             </tr>
