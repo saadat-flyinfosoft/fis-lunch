@@ -186,7 +186,7 @@ const Page = () => {
           </div>
         </dialog>
 
-        <h2 className="font-bold mb-4">Manage Menu ({users.length})</h2>
+        <h2 className="font-bold mb-4">Manage Menu ({menu?.length})</h2>
         <div className="border my-1 p-2">
           {/* Form for adding a new menu */}
           <form className="block" onSubmit={handleSubmitAdd(handleAddMenu)}>

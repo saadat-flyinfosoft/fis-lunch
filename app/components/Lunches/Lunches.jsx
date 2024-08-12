@@ -3,6 +3,7 @@ import { AuthContext } from '../AuthProvider/AuthProvider';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
 import useUsers from '../../../Hooks/useUsers';
+import moment from 'moment';
 
 
 const Lunches = ({ onRefresh, lunches }) => {
@@ -30,6 +31,11 @@ const Lunches = ({ onRefresh, lunches }) => {
             timer: 3000
         });
     };
+    // const dbDate = new Date().toLocaleString()
+    // console.log(dbDate)
+
+    // const formattedDate = moment().format('M/D/YYYY, h:mm:ss A');
+    // console.log(formattedDate)
 
     const handleBtn = async () => {
         onRefresh();
@@ -40,7 +46,7 @@ const Lunches = ({ onRefresh, lunches }) => {
         const data = {
             name: user?.displayName,
             email: user?.email,
-            date: new Date().toLocaleString(),
+            date: moment().format('M/D/YYYY, h:mm:ss A'),
             bookBy: 'user',
             type: 'user',
             lunchQuantity: 1,
