@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@netlify/plugin-nextjs": "^4.41.3",
+    "@vercel/speed-insights": "^1.0.12",
     "axios": "^1.6.5",
     "firebase": "^10.7.1",
     "moment": "^2.30.1",
