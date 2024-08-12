@@ -9,6 +9,7 @@ import useBookings from '../../Hooks/useBookings';
 import Loading from '../../Shared/Loading';
 import { useForm } from 'react-hook-form';
 import Priority from '../components/Priority/Priority';
+import moment from 'moment';
 
 
 
@@ -37,13 +38,13 @@ const Page = () => {
         const data = {
             name: name,
             email:  email,
-            date: new Date().toLocaleString(),
+            date: moment().format('M/D/YYYY, h:mm:ss A'),
             bookBy: 'admin',
             type: 'user',
             lunchQuantity: 1,
             selectedMenu: selectedItem
         };
-        console.log(data)
+        // console.log(data)
 
 
         const { value: selectedMenuItem } = await Swal.fire({
@@ -105,7 +106,7 @@ const Page = () => {
             console.log(selectedMenuItem)
             setSelectedItem(selectedMenuItem); // Set selected item
             data.selectedMenu = selectedMenuItem;
-            console.log(data)
+            // console.log(data)
             axiosPublic.post(`/lunch`, data)
                 .then(res => {
                     if (res.data.insertedId || res.data.modifiedCount) {
@@ -137,13 +138,13 @@ const Page = () => {
             note: formData.note,
             email: 'guest@gmail.com',
             lunchQuantity: parseInt(formData.lunchQuantity),
-            date: new Date().toLocaleString(),
+            date: moment().format('M/D/YYYY, h:mm:ss A'),
             adminName: isAdmin?.[0]?.name,
             selectedMenu: 'Common Item',
             bookBy: 'admin',
             type: 'guest'
         };
-        console.log(data);
+        // console.log(data);
 
 
         Swal.fire({
