@@ -70,7 +70,16 @@ const Hero = () => {
             {/* <Priority /> */}
             <div className='z-10'>
                 { Object.keys(menuCounts).length > 0 &&
-                    <button className="border rounded-md px-3 text-xl" onClick={()=>document.getElementById('my_modal_3').showModal()}>ℹ️</button>
+                    <button
+                        className="border rounded-md px-3 text-xl"
+                        onClick={() => {
+                        refetch(); 
+                        document.getElementById('my_modal_3').showModal(); 
+                    }}
+                  >
+                    ℹ️
+                  </button>
+                  
                 }
             </div>
             <div className='z-10 mt-4'>

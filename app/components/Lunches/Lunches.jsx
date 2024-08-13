@@ -13,6 +13,7 @@ const Lunches = ({ onRefresh, lunches }) => {
     const [selectedItem, setSelectedItem] = useState('');
 
     const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
+    const isBooked = lunches?.data?.find(lunch => lunch.email === user?.email);
 
     const handleBtnErr = () => {
         Swal.fire({
@@ -133,8 +134,8 @@ const Lunches = ({ onRefresh, lunches }) => {
             console.log(selectedMenuItem)
             setSelectedItem(selectedMenuItem); // Set selected item
             data.selectedMenu = selectedMenuItem;
-            console.log(data)
-            axiosPublic.post(`/lunch`, data)
+            // console.log(data)
+            await axiosPublic.post(`/lunch`, data)
                 .then(res => {
                     if (res.data.insertedId || res.data.modifiedCount) {
                         onRefresh();
@@ -160,13 +161,20 @@ const Lunches = ({ onRefresh, lunches }) => {
     return (
         <div>
             {currentUserData[0]?.status === 'approve' &&
-                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtn()}>Book Now</button>
+                <button disabled={isBooked} className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
+                onClick={() => handleBtn()}>
+                    {isBooked? 'Lunch Confirmed' : 'Book Now'}
+                </button>
             }
             {currentUserData[0]?.status === 'pending' &&
-                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnWait()}>Book Now⏳</button>
+                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnWait()}>
+                    Book Now⏳
+                </button>
             }
             {!user &&
-                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnErr()}>Book Now</button>
+                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnErr()}>
+                    Book Now
+                </button>
             }
         </div>
     );

@@ -1,7 +1,7 @@
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import useBookings from '../../../Hooks/useBookings';
 import useMenu from '../../../Hooks/useMenu';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const SelectMenu = () => {
@@ -9,6 +9,7 @@ const SelectMenu = () => {
     const {menu, refetch} = useMenu();
     const { lunches, refetch: refetchLunch } = useBookings();
     const axiosPublic = useAxiosPublic();
+    const [loading, setLoading] = useState(false);
     console.log(menu)
     console.log(lunches.menu)
 
@@ -28,38 +29,19 @@ const SelectMenu = () => {
          document.getElementById("my_modal_select_menu").close();
       };
 
-    const handleMenuSubmit =  (menu) => {
-        console.log(menu)
+    const handleMenuSubmit =  async(menu) => {
+        setLoading(true);
 
-        axiosPublic.patch(`/menutoday`, menu).then((res) => {
-            console.log(res.data);
+        await axiosPublic.patch(`/menutoday`, menu).then((res) => {
+
             refetchLunch()
-
-            // if (res.data.insertedId || res.data.modifiedCount) {
-              
-            //   Swal.fire({
-            //     title: "Added!!",
-            //     icon: "success",
-            //     position: "top-center",
-            //     showConfirmButton: false,
-            //     timer: 2000,
-            //   });
-            // } else if (res.data.message) {
-            //   Swal.fire({
-            //     title: "Already Booked!",
-            //     icon: "warning",
-            //     timer: 2000,
-            //   });
-            // }
+            if(res.data){
+              setTimeout(() => {
+                setLoading(false)
+              }, 2000);
+            }
           });
 
-        // document.getElementById("my_modal_select_menu").close();
-
-        // const data = {
-        //     menu: menu.menu,
-        //     date: new Date().toLocaleString(),
-        //     addedByAdmin: isAdmin?.[0]?.name,
-        //   };
       };
 
 
@@ -95,10 +77,13 @@ const SelectMenu = () => {
                   </select>
                 </div>
                 <button
-                type="submit"
+                type="submit" disabled={loading}
                 className="border w-16 shadow border-white bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
               >
-                ✓
+                {
+
+                  loading ? '🫘' : '✓'
+                }
               </button>
                 {/* {errors.menu && (
                   <span className="text-red-400">*Field is required</span>
