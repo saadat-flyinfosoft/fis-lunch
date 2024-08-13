@@ -163,7 +163,7 @@ const Lunches = ({ onRefresh, lunches }) => {
             {currentUserData[0]?.status === 'approve' &&
                 <button disabled={isBooked} className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
                 onClick={() => handleBtn()}>
-                    {isBooked? 'Lunch Confirmed' : 'Book Now'}
+                    {isBooked? 'Confirmed' : 'Book Now'}
                 </button>
             }
             {currentUserData[0]?.status === 'pending' &&
