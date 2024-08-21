@@ -242,6 +242,7 @@ const Hero = () => {
                     <div className=" mx-auto">
                         <p>Force update menu for </p> 
                         <p className="text-red-500">{selectUser?.name}</p>
+                        <small className="text-gray-200 font-light">( Currently selected - {selectUser?.selectedMenu} )</small>
                     </div>
                     <select
                      onChange={handleMenuChange} 
