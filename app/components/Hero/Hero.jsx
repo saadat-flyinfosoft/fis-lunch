@@ -179,10 +179,8 @@ const Hero = () => {
             </div>
             <div className='z-10 mt-4'>
                 {
-                isAdmin.length ?
-                <SelectMenu/> 
-                :
-                <></>
+                isAdmin &&
+                    <SelectMenu/> 
                 }
             </div>
 
