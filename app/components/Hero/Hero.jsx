@@ -1,16 +1,23 @@
 "use client"
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo ,useState} from 'react';
 import BookingButton from '../BookingButton/BookingButton';
 import useBookings from '../../../Hooks/useBookings';
 import Priority from '../Priority/Priority';
 import SelectMenu from '../SelectMenu/SelectMenu';
 import useUsers from '../../../Hooks/useUsers';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import useMenu from '@/Hooks/useMenu';
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
+import Swal from 'sweetalert2';
 
 const Hero = () => {
     const { lunches, refetch } = useBookings();
     const { users,  } = useUsers();
+    const {menu, refetch: menuRefetch} = useMenu();
     const { user } = useContext(AuthContext);
+    const [selectUser, setSelectUser] = useState();
+    const axiosPublic = useAxiosPublic();
+    const [loading, setLoading] = useState(false);
     
     const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
 
@@ -18,7 +25,7 @@ const Hero = () => {
 
     const memoizedLunches = useMemo(() => {
         return lunches?.data?.map((lunch, index) => (
-            <div key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
+            <div onClick={isAdmin ? () => handleUpdateMenuModal(lunch) : undefined} key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
                 {lunch?.name}
                 {lunch?.type === 'guest' && (
                     <span className='rounded-full border px-1 ml-1'>{lunch?.lunchQuantity}</span>
@@ -27,9 +34,9 @@ const Hero = () => {
         ));
     }, [lunches]);
 
-    console.log(lunches);
+    // console.log(lunches);
 
-
+    // console.log(menu)
 
     // Function to count selectedMenu occurrences
     const countSelectedMenu = (lunches) => {
@@ -49,13 +56,90 @@ const Hero = () => {
       
         return menuCounts;
       };
+
+      const menuCounts = countSelectedMenu(lunches);
+
+   
+    
+      const handleUpdateMenuModal =  (lunch) => {
+        console.log(lunch)
+        setSelectUser(lunch);
+        handleModalOpen();
+      };
+
+      const handleModalOpen =  () => {
+        refetch();
+        menuRefetch();
+         document.getElementById("my_modal_select_update_menu").showModal();
+      };
+      const handleModalClose =  () => {
+         document.getElementById("my_modal_select_update_menu").close();
+      };
+
+      const handleMenuChange = (e) => {
+        const selectedMenu = e.target.value;
+    
+        // Update the selectUser state with the selected menu
+        setSelectUser(prevUser => ({
+            ...prevUser,
+            selectedMenu: selectedMenu
+        }));
+    };
+
+      const handleUpdateMenu = (e) => {
+        e.preventDefault(); 
+        setLoading(true);
+        
+        const data = {
+            email: selectUser.email,
+            selectedMenu: selectUser.selectedMenu,
+            forceUpdateMenu : 'true'
+        };
+
+        console.log(data)
+
+        axiosPublic.post(`/lunch`, data)
+                .then(res => {
+                    // console.log(res.data)
+                    if (res.data.matchedCount && res.data.modifiedCount) {
+                        refetch();
+                        setTimeout(() => {
+                            setLoading(false);
+                        }, 2000);
+                        setTimeout(() => {
+                            handleModalClose();
+                        }, 1000);
+                        setTimeout(() => {
+                            Swal.fire({
+                                text: "Lunch has been Updated.",
+                                icon: "success",
+                                position: "top-center",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }, 1000);
+                        
+    
+                    } 
+                    else if (res.data.message) {
+                        Swal.fire({
+                            title: "Error",
+                            text: `${res.data.message}`,
+                            icon: "warning",
+                        });
+                        setLoading(false);
+                    }
+                    setLoading(false);
+                });
+
+    };
       
       
   
-  const menuCounts = countSelectedMenu(lunches);
   
-  console.log(menuCounts);
-  console.log(lunches)
+  
+//   console.log(menuCounts);
+//   console.log(lunches)
     return (
         <div
             className="relative h-[100vh] flex flex-col justify-center items-center text-white text-center"
@@ -136,7 +220,59 @@ const Hero = () => {
                             </div>
                         </div>
                     </dialog>
+
+                    {/* update user lunch item  */}
+                    <div>
+                
+                <dialog id="my_modal_select_update_menu" className="modal modal-center sm:modal-middle">
+            <div className="modal-box ">
+                <form className="block ">
+                <div className="block md:flex m-2">
+                    
+                    <div className="block   items-center mx-auto">
+                    <div className=" mx-auto">
+                        <p>Force update menu for </p> 
+                        <p className="text-red-500">{selectUser?.name}</p>
+                    </div>
+                    <select
+                     onChange={handleMenuChange} 
+                        className="w-full md:w-56 p-1 rounded block text-center my-2 bg-slate-200 text-black border border-white focus:outline-none"
+                    >
+                        <option value="">Select Menu </option>
+                        {menu.map((item, index) => (
+                        <option key={index} value={item?.menu}>
+                            {item?.menu}
+                        </option>
+                        ))}
+                    </select>
+                    <button
+                        disabled={!selectUser?.selectedMenu}
+                        type="button"
+                        onClick={(e) => handleUpdateMenu(e)}
+                        className="border w-16 shadow border-red-500 bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
+                        >
+                           {
+                            loading ? '🫘' : '✓'
+                            }
+                    </button>
+                        </div>
+
+                    
+                    {/* {errors.menu && (
+                    <span className="text-red-400">*Field is required</span>
+                    )} */}
+                    
+                </div>
+
+                </form>
+                <button onClick={() => handleModalClose()}  className="btn btn-sm  btn-circle btn-ghost absolute right-2 top-2"><span className='text-red-200'>✕</span></button>
+                
+
             </div>
+            </dialog>
+            </div>
+            </div>
+            
         </div>
     );
 };

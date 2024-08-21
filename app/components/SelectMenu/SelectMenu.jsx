@@ -10,8 +10,8 @@ const SelectMenu = () => {
     const { lunches, refetch: refetchLunch } = useBookings();
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(false);
-    console.log(menu)
-    console.log(lunches.menu)
+    // console.log(menu)
+    // console.log(lunches.menu)
 
     const {
         register ,
