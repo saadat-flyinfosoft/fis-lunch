@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useUsers from "../../../Hooks/useUsers";
+import useBookings from "../../../Hooks/useBookings";
 
 
 
@@ -15,8 +16,9 @@ const Header = () => {
 
     const { user, loading, googleLogin, logOut } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
-    const { users } = useUsers();
+    const { users, refetch } = useUsers();
     const [localUser, setLocalUser] = useState(null);
+    const { lunches, refetch: refetchLunches } = useBookings()
 
     console.log('localUser', localUser?.displayName, localUser?.email);
 
@@ -51,6 +53,8 @@ const Header = () => {
                     }
                     console.log('data==', data);
                     if (user) {
+                        refetch();
+                        refetchLunches()
                         Swal.fire({
                             position: "top-center",
                             icon: "success",

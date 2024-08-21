@@ -200,15 +200,18 @@ const Page = () => {
                   {...registerAdd("menu", { required: true })}
                 />
               </div>
-              {errorsAdd.menu && (
-                <span className="text-red-400">*Field is required</span>
-              )}
+              
               <button
                 type="submit"
                 className="border w-16 border-white bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
               >
                 Add
               </button>
+              <div className="flex items-center">
+                {errorsAdd.menu && (
+                  <span className="text-red-400">*Field is required</span>
+                )}
+              </div>
             </div>
           </form>
         </div>

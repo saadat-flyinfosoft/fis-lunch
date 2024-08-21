@@ -6,8 +6,8 @@ import Priority from '../Priority/Priority';
 import SelectMenu from '../SelectMenu/SelectMenu';
 import useUsers from '../../../Hooks/useUsers';
 import { AuthContext } from '../AuthProvider/AuthProvider';
-import useMenu from '@/Hooks/useMenu';
-import useAxiosPublic from '@/Hooks/useAxiosPublic';
+import useMenu from '../../../Hooks/useMenu';
+import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
 
 const Hero = () => {
@@ -26,10 +26,10 @@ const Hero = () => {
         const adminUser = users.some(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
         setIsAdmin(adminUser);
         refetch()
-        console.log('clg')
+        // console.log('clg')
     }, [users, user]);
 
-    console.log(isAdmin)
+    // console.log(isAdmin)
 
     const memoizedLunches = useMemo(() => {
         return lunches?.data?.map((lunch, index) => (
