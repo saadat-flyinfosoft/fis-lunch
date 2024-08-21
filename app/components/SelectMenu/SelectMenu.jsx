@@ -29,6 +29,28 @@ const SelectMenu = () => {
          document.getElementById("my_modal_select_menu").close();
       };
 
+      const handleDeleteMenu = async (menuItem) => {
+        if (menuItem) {
+          try {
+            setLoading(true);
+            await axiosPublic.delete('/menutoday', {
+              data: { menu: menuItem },
+            });
+            refetchLunch();
+            refetch();
+
+            setTimeout(() => {
+              setLoading(false)
+            }, 2000);
+
+          } 
+          catch (error) {
+            console.error('Error deleting menu item:', error);
+            setLoading(false);
+          }
+        }
+      };
+
     const handleMenuSubmit =  async(menu) => {
         setLoading(true);
 
@@ -76,6 +98,7 @@ const SelectMenu = () => {
                     ))}
                   </select>
                 </div>
+
                 <button
                 type="submit" disabled={loading}
                 className="border w-16 shadow border-white bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
@@ -93,22 +116,28 @@ const SelectMenu = () => {
 
             </form>
               <button onClick={() => handleModalClose()}  className="btn btn-sm  btn-circle btn-ghost absolute right-2 top-2"><span className='text-red-200'>✕</span></button>
-            {/* <div className="modal-action">
-              <form method="dialog">
-                <button className="btn">Close</button>
-              </form>
-            </div> */}
-            <div className='grid grid-cols-2 md:flex justify-center gap-2'>
-                {
-                    lunches.menu?.map((menuName, i) => (
-                        <p className='border px-2 rounded-md flex justify-center text-gray-400' key={i}>
-                            <small>
-                                {menuName}
-                            </small>
-                        </p>
-                    ))
-                }
+            
+              <div className="flex flex-wrap justify-center text-center items-center gap-0">
+             
+              {lunches.menu?.map((menuName, i) => (
+                
+                <p className="flex items-center my-2" key={i}>
+                  
+                    <small className="border w-24 flex justify-center items-center rounded-md text-gray-400 mx-1 text-center">
+                      {menuName}
+                    </small>
+                 
+                  <span
+                    onClick={() => handleDeleteMenu(menuName)}
+                    className="text-red-500 cursor-pointer"
+                  >
+                    ❌
+                  
+                  </span>
+                </p>
+              ))}
             </div>
+
 
           </div>
         </dialog>
