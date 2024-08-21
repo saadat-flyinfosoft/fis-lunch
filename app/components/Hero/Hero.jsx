@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useMemo ,useState} from 'react';
+import React, { useContext, useMemo ,useState, useEffect} from 'react';
 import BookingButton from '../BookingButton/BookingButton';
 import useBookings from '../../../Hooks/useBookings';
 import Priority from '../Priority/Priority';
@@ -19,18 +19,28 @@ const Hero = () => {
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(false);
     
-    const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        // Check if the current user is an admin
+        const adminUser = users.some(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
+        setIsAdmin(adminUser);
+        refetch()
+        console.log('clg')
+    }, [users, user]);
+
     console.log(isAdmin)
-
-
 
     const memoizedLunches = useMemo(() => {
         return lunches?.data?.map((lunch, index) => (
-            <div  key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
-                {lunch?.name}
-                {lunch?.type === 'guest' && (
-                    <span className='rounded-full border px-1 ml-1'>{lunch?.lunchQuantity}</span>
-                )}
+            <div key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
+                <div onClick={ isAdmin? () => handleUpdateMenuModal(lunch) : undefined   } >
+                    {lunch?.name}
+                    {lunch?.type === 'guest' && (
+                        <span className='rounded-full border px-1 ml-1'>{lunch?.lunchQuantity}</span>
+                    )}
+                </div>
+                {isAdmin[0]?.role}
             </div>
         ));
     }, [lunches]);
