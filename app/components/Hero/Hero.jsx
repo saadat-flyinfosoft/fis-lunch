@@ -15,7 +15,7 @@ const Hero = () => {
     const { users,  } = useUsers();
     const {menu, refetch: menuRefetch} = useMenu();
     const { user } = useContext(AuthContext);
-    const [selectUser, setSelectUser] = useState();
+    const [selectUser, setSelectUser] = useState(null);
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(false);
     
