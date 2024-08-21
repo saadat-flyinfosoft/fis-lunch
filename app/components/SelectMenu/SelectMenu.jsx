@@ -101,7 +101,7 @@ const SelectMenu = () => {
 
                 <button
                 type="submit" disabled={loading}
-                className="border w-16 shadow border-white bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
+                className={`${loading? 'border w-16 shadow border-red-500 bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2' : 'border w-16 shadow border-white bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2'}`}
               >
                 {
 
@@ -123,7 +123,7 @@ const SelectMenu = () => {
                 
                 <p className="flex items-center my-2" key={i}>
                   
-                    <small className="border w-24 flex justify-center items-center rounded-md text-gray-400 mx-1 text-center">
+                    <small className={`${loading? 'border border-red-500 w-24 flex justify-center items-center rounded-md text-gray-400 mx-1 text-center' : 'border w-24 flex justify-center items-center rounded-md text-gray-400 mx-1 text-center'}`}>
                       {menuName}
                     </small>
                  
