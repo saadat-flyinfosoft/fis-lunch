@@ -13,22 +13,18 @@ const Lunches = ({ onRefresh, lunches }) => {
     const [selectedItem, setSelectedItem] = useState('');
 
     const [currentUserData, setCurrentUserData] = useState([]);
-    const [isBooked, setIsBooked] = useState(false);
 
+    
+    const isBooked = lunches.data?.find(lunch => lunch.email === user.email);
     useEffect(() => {
-        if (users || user) {
-            const filteredUserData = users.filter(currentUser => currentUser.email === user.email);
-            setCurrentUserData(filteredUserData);
-        }
+       
+        const filteredUserData = users.filter(currentUser => currentUser.email === user.email);
+        setCurrentUserData(filteredUserData);
 
-        if (lunches || user) {
-            const booked = lunches.data?.find(lunch => lunch.email === user.email);
-            setIsBooked(booked);
-        }
-    }, [users, user, lunches]);
+    }, [user]);
 
-    console.log(currentUserData[0]?.status)
-    console.log(isBooked)
+    // console.log(currentUserData[0]?.status)
+    // console.log(isBooked)
 
     const handleBtnErr = () => {
         Swal.fire({
