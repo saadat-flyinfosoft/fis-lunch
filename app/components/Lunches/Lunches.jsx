@@ -1,4 +1,4 @@
-import React, { useContext, useState , useEffect} from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
@@ -12,19 +12,8 @@ const Lunches = ({ onRefresh, lunches }) => {
     const { users, refetch } = useUsers();
     const [selectedItem, setSelectedItem] = useState('');
 
-    const [currentUserData, setCurrentUserData] = useState([]);
-
-    
-    const isBooked = lunches.data?.find(lunch => lunch.email === user.email);
-    useEffect(() => {
-       
-        const filteredUserData = users.filter(currentUser => currentUser.email === user.email);
-        setCurrentUserData(filteredUserData);
-
-    }, [user]);
-
-    // console.log(currentUserData[0]?.status)
-    // console.log(isBooked)
+    const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
+    const isBooked = lunches?.data?.find(lunch => lunch.email === user?.email);
 
     const handleBtnErr = () => {
         Swal.fire({
