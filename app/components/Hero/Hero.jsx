@@ -20,12 +20,13 @@ const Hero = () => {
     const [loading, setLoading] = useState(false);
     
     const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
+    console.log(isAdmin)
 
 
 
     const memoizedLunches = useMemo(() => {
         return lunches?.data?.map((lunch, index) => (
-            <div onClick={isAdmin ? () => handleUpdateMenuModal(lunch) : undefined} key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
+            <div  key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
                 {lunch?.name}
                 {lunch?.type === 'guest' && (
                     <span className='rounded-full border px-1 ml-1'>{lunch?.lunchQuantity}</span>
