@@ -204,6 +204,10 @@ const Page = () => {
                   </span>
                 )}
                 <p>Booked By : <span>{menu.bookBy}</span></p>
+                {
+                  menu?.forceUpdateMenu &&
+                  <p>Force Update Menu : {menu.forceUpdateMenu}</p>
+                }
                 <p><span>{menu.date}</span></p>
               </div>
             ))}
