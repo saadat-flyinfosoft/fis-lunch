@@ -24,7 +24,7 @@ const Page = () => {
   const [downloadByDate, setDownloadByDate] = useState(null);
   const memoizeDays = useMemo(() => days, [days]);
 
-  console.log(days)
+  // console.log(days)
 
   const isAdmin = useMemo(() => {
     return users.filter(
