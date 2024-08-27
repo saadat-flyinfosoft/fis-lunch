@@ -29,7 +29,7 @@ const Page = () => {
 
     // const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
 
-    // console.log(isAdmin?.[0]?.name);
+    console.log(isAdmin?.[0]?.name);
 
 
     const handleBookForUser = async (name, email) => {
@@ -40,11 +40,12 @@ const Page = () => {
             email:  email,
             date: moment().format('M/D/YYYY, h:mm:ss A'),
             bookBy: 'admin',
+            adminName: isAdmin?.[0]?.name,
             type: 'user',
             lunchQuantity: 1,
             selectedMenu: selectedItem
         };
-        // console.log(data)
+        console.log(data)
 
 
         const { value: selectedMenuItem } = await Swal.fire({

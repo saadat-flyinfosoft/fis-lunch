@@ -200,15 +200,18 @@ const Page = () => {
                   <span className="text-yellow-100">
                     <p>Lunch Quantity : {menu.lunchQuantity}</p>
                     <p>Note : {menu.note}</p>
-                    <p>Modified : {menu.modifiedCount}</p>
+                    <p>Modified : {menu?.modifiedCount? menu.modifiedCount : 0} time</p>
                   </span>
                 )}
-                <p>Booked By : <span>{menu.bookBy}</span></p>
+                <p>Booked By : <span>{menu?.bookBy}</span></p>
                 {
                   menu?.forceUpdateMenu &&
                   <p>Force Update Menu : {menu.forceUpdateMenu}</p>
                 }
-                <p><span>{menu.date}</span></p>
+                { menu?.adminName &&
+                  <p><span>Admin name: {menu?.adminName}</span></p>
+                }
+                <p><span>{menu?.date}</span></p>
               </div>
             ))}
           </ul>
