@@ -39,7 +39,7 @@ const Header = () => {
         if (!user) {
             googleLogin()
 
-                .then(result => {
+                .then(async(result) => {
                     const user = result.user;
                     setLocalUser(user);
                     console.log('user:', user);
@@ -48,8 +48,8 @@ const Header = () => {
                         name: user.displayName,
                         email: user.email,
                         status: 'pending',
-                        role: 'user'
-                        // date: new Date().toLocaleString()
+                        role: 'user',
+                        date: new Date().toLocaleString()
                     }
                     console.log('data==', data);
                     if (user) {
@@ -65,7 +65,8 @@ const Header = () => {
                     }
 
                     // post req to save data to DB 
-                    axiosPublic.post(`/users`, data)
+                    await axiosPublic.post(`/users`, data)
+                    console.log('first')
                         .then(res => {
                             console.log(res.data);
 
