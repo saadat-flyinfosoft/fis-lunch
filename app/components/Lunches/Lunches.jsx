@@ -39,7 +39,7 @@ const Lunches = ({ onRefresh, lunches }) => {
     // console.log(formattedDate)
 
     const handleBtn = async () => {
-        
+        await onRefresh();
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
         const currentMinutes = currentTime.getMinutes();
@@ -128,7 +128,6 @@ const Lunches = ({ onRefresh, lunches }) => {
         
         });
         
-        await onRefresh();
         
 
         if (selectedMenuItem) {

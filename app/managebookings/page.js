@@ -56,7 +56,7 @@ const Page = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, Book Lunch!",
-            timer: 10000,
+            // timer: 10000,
             html: `
             <div>
                 <select id="menuSelect">
