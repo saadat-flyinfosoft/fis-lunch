@@ -92,10 +92,10 @@ const Page = () => {
     return memoizeDays.map((item) => (
       <div className="" key={item._id}>
         
-        <div className="block bg-slate-500 m-1 gap-1 border md:flex items-center">
+        <div className="block bg-slate-600 m-1 gap-1 border mt-2 p-2 border-slate-500 md:flex items-center hover:bg-slate-100 hover:p-2 hover:cursor-pointer">
           <div className="tooltip" data-tip="view detail">
             <p
-              className="bg-slate-700 w-32 justify-center rounded p-1 m-1 gap-1 flex  cursor-pointer hover:bg-blue-600 " 
+              className="bg-slate-700 w-auto justify-center rounded p-1 m-1 gap-1 flex  cursor-pointer hover:bg-blue-600 " 
               onClick={() => handleOpenModal(item)}
             >
               <button className=" text-xs">🗨️</button>
@@ -106,14 +106,14 @@ const Page = () => {
             </p>
 
             {/* menu  */}
-            {showMenu && <p>{item.menu?.map((todaysMenu,i)=> <p className="m-1 text-xs flex" key={i}>{todaysMenu}</p>)}</p>}
+            {showMenu && <p>{item.menu?.map((todaysMenu,i)=> <p className="m-1 text-sm text-slate-400 flex" key={i}>{i+1}. {todaysMenu}</p>)}</p>}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1 bg-slate-00 w-full ">
             {item.data.map((names, i) => (
               <div
                 key={i}
-                className={`bg-slate-0 text-center bg-gray-100 text-black rounded text-xs p-1 m-1 ${
-                  names?.bookBy === "admin" ? "bg-yellow-100" : ""
+                className={`bg-slate-0 text-center bg-slate-300 text-black rounded text-xs p-1 m-1 ${
+                  names?.bookBy === "admin" ? "bg-yellow-200" : ""
                 }`}
               >
                 <div className="">
@@ -126,7 +126,7 @@ const Page = () => {
                   <br />
                   {
                     showMenu &&
-                    <span className="text-10px text-gray-500">
+                    <span className="text-10px text-slate-500">
                     {names?.selectedMenu}
                   </span>
                   }

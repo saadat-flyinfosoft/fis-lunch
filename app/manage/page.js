@@ -33,12 +33,12 @@ const Page = () => {
 
                     <label htmlFor="my-drawer-2" className="drawer-button">
 
-                        <IoMdMenu className='text-xl m-2 text-black hover:cursor-pointer hover:text-red-500 mr-2'></IoMdMenu></label>
+                        <IoMdMenu className='text-xl m-2  hover:cursor-pointer hover:text-red-500 mr-2'></IoMdMenu></label>
 
                 </div>
                 <div className="drawer-side">
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content gap-2">
+                    <ul className="menu p-4 w-80 min-h-full text-base-content gap-2">
                         <h1 className="text-xl text-center font-bold">Admin Dashboard
                             <span className='text-xs font-normal'>
                                 <p>Email: {currentUserData[0]?.email}
