@@ -197,13 +197,13 @@ const Page = () => {
 
         user && isAdmin.length ?
             <div className='flex flex-col md:flex-row'>
-                <div className='bg-transparent md:w-1/4'>
+                <div className='bg-transparent  '>
                     <Manage></Manage>
                 </div>
-                <div className='bg-blue-500 px-1 md:px-12 p-4 w-full'>
+                <div className='bg-slate-500 px-1 md:px-12 p-4 w-full'>
                     {/* <Priority></Priority> */}
                     <h2 className='font-bold mb-4'>Manage Bookings ({users.length})</h2>
-                    <div className='border my-1 p-2'>
+                    <div className='border border-slate-600 bg-slate-600 my-1 p-2'>
                         {/* Form for handling bookings for guests */}
                         <form className='block' onSubmit={handleSubmit(handleBookForGuest)}>
                             <div className='block md:flex mb-2'>
@@ -247,7 +247,7 @@ const Page = () => {
                                         defaultValue={guestData?.[0]?.lunchQuantity || ''}
                                         type="number"
                                         min="1"
-                                        className='w-full md:w-96 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
+                                        className='w-full md:w-96 p-1 rounded text-center bg-slate-200 text-black border border-slate-500 focus:outline-none'
                                         {...register('lunchQuantity', { required: true, min: 1 })}
                                     />
                                 </div>
@@ -257,14 +257,14 @@ const Page = () => {
                                 guestData?.length ?
                                     <button
                                         type="submit"
-                                        className="border border-white bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
+                                        className="border border-slate-600  bg-slate-500 hover:bg-slate-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
                                     >
                                         Update Lunch
                                     </button>
                                     :
                                     <button
                                         type="submit"
-                                        className="border border-white bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
+                                        className="border border-slate-500 bg-slate-500 hover:bg-slate-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
                                     >
                                         Book Lunch
                                     </button>
@@ -277,7 +277,7 @@ const Page = () => {
 
 
                     {users.map((user, j) => (
-                        <div className='block md:flex border my-1 p-2' key={j}>
+                        <div className='block md:flex border border-slate-600 bg-slate-600 my-1 p-2' key={j}>
                             <div>
                                 <div className='my-2'>
                                     <h2>Name: {user?.name}</h2>
@@ -288,14 +288,14 @@ const Page = () => {
                                     user?.role === 'guest' ?
                                         <button
 
-                                            className="border border-blue-700 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                            className="border border-slate-600 bg-slate-500 hover:bg-slate-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
                                         >
                                             Book Lunch
                                         </button>
                                         :
                                         <button
                                             onClick={() => handleBookForUser(user.name, user.email)}
-                                            className="border border-blue-700 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                            className="border border-slate-600   bg-slate-500 hover:bg-slate-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
                                         >
                                             Book Lunch
                                         </button>

@@ -9,6 +9,7 @@ import { AuthContext } from '../AuthProvider/AuthProvider';
 import useMenu from '../../../Hooks/useMenu';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
+import AudioPlayer from '../Audio/AudioPlay';
 
 const Hero = () => {
     const { lunches, refetch } = useBookings();
@@ -188,6 +189,7 @@ const Hero = () => {
             </div>
 
             <h1 className="text-2xl font-bold z-10 pl">FlyInfoSoft Lunch Manager</h1>
+            {/* <AudioPlayer/> */}
 
             <div className="mt-4 z-10 flex flex-col items-center">
                 <BookingButton loadedLunches={lunches} onRefresh={refetch} />

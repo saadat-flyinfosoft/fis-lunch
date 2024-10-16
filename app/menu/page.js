@@ -146,10 +146,10 @@ const Page = () => {
 
   return user && isAdmin.length ? (
     <div className="flex flex-col md:flex-row">
-      <div className="bg-transparent md:w-1/4">
+      <div className="bg-transparent ">
         <Manage />
       </div>
-      <div className="bg-blue-500 px-1 md:px-12 p-4 w-full ">
+      <div className="bg-slate-500 px-1 md:px-12 p-4 w-full ">
         {/* Modal for editing menu */}
         <dialog id="my_modal_5" className="modal modal-center sm:modal-middle">
           <div className="modal-box ">
@@ -187,7 +187,7 @@ const Page = () => {
         </dialog>
 
         <h2 className="font-bold mb-4">Manage Menu ({menu?.length})</h2>
-        <div className="border my-1 p-2">
+        <div className="border border-slate-600 bg-slate-600 my-1 p-2">
           {/* Form for adding a new menu */}
           <form className="block" onSubmit={handleSubmitAdd(handleAddMenu)}>
             <div className="block md:flex mb-2">
@@ -217,7 +217,7 @@ const Page = () => {
         </div>
 
         {menu.map((menuSingle, j) => (
-          <div className="block md:flex border my-1 p-2" key={j}>
+          <div className="block md:flex border border-slate-600 bg-slate-600 my-1 p-2" key={j}>
             <div>
               <div className="my-2 mr-1">
                 <h2>
@@ -226,13 +226,13 @@ const Page = () => {
               </div>
               <button
                 onClick={() => handleEdit(menuSingle)}
-                className="border w-[80px] border-green-700 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                className="border w-[80px] border-slate-500 bg-slate-600 hover:bg-green-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
               >
                 Edit
               </button>
               <button
                 onClick={() => handleDelete(menuSingle._id)}
-                className="border w-[70px] border-red-700 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                className="border w-[70px] border-slate-500 bg-slate-600 hover:bg-red-700 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
               >
                 Delete
               </button>

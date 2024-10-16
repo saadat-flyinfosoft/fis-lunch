@@ -36,7 +36,9 @@ const Page = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axiosPublic.patch(`/usertoadmin/${id}`)
+                axiosPublic.patch(`/usertoadmin/${id}`,{
+                    isAdmin: isAdmin? isAdmin : ''
+                })
                     .then(res => {
                         if (res.data) {
 
@@ -138,13 +140,13 @@ const Page = () => {
 
         user && isAdmin.length ?
             <div className='flex flex-col md:flex-row'>
-                <div className='bg-transparent md:w-1/4'>
+                <div className='bg-transparent'>
                     <Manage></Manage>
                 </div>
-                <div className='bg-blue-500 px-1 md:px-12 p-4 w-full'>
+                <div className='bg-slate-500 px-1 md:px-12 p-4 w-full'>
                     <h2 className='font-bold'>Manage Users ({users.length})</h2>
                     {users.map((user, j) => (
-                        <div className=' border my-1 p-2' key={j}>
+                        <div className=' border border-slate-600 bg-slate-600 my-1 p-2' key={j}>
                             <div className='my-2'>
                                 <h2>Name: {user?.name}</h2>
                                 <p>Email: {user?.email}</p>
@@ -154,14 +156,14 @@ const Page = () => {
 
                                     <button
 
-                                        className="border w-[80px] border-blue-700 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                        className="border w-[80px] border-slate-500 bg-slate-500 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
                                     >
                                         Admin
                                     </button>
                                     :
                                     <button
                                         onClick={() => handleAdmin(user._id)}
-                                        className="border w-[80px] border-blue-700 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                        className="border w-[80px] border-slate-500 bg-slate-500 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
                                     >
                                         User
                                     </button>
@@ -172,14 +174,14 @@ const Page = () => {
 
                                     <button
                                         onClick={() => handlePending(user._id)}
-                                        className="border w-[80px] border-green-700 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                        className="border w-[80px] border-slate-500 bg-slate-500 hover:bg-slate-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
                                     >
                                         Pending
                                     </button>
                                     :
                                     <button
 
-                                        className="border w-[80px] border-green-700 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                        className="border w-[80px] border-slate-500 bg-slate-500 hover:bg-slate-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
                                     >
                                         Approved
                                     </button>
@@ -187,7 +189,7 @@ const Page = () => {
 
                             <button
                                 onClick={() => handleDelete(user._id)}
-                                className="border w-[70px] border-red-700 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                className="border w-[70px] border-slate-500 bg-slate-500 hover:bg-red-700 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
                             >
                                 Delete
                             </button>

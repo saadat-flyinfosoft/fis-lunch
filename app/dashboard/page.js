@@ -92,15 +92,15 @@ const Page = () => {
     return memoizeDays.map((item) => (
       <div className="" key={item._id}>
         
-        <div className="block bg-blue-500 m-1 gap-1 border md:flex items-center">
+        <div className="block bg-slate-500 m-1 gap-1 border md:flex items-center">
           <div className="tooltip" data-tip="view detail">
             <p
-              className="bg-blue-700 w-32 justify-center rounded p-1 m-1 gap-1 flex  cursor-pointer hover:bg-blue-600 " 
+              className="bg-slate-700 w-32 justify-center rounded p-1 m-1 gap-1 flex  cursor-pointer hover:bg-blue-600 " 
               onClick={() => handleOpenModal(item)}
             >
               <button className=" text-xs">🗨️</button>
               {item.date}
-              <span className="px-2 text-sm flex items-center bg-blue-500 rounded-full">
+              <span className="px-2 text-sm flex items-center bg-slate-500 rounded-full">
                 {getGuestCount(item.data) + getUserCount(item.data)}
               </span>
             </p>
@@ -146,7 +146,7 @@ const Page = () => {
       <div className="bg-transparent z-10">
         <Manage />
       </div>
-      <div className="bg-blue-500 px-1 md:px-12 p-4 w-full">
+      <div className="bg-slate-600 px-1 md:px-12 p-4 w-full">
         <h2 className="text-xl font-bold my-4">Dashboard</h2>
         
         <XlsxDownloadButton 
