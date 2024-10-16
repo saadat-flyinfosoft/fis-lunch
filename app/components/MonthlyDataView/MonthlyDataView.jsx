@@ -68,7 +68,7 @@ const MonthlyDataView = ({ data,date }) => {
 
         <tbody>
           {approvedUsers.map((user, i) => (
-            <tr className='hover:bg-blue-400' key={i}>
+            <tr className='hover:bg-slate-300' key={i}>
               <td className=" p-2 capitalize flex justify-between">
                 <span>{user.name}</span>
                 <span className='cursor-pointer hover:font-semibold p-1'>

@@ -25,7 +25,7 @@ const Page = () => {
     return (
 
         isAdmin ?
-            <div className="drawer lg:drawer-open bg-slate-850 w-full">
+            <div className="drawer lg:drawer-open bg-slate-850 w-full ">
 
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content flex flex-col items-end p-2 justify-center lg:hidden">
@@ -36,9 +36,9 @@ const Page = () => {
                         <IoMdMenu className='text-xl m-2  hover:cursor-pointer hover:text-red-500 mr-2'></IoMdMenu></label>
 
                 </div>
-                <div className="drawer-side">
+                <div className="drawer-side ">
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 min-h-full text-base-content gap-2">
+                    <ul className="menu p-4 w-80 min-h-full text-base-content gap-2 bg-black">
                         <h1 className="text-xl text-center font-bold">Admin Dashboard
                             <span className='text-xs font-normal'>
                                 <p>Email: {currentUserData[0]?.email}
