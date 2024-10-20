@@ -55,13 +55,13 @@ const Header = () => {
                     if (user) {
                         refetch();
                         refetchLunches()
-                        Swal.fire({
-                            position: "top-center",
-                            icon: "success",
-                            title: "Logged-In",
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
+                        // Swal.fire({
+                        //     position: "top-center",
+                        //     icon: "success",
+                        //     title: "Logged-In",
+                        //     showConfirmButton: false,
+                        //     timer: 1000
+                        // });
                     }
 
                             // post req to save data to DB 
@@ -90,7 +90,7 @@ const Header = () => {
                                     imageWidth: 400,
                                     imageHeight: 200,
                                     imageAlt: `${localUser?.displayName}`,
-                                    timer: 40000
+                                    // timer: 40000
                                   });
                             }
 
