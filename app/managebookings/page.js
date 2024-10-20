@@ -257,7 +257,7 @@ const Page = () => {
                                 guestData?.length ?
                                     <button
                                         type="submit"
-                                        className="border border-slate-600  bg-slate-500 hover:bg-slate-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
+                                        className="border border-slate-500  bg-slate-500 hover:bg-slate-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded my-2"
                                     >
                                         Update Lunch
                                     </button>

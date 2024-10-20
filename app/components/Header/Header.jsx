@@ -60,20 +60,39 @@ const Header = () => {
                             icon: "success",
                             title: "Logged-In",
                             showConfirmButton: false,
-                            timer: 1500
+                            timer: 1000
                         });
                     }
 
-                    // post req to save data to DB 
-                    await axiosPublic.post(`/users`, data)
-                    console.log('first')
-                        .then(res => {
+                            // post req to save data to DB 
+                            const res = await axiosPublic.post(`/users`, data)
                             console.log(res.data);
 
                             if (res.data.insertedId) {
                                 console.log('user Inserted to DB');
+                                Swal.fire({
+                                    position: "top-center",
+                                    icon: "success",
+                                    title: "Login Succeed !!",
+                                    text: "Please wait for admin approval",
+                                    // showConfirmButton: false,
+                                    timer: 10000
+                                });
                             }
-                        })
+
+                            if(res.data.message === "already user"){
+                                
+
+                                Swal.fire({
+                                    title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔 Book Now",
+                                    html: `🍇 Welcome Back, </br>🍔 <b>${localUser?.displayName}</b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
+                                    imageUrl: `${localUser?.photoURL}`,
+                                    imageWidth: 400,
+                                    imageHeight: 200,
+                                    imageAlt: `${localUser?.displayName}`,
+                                    timer: 40000
+                                  });
+                            }
 
                 })
         } else {
