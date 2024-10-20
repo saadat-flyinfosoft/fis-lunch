@@ -55,13 +55,15 @@ const Header = () => {
                     if (user) {
                         refetch();
                         refetchLunches()
-                        // Swal.fire({
-                        //     position: "top-center",
-                        //     icon: "success",
-                        //     title: "Logged-In",
-                        //     showConfirmButton: false,
-                        //     timer: 1000
-                        // });
+                        Swal.fire({
+                            title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔 Book Now",
+                            html: `🍇 Welcome to Lunch Manager, </br>🍔</b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
+                            // imageUrl: `${localUser?.photoURL}`,
+                            imageWidth: 400,
+                            imageHeight: 200,
+                            // imageAlt: `${localUser?.displayName}`,
+                            // timer: 40000
+                          });
                     }
 
                             // post req to save data to DB 
@@ -83,15 +85,15 @@ const Header = () => {
                             if(res.data.message === "already user"){
                                 
 
-                                Swal.fire({
-                                    title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔 Book Now",
-                                    html: `🍇 Welcome Back, </br>🍔 <b>${localUser?.displayName}</b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
-                                    imageUrl: `${localUser?.photoURL}`,
-                                    imageWidth: 400,
-                                    imageHeight: 200,
-                                    imageAlt: `${localUser?.displayName}`,
-                                    // timer: 40000
-                                  });
+                                // Swal.fire({
+                                //     title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔 Book Now",
+                                //     html: `🍇 Welcome Back, </br>🍔</b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
+                                //     // imageUrl: `${localUser?.photoURL}`,
+                                //     imageWidth: 400,
+                                //     imageHeight: 200,
+                                //     // imageAlt: `${localUser?.displayName}`,
+                                //     // timer: 40000
+                                //   });
                             }
 
                 })
