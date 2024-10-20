@@ -57,12 +57,12 @@ const Header = () => {
                         refetchLunches()
                         Swal.fire({
                             title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔 Book Now",
-                            html: `🍇 Welcome to Lunch Manager, </br>🍔</b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
+                            html: `🍇 Welcome to Lunch Manager, </br></b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
                             // imageUrl: `${localUser?.photoURL}`,
                             imageWidth: 400,
                             imageHeight: 200,
                             // imageAlt: `${localUser?.displayName}`,
-                            // timer: 40000
+                            timer: 10000
                           });
                     }
 
@@ -86,7 +86,7 @@ const Header = () => {
                                 
 
                                 // Swal.fire({
-                                //     title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔 Book Now",
+                                //     title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔= Book Now",
                                 //     html: `🍇 Welcome Back, </br>🍔</b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
                                 //     // imageUrl: `${localUser?.photoURL}`,
                                 //     imageWidth: 400,
