@@ -161,7 +161,7 @@ const Hero = () => {
     
         try {
             const response = await axiosPublic.delete(`/lunch/cancel`, {
-                data: { email: email, admin: 1 }
+                data: { email: email, admin: user?.email }
             });
             refetch();
 
