@@ -164,27 +164,6 @@ const Lunches = ({ onRefresh, lunches }) => {
             return;
         }
     
-        const currentTime = new Date();
-        const currentHour = currentTime.getHours();
-        const currentMinutes = currentTime.getMinutes();
-    
-        const endHour = 12;
-        const endMinutes = 30;
-    
-        console.log(currentTime, currentHour, currentMinutes);
-    
-        // Check if the current time is outside the allowed cancellation window
-        if (currentHour > endHour || (currentHour === endHour && currentMinutes > endMinutes)) {
-            onRefresh();
-            Swal.fire({
-                title: "Cancel Not Available!",
-                text: "You can only cancel bookings before 12:30 PM.",
-                icon: "warning",
-                timer: 8000
-            });
-            return;
-        }
-    
         Swal.fire({
             title: "Cancel Your Booking?",
             text:  `Selected Menu: [${isBooked?.selectedMenu}]`,
@@ -201,6 +180,7 @@ const Lunches = ({ onRefresh, lunches }) => {
                         data: { email: email }
                     });
             
+                    console.log(response.data)
                     if (response.data.message === 'Booking cancelled successfully') {
                         onRefresh();
                         Swal.fire({
@@ -215,7 +195,7 @@ const Lunches = ({ onRefresh, lunches }) => {
                         title: "Error",
                         text: error.response?.data?.message || "Failed to cancel booking.",
                         icon: "error",
-                        timer: 2000
+                        timer: 5000
                     });
                 }
 
