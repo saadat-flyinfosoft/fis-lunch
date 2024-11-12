@@ -14,6 +14,7 @@ const Lunches = ({ onRefresh, lunches }) => {
 
     const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
     const isBooked = lunches?.data?.find(lunch => lunch.email === user?.email);
+    // console.log(isBooked)
 
     const handleBtnErr = () => {
         Swal.fire({
@@ -53,7 +54,7 @@ const Lunches = ({ onRefresh, lunches }) => {
             lunchQuantity: 1,
             selectedMenu: selectedItem
         };
-        console.log(data)
+        // console.log(data)
 
         const startHour = 8;
         const endHour = 11;
@@ -158,24 +159,100 @@ const Lunches = ({ onRefresh, lunches }) => {
         }
     };
 
+    const handleCancel = async (email) => {
+        if (!email) {
+            return;
+        }
+    
+        const currentTime = new Date();
+        const currentHour = currentTime.getHours();
+        const currentMinutes = currentTime.getMinutes();
+    
+        const endHour = 12;
+        const endMinutes = 30;
+    
+        console.log(currentTime, currentHour, currentMinutes);
+    
+        // Check if the current time is outside the allowed cancellation window
+        if (currentHour > endHour || (currentHour === endHour && currentMinutes > endMinutes)) {
+            onRefresh();
+            Swal.fire({
+                title: "Cancel Not Available!",
+                text: "You can only cancel bookings before 12:30 AM.",
+                icon: "warning",
+                timer: 8000
+            });
+            return;
+        }
+    
+        Swal.fire({
+            title: "Cancel Your Booking?",
+            text:  `Selected Menu: [${isBooked?.selectedMenu}]`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Cancel it!"
+          }).then(async(result) => {
+            if (result.isConfirmed) {
+              
+                try {
+                    const response = await axiosPublic.delete(`/lunch/cancel`, {
+                        data: { email: email }
+                    });
+            
+                    if (response.data.message === 'Booking cancelled successfully') {
+                        onRefresh();
+                        Swal.fire({
+                            title: "Cancelled",
+                            text: "Your booking has been cancelled.",
+                            icon: "success",
+                            timer: 2000
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        title: "Error",
+                        text: error.response?.data?.message || "Failed to cancel booking.",
+                        icon: "error",
+                        timer: 2000
+                    });
+                }
+
+            }
+          });
+        
+    };
+
     return (
         <div>
-            {currentUserData[0]?.status === 'approve' &&
-                <button disabled={isBooked} className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
-                onClick={() => handleBtn()}>
-                    {isBooked? 'Confirmed' : 'Book Now'}
+            {currentUserData[0]?.status === 'approve' && (
+                isBooked ? (
+                    <>
+                        <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
+                                onClick={() => handleCancel(currentUserData[0]?.email)}>
+                            Cancel
+                        </button>
+                    </>
+                ) : (
+                    <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
+                            onClick={handleBtn}>
+                        Book Now
+                    </button>
+                )
+            )}
+            {currentUserData[0]?.status === 'pending' && (
+                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
+                        onClick={handleBtnWait}>
+                    Book Now ⏳
                 </button>
-            }
-            {currentUserData[0]?.status === 'pending' &&
-                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnWait()}>
-                    Book Now⏳
-                </button>
-            }
-            {!user &&
-                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' onClick={() => handleBtnErr()}>
+            )}
+            {!user && (
+                <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
+                        onClick={handleBtnErr}>
                     Book Now
                 </button>
-            }
+            )}
         </div>
     );
 };

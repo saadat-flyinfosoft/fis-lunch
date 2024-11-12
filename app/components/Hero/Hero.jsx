@@ -148,10 +148,39 @@ const Hero = () => {
                 });
 
     };
+
+    const handleCancel = async (email) => {
+        setLoading(true);
+        if (!email) {
+            return;
+        }
+
+        const currentTime = new Date();
+        const currentHour = currentTime.getHours();
+        const currentMinutes = currentTime.getMinutes();
+    
+        try {
+            const response = await axiosPublic.delete(`/lunch/cancel`, {
+                data: { email: email }
+            });
+            refetch();
+
+            if (response.data.message === 'Booking cancelled successfully') {
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error)
+            setLoading(false);
+            Swal.fire({
+                title: "Error",
+                text: error.response?.data?.message || "Failed to cancel booking.",
+                icon: "error",
+                timer: 5000
+            });
+        }
+        
+    };
       
-      
-  
-  
   
 //   console.log(menuCounts);
 //   console.log(lunches)
@@ -222,10 +251,14 @@ const Hero = () => {
                             <div className='mt-12'>
                                 {
                                         lunches.data?.map((user, i) => (
-                                            <p className='border px-2 rounded-md flex justify-center text-gray-400 mt-1' key={i}>
+                                            <p
+                                                className={`px-2 rounded-md flex justify-center text-gray-400 mt-1 ${loading ? 'bg-red-800 text-white' : 'border'}`}
+                                                key={i}
+                                            >
                                                 <div className='flex flex-col items-center text-lg'>
                                                     <small>
-                                                        <span className='text-xs md:text-sm'>({i+1}). {user.name}</span>{user.type === 'guest'&& <>({user.lunchQuantity})</> } <span className='font-bold'>:</span> <span className='uppercas'>{user.selectedMenu} </span>
+                                                        <span className='text-xs md:text-sm'>({i+1}). {user.name}</span>{user.type === 'guest'&& <>({user.lunchQuantity})</> } <span className='font-bold'>:</span> <span className='uppercas'>{user.selectedMenu} </span> 
+                                                        {isAdmin && <span className='hover:cursor-pointer hover:bg-slate-200 m-1' onClick={()=>handleCancel(user.email)}>❌</span>}
                                                     </small>
                                                 </div>
                                             </p>
@@ -239,51 +272,51 @@ const Hero = () => {
                     <div>
                 
                 <dialog id="my_modal_select_update_menu" className="modal modal-center sm:modal-middle">
-            <div className="modal-box ">
-                <form className="block ">
-                <div className="block md:flex m-2">
-                    
-                    <div className="block   items-center mx-auto">
-                    <div className=" mx-auto">
-                        <p>Force update menu for </p> 
-                        <p className="text-red-500">{selectUser?.name}</p>
-                        <small className="text-gray-200 font-light">( Currently selected - {selectUser?.selectedMenu} )</small>
-                    </div>
-                    <select
-                     onChange={handleMenuChange} 
-                        className="w-full md:w-56 p-1 rounded block text-center my-2 bg-slate-200 text-black border border-white focus:outline-none"
-                    >
-                        <option value="">Select Menu </option>
-                        {menu.map((item, index) => (
-                        <option key={index} value={item?.menu}>
-                            {item?.menu}
-                        </option>
-                        ))}
-                    </select>
-                    <button
-                        disabled={!selectUser?.selectedMenu}
-                        type="button"
-                        onClick={(e) => handleUpdateMenu(e)}
-                        className="border w-16 shadow border-red-500 bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
-                        >
-                           {
-                            loading ? '🫘' : '✓'
-                            }
-                    </button>
+                    <div className="modal-box ">
+                        <form className="block ">
+                        <div className="block md:flex m-2">
+                            
+                            <div className="block   items-center mx-auto">
+                            <div className=" mx-auto">
+                                <p>Force update menu for </p> 
+                                <p className="text-red-500">{selectUser?.name}</p>
+                                <small className="text-gray-200 font-light">( Currently selected - {selectUser?.selectedMenu} )</small>
+                            </div>
+                            <select
+                            onChange={handleMenuChange} 
+                                className="w-full md:w-56 p-1 rounded block text-center my-2 bg-slate-200 text-black border border-white focus:outline-none"
+                            >
+                                <option value="">Select Menu </option>
+                                {menu.map((item, index) => (
+                                <option key={index} value={item?.menu}>
+                                    {item?.menu}
+                                </option>
+                                ))}
+                            </select>
+                            <button
+                                disabled={!selectUser?.selectedMenu}
+                                type="button"
+                                onClick={(e) => handleUpdateMenu(e)}
+                                className="border w-16 shadow border-red-500 bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2"
+                                >
+                                {
+                                    loading ? '🫘' : '✓'
+                                    }
+                            </button>
+                                </div>
+
+                            
+                            {/* {errors.menu && (
+                            <span className="text-red-400">*Field is required</span>
+                            )} */}
+                            
                         </div>
 
-                    
-                    {/* {errors.menu && (
-                    <span className="text-red-400">*Field is required</span>
-                    )} */}
-                    
-                </div>
+                        </form>
+                        <button onClick={() => handleModalClose()}  className="btn btn-sm  btn-circle btn-ghost absolute right-2 top-2"><span className='text-red-200'>✕</span></button>
+                        
 
-                </form>
-                <button onClick={() => handleModalClose()}  className="btn btn-sm  btn-circle btn-ghost absolute right-2 top-2"><span className='text-red-200'>✕</span></button>
-                
-
-            </div>
+                    </div>
             </dialog>
             </div>
             </div>
