@@ -258,7 +258,7 @@ const Hero = () => {
                                                 <div className='flex flex-col items-center text-lg'>
                                                     <small>
                                                         <span className='text-xs md:text-sm'>({i+1}). {user.name}</span>{user.type === 'guest'&& <>({user.lunchQuantity})</> } <span className='font-bold'>:</span> <span className='uppercas'>{user.selectedMenu} </span> 
-                                                        {isAdmin && <span className='hover:cursor-pointer hover:bg-slate-200 m-1' onClick={()=>handleCancel(user.email)}>❌</span>}
+                                                        {isAdmin && <span data-tip="Click to Cancel Booking" className='tooltip hover:cursor-pointer hover:bg-slate-200 m-1' onClick={()=>handleCancel(user.email)}>❌</span>}
                                                     </small>
                                                 </div>
                                             </p>
