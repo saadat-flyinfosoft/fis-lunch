@@ -161,7 +161,7 @@ const Hero = () => {
     
         try {
             const response = await axiosPublic.delete(`/lunch/cancel`, {
-                data: { email: email }
+                data: { email: email, admin: 1 }
             });
             refetch();
 
@@ -171,12 +171,12 @@ const Hero = () => {
         } catch (error) {
             console.log(error)
             setLoading(false);
-            Swal.fire({
-                title: "Error",
-                text: error.response?.data?.message || "Failed to cancel booking.",
-                icon: "error",
-                timer: 5000
-            });
+            // Swal.fire({
+            //     title: "Error",
+            //     text: error.response?.data?.message || "Failed to cancel booking.",
+            //     icon: "error",
+            //     timer: 5000
+            // });
         }
         
     };
