@@ -178,7 +178,7 @@ const Lunches = ({ onRefresh, lunches }) => {
             onRefresh();
             Swal.fire({
                 title: "Cancel Not Available!",
-                text: "You can only cancel bookings before 12:30 AM.",
+                text: "You can only cancel bookings before 12:30 PM.",
                 icon: "warning",
                 timer: 8000
             });
