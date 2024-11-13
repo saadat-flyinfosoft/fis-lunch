@@ -156,7 +156,7 @@ const Page = () => {
 
                                     <button
 
-                                        className="border w-[80px] border-slate-500 bg-slate-500 hover:bg-blue-800 text-white text-sm font-semibold py-1 px-2 mr-2 rounded"
+                                        className={`border w-[80px] border-slate-500 bg-slate-500 hover:bg-blue-800 ${user.super? 'text-yellow-100' : ''} text-white text-sm font-semibold py-1 px-2 mr-2 rounded`}
                                     >
                                         Admin
                                     </button>
