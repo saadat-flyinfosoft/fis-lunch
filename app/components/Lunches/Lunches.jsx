@@ -165,7 +165,7 @@ const Lunches = ({ onRefresh, lunches }) => {
         }
     
         Swal.fire({
-            title: "Cancellation available until 12:30 PM.",
+            title: "Cancel Before 12:30 PM !",
             text:  `Selected Menu: [${isBooked?.selectedMenu}]`,
             icon: "warning",
             showCancelButton: true,
