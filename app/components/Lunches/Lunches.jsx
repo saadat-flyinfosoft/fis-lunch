@@ -209,7 +209,7 @@ const Lunches = ({ onRefresh, lunches }) => {
             {currentUserData[0]?.status === 'approve' && (
                 isBooked ? (
                     <>
-                        <button className='bg-blue-700 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
+                        <button className='bg-red-500 mr-1 border rounded border-white hover:border-transparent text-white font-bold py-2 px-4' 
                                 onClick={() => handleCancel(currentUserData[0]?.email)}>
                             Cancel
                         </button>
