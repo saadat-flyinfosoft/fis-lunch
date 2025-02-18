@@ -70,7 +70,7 @@ const Page = () => {
                         // `<option value="Common Item">Any Common Item</option>`
                         :
                         `<option value="" disabled selected>Wait, Updating Items...</option> 
-                        <option value="Common Item">Any Common Item</option>`
+                        `
                     }
                 </select>
 

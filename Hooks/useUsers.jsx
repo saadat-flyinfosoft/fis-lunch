@@ -1,55 +1,56 @@
-import { useEffect, useState } from "react";
-import useAxiosPublic from "./useAxiosPublic";
-
+// useUsers
+import useStore from "@/app/store";
+import { useEffect } from "react";
 
 const useUsers = () => {
+    const users = useStore((state) => state.users);
+    const fetchUsers = useStore((state) => state.fetchUsers);
 
-    const [users, setUsers] = useState([]);
-    const axiosPublic = useAxiosPublic();
+    // useEffect(() => {
+    //     if (users.length === 0) {
+    //         fetchUsers();
+    //     }
+    // }, [users, fetchUsers]);
 
-    const fetchUsers = () => {
-        axiosPublic.get('/users')
-            .then(res => {
-                setUsers(res.data);
-            })
-            .catch(error => {
-                console.error('Error fetching users:', error);
-            });
-    };
-
-    useEffect(() => {
-        fetchUsers();
-    }, [axiosPublic]);
-
-    // Refetch function
-    const refetch = () => {
-        fetchUsers();
-    };
-
-    return { users, refetch };
+    return { users, refetch: fetchUsers };
 };
-
 export default useUsers;
 
 
 
 
-// const useUsers = async () => {
 
-//     const result = await fetch('http://localhost:5000/users', {
-//         next: {
-//             revalidate: 10,
-//         }
-//     });
-
-//     if (!result.ok) {
-//         throw new Error('Error on fetching data..')
-//     }
-
-//     return result.json();
+// import { useEffect, useState } from "react";
+// import useAxiosPublic from "./useAxiosPublic";
 
 
+// const useUsers = () => {
 
+//     const [users, setUsers] = useState([]);
+//     const axiosPublic = useAxiosPublic();
+
+//     const fetchUsers = () => {
+//         axiosPublic.get('/users')
+//             .then(res => {
+//                 setUsers(res.data);
+//             })
+//             .catch(error => {
+//                 console.error('Error fetching users:', error);
+//             });
+//     };
+
+//     useEffect(() => {
+//         fetchUsers();
+//     }, [axiosPublic]);
+
+//     // Refetch function
+//     const refetch = () => {
+//         fetchUsers();
+//     };
+
+//     return { users, refetch };
 // };
 
 // export default useUsers;
+
+
