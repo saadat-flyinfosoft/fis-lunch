@@ -42,7 +42,7 @@ const Header = () => {
                 .then(async(result) => {
                     const user = result.user;
                     setLocalUser(user);
-                    console.log('user:', user);
+                    // console.log('user:', user);
 
                     const data = {
                         name: user.displayName,
@@ -51,7 +51,7 @@ const Header = () => {
                         role: 'user',
                         date: new Date().toLocaleString()
                     }
-                    console.log('data==', data);
+                    // console.log('data==', data);
                     if (user) {
                         refetch();
                         refetchLunches()
@@ -68,7 +68,7 @@ const Header = () => {
 
                             // post req to save data to DB 
                             const res = await axiosPublic.post(`/users`, data)
-                            console.log(res.data);
+                            // console.log(res.data);
 
                             if (res.data.insertedId) {
                                 console.log('user Inserted to DB');

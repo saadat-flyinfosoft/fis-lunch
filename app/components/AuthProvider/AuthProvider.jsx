@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
                 setStoreUser(currentUser); // Save the user to Zustand store
             }
 
-            console.log('current user:', currentUser?.displayName, currentUser?.email);
+            // console.log('current user:', currentUser?.displayName, currentUser?.email);
         })
 
         return () => {

@@ -158,7 +158,7 @@ const Page = () => {
             confirmButtonText: "Yes, Book Now!"
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(data);
+                // console.log(data);
 
                 axiosPublic.post(`/lunch`, data)
                     .then(res => {

@@ -19,11 +19,11 @@ const Page = () => {
 
     // const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
 
-    console.log(users.length)
+    // console.log(users.length)
 
 
     const handleAdmin = (id) => {
-        console.log("Item ID to admin:", id);
+        // console.log("Item ID to admin:", id);
         // Perform logic to approve the request using the id
 
         Swal.fire({
@@ -42,7 +42,7 @@ const Page = () => {
                     .then(res => {
                         if (res.data) {
 
-                            console.log('User is admin now');
+                            // console.log('User is admin now');
                             Swal.fire({
                                 position: "top-center",
                                 icon: "success",
@@ -54,7 +54,7 @@ const Page = () => {
 
                         }
                         else {
-                            console.log('user not updating..!');
+                            // console.log('user not updating..!');
                         }
                     })
 
@@ -62,7 +62,7 @@ const Page = () => {
         });
     };
     const handlePending = (id) => {
-        console.log("Item ID to approve:", id);
+        // console.log("Item ID to approve:", id);
         // Perform logic to approve the request using the id
 
         Swal.fire({
@@ -79,7 +79,7 @@ const Page = () => {
                     .then(res => {
                         if (res.data) {
 
-                            console.log('User is approved now');
+                            // console.log('User is approved now');
                             Swal.fire({
                                 position: "top-center",
                                 icon: "success",
@@ -91,7 +91,7 @@ const Page = () => {
 
                         }
                         else {
-                            console.log('user not updating..!');
+                            // console.log('user not updating..!');
                         }
                     })
 
@@ -114,7 +114,7 @@ const Page = () => {
 
                 axiosPublic.delete(`/users/${id}`)
                     .then(res => {
-                        console.log(res.data);
+                        // console.log(res.data);
 
                         if (res.data.deletedCount) {
                             refetch();

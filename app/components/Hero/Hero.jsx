@@ -35,7 +35,6 @@ const Hero = () => {
 
     // console.log( isSuper)
 
-    console.log(user)
 
     const memoizedLunches = useMemo(() => {
         return lunches?.data?.map((lunch, index) => (
@@ -113,7 +112,7 @@ const Hero = () => {
             forceUpdateMenu : 'true'
         };
 
-        console.log(data)
+        // console.log(data)
 
         axiosPublic.post(`/lunch`, data)
                 .then(res => {

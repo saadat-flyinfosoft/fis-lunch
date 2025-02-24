@@ -53,7 +53,7 @@ const Page = () => {
 };
 
   // console.log(formattedDate)
-  console.log(downloadByDate)
+  // console.log(downloadByDate)
 
   useEffect(() => {
     handleDateChange(new Date());
