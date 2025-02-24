@@ -18,7 +18,7 @@ const Page = () => {
   const { user } = useContext(AuthContext);
   const { users } = useUsers();
   const [days, setDays] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [activeDay, setActiveDay] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [downloadByDate, setDownloadByDate] = useState(null);
@@ -35,7 +35,7 @@ const Page = () => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    setLoading(true);
+    setLoading(true); // Set loading to true before fetching data
     const formattedDate = date ? moment(date).format("M/YYYY") : null;
 
     axiosPublic
@@ -46,9 +46,12 @@ const Page = () => {
       })
       .catch((error) => {
         console.error("Error fetching selected date data:", error);
+      })
+      .finally(() => {
+        setLoading(false); // Set loading to false after fetching data (success or failure)
       });
-    setLoading(false);
-  };
+};
+
   // console.log(formattedDate)
   console.log(downloadByDate)
 

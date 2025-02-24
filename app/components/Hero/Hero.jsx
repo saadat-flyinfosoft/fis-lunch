@@ -35,6 +35,8 @@ const Hero = () => {
 
     // console.log( isSuper)
 
+    console.log(user)
+
     const memoizedLunches = useMemo(() => {
         return lunches?.data?.map((lunch, index) => (
             <div key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>

@@ -10,8 +10,11 @@ const useStore = create((set) => ({
     users: [],
     lunches: [],
     menu: [],
+    user: null,
     loading: false,
     error: null,
+
+    setUser: (user) => set({ user }),
 
     fetchUsers: async () => {
         set({ loading: true });
