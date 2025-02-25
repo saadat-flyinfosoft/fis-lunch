@@ -142,9 +142,7 @@ const Page = () => {
     ));
   }, [memoizeDays, getGuestCount, getUserCount, showMenu]);
 
-  return loading ? (
-    <Loading />
-  ) : isAdmin.length ? (
+  return isAdmin.length ? (
     <div className="flex flex-col md:flex-row">
       <div className="bg-transparent z-10">
         <Manage />
@@ -168,6 +166,13 @@ const Page = () => {
             placeholderText="Select a month"
             className="outline-none pl-10 p-1 rounded hover:cursor-pointer"
           />
+          {
+            loading && 
+            <span>
+              <span className="loading text-blue-300 loading-bars loading-md mt-2 h-5 ml-1"></span>
+              <span className="loading text-blue-300 loading-bars loading-md mt-2 h-5 ml-1"></span>
+            </span>
+          }
         </div>
         <div>
           {memoizeDays.length > 0 ? (
@@ -224,7 +229,7 @@ const Page = () => {
         </div>
       </dialog>
     </div>
-  ) : null;
+  ) : <Loading></Loading>;
 };
 
 export default Page;
