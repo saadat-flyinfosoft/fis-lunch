@@ -11,6 +11,7 @@ import MonthlyDataView from "../components/MonthlyDataView/MonthlyDataView";
 import "react-datepicker/dist/react-datepicker.css";
 import Loading from "../../Shared/Loading";
 import XlsxDownloadButton from "../components/XlsxDownloadButton/XlsxDownloadButton";
+import ExcelDownloadCalenderView from "../components/XlsxDownloadButton/XlsxDownloadCalenderView";
 
 const Page = () => {
   const axiosPublic = useAxiosPublic();
@@ -24,7 +25,7 @@ const Page = () => {
   const [downloadByDate, setDownloadByDate] = useState(null);
   const memoizeDays = useMemo(() => days, [days]);
 
-  // console.log(days)
+  console.log(memoizeDays);
 
   const isAdmin = useMemo(() => {
     return users.filter(
@@ -150,9 +151,11 @@ const Page = () => {
       <div className="bg-slate-600 px-1 md:px-12 p-4 w-full">
         <h2 className="text-xl font-bold my-4">Dashboard</h2>
         
-        <XlsxDownloadButton 
-            date ={downloadByDate}>
-        </XlsxDownloadButton>
+        <div className=" flex flex-col ">
+          <XlsxDownloadButton date ={downloadByDate}/>
+          <ExcelDownloadCalenderView transactions={memoizeDays} fileName="Monthly_Lunch.xlsx" />
+        </div>
+
         
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none">

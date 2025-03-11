@@ -31,8 +31,8 @@ const XlsxDownloadButton = ({date}) => {
     };
 
     return (
-        <button className="btn btn-sm btn-danger my-2 mb-4" onClick={handleDownload}>
-            Download Excel File
+        <button className="btn btn-sm btn-danger my-1 w-[240px]" onClick={handleDownload}>
+            Download Detailed List Excel 
         </button>
     );
 };
