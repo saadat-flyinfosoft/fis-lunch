@@ -213,7 +213,7 @@ const Page = () => {
                                     </p>
                                     <input
                                         placeholder='Ref Name'
-                                        defaultValue={guestData?.[0]?.name || ''}
+                                        defaultValue={guestData?.[0]?.name || 'Guest'}
                                         type="text"
                                         className='w-full md:w-96 p-1 rounded text-center bg-slate-200 text-black border border-white focus:outline-none'
                                         {...register('name', { required: true })}

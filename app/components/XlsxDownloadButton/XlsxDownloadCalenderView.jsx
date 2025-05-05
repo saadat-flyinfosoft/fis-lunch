@@ -2,11 +2,35 @@ import React from "react";
 import * as XLSX from "xlsx";
 
 const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx" }) => {
+
+  const staffIDs = {
+    "faroque.sust@gmail.com": "11",
+    "rifat633@gmail.com": "12",
+    "marufsm4@gmail.com": "13",
+    "rajon.exe@gmail.com": "14",
+    "sirajul.flyinfosoft@gmail.com": "15",
+    "work.naim374@gmail.com": "16",
+    "tanvirt073@gmail.com": "17",
+    "saadat.flyinfosoft@gmail.com": "18",
+    "mukhlesur99@gmail.com": "20",
+    "durjoym20@gmail.com": "27",
+    "ajax.rijom@gmail.com": "28",
+    "shaifulislam3055@gmail.com": "",
+    "nurul.islam86061907@gmail.com": "",
+    "jubayer8221@gmail.com": "",
+    "mehzabmotin2025@gmail.com": "",
+    "guest@gmail.com": "", 
+  };
+  
   const exportToExcel = () => {
     if (!transactions || transactions.length === 0) {
       alert("No data available for export!");
       return;
     }
+
+    const reportMonth = transactions[0]?.date2 || "";
+
+    console.log(transactions)
 
     // Define Headers: SL, Name, Staff ID, Days (1-31), Total Lunch, Total Cost
     const headers = [
@@ -32,7 +56,8 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
           userMap.set(userKey, {
             sl: sl++,
             name: user.name,
-            staffId: user.email, // Replace with actual Staff ID if available
+            // staffId: user.email, // Replace with actual Staff ID if available
+            staffId: staffIDs[user.email] || "N/A", // Look up staff ID by email
             bookings: Array(31).fill(""), // Initialize all days with empty strings
           });
         }
@@ -44,15 +69,46 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
     });
 
     // Convert userMap to rows
-    const rows = Array.from(userMap.values()).map(({ sl, name, staffId, bookings }) => {
-      const totalLunch = bookings.reduce((sum, q) => sum + (q || 0), 0); // Sum only non-empty values
-      const totalCost = totalLunch > 0 ? totalLunch * 110 : ""; // Keep empty if no booking
+      const rows = Array.from(userMap.values())
+      .sort((a, b) => {
+        const idA = a.staffId === "N/A" ? Infinity : parseInt(a.staffId, 10);
+        const idB = b.staffId === "N/A" ? Infinity : parseInt(b.staffId, 10);
+        return idA - idB;
+      })
+      .map(({ sl, name, staffId, bookings }) => {
+        const totalLunch = bookings.reduce((sum, q) => sum + (q || 0), 0);
+        const totalCost = totalLunch > 0 ? totalLunch * 110 : "";
+        return [sl, name, staffId, ...bookings, totalLunch || "", totalCost];
+      });
 
-      return [sl, name, staffId, ...bookings, totalLunch || "", totalCost]; // Keep empty if totalLunch is 0
-    });
 
     // Convert Data to Worksheet
-    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+      const titleRow = ["Monthly Lunch Booking Report"];
+      const monthRow = [`Month: ${reportMonth}`];
+      const emptyRow = [];
+
+       // Calculate grand totals
+      const grandTotalLunch = rows.reduce((sum, row) => sum + (row[headers.length - 2] || 0), 0);
+      const grandTotalCost = rows.reduce((sum, row) => sum + (row[headers.length - 1] || 0), 0);
+
+      const sheetData = [
+        titleRow,
+        monthRow,
+        emptyRow,
+        headers,
+        ...rows,
+        [], // Empty row before totals
+        ["", "", "", ...Array(31).fill(""),  grandTotalLunch, grandTotalCost],
+      ];
+      
+
+      const ws = XLSX.utils.aoa_to_sheet(sheetData);
+
+      ws["!merges"] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: headers.length - 1 } }, // Title row
+        { s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }, // Month row
+      ];      
+
 
     // Set Column Widths for better visibility
     ws["!cols"] = [
@@ -81,15 +137,7 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
 
 // Basic Button Styles
 const styles = {
-//   button: {
-//     padding: "10px 20px",
-//     backgroundColor: "#4CAF50",
-//     color: "white",
-//     border: "none",
-//     borderRadius: "5px",
-//     cursor: "pointer",
-//     fontSize: "16px",
-//   },
+
 };
 
 export default ExcelDownloadCalenderView;
