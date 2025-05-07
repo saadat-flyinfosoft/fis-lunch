@@ -21,14 +21,14 @@ const Hero = () => {
     const [loading, setLoading] = useState(false);
     
     const [isAdmin, setIsAdmin] = useState(false);
-    const [isSuper, setIsSuper] = useState(false);
+    // const [isSuper, setIsSuper] = useState(false);
 
     useEffect(() => {
         // Check if the current user is an admin
         const adminUser = users.some(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
-        const isSuper = users.some(currentUser => currentUser.email === user?.email && currentUser?.super === 'yes');
+        // const isSuper = users.some(currentUser => currentUser.email === user?.email && currentUser?.super === 'yes');
         setIsAdmin(adminUser);
-        setIsSuper(isSuper);
+        // setIsSuper(isSuper);
         refetch()
         // console.log('clg')
     }, [users, user]);
@@ -39,7 +39,7 @@ const Hero = () => {
     const memoizedLunches = useMemo(() => {
         return lunches?.data?.map((lunch, index) => (
             <div key={index} className={`border p-2 text-sm rounded-md shadow ${lunch?.bookBy === 'admin' ? 'border border-white text-yellow-200' : ''}`}>
-                <div onClick={ isSuper? () => handleUpdateMenuModal(lunch) : undefined   } >
+                <div onClick={ isAdmin? () => handleUpdateMenuModal(lunch) : undefined   } >
                     {lunch?.name}
                     {lunch?.type === 'guest' && (
                         <span className='rounded-full border px-1 ml-1'>{lunch?.lunchQuantity}</span>

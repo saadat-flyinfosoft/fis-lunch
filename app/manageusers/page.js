@@ -15,11 +15,7 @@ const Page = () => {
     const { lunches } = useBookings()
     const axiosPublic = useAxiosPublic();
 
-    const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
-
-    // const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);
-
-    // console.log(users.length)
+    const isAdmin = users?.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
 
 
     const handleAdmin = (id) => {
@@ -100,10 +96,12 @@ const Page = () => {
     };
 
     const handleDelete = (id) => {
-
+        
+        const user = users?.find(u => u._id === id);
+    
         Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: `You won't be able to revert this! (${user.name})`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -111,14 +109,20 @@ const Page = () => {
             confirmButtonText: "Yes, delete user!"
         }).then((result) => {
             if (result.isConfirmed) {
-
-                axiosPublic.delete(`/users/${id}`)
+                if (user.super === 'yes') {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "⚠️ Permission Denied.",
+                        text: "You cannot delete a super admin."
+                    });
+                    return;
+                }
+    
+                axiosPublic.delete(`/usersX/${id}`)
                     .then(res => {
-                        // console.log(res.data);
-
                         if (res.data.deletedCount) {
                             refetch();
-
+    
                             Swal.fire({
                                 position: "top-center",
                                 icon: "success",
@@ -126,14 +130,11 @@ const Page = () => {
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-
                         }
-                    })
-
+                    });
             }
         });
-
-    }
+    };    
 
 
     return (
