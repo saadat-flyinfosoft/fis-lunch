@@ -118,7 +118,7 @@ const Page = () => {
                     return;
                 }
     
-                axiosPublic.delete(`/usersX/${id}`)
+                axiosPublic.delete(`/users/${id}`)
                     .then(res => {
                         if (res.data.deletedCount) {
                             refetch();
