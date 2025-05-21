@@ -191,7 +191,7 @@ const Page = () => {
         </div>
       </div>
       <dialog id="my_modal_2" className="modal">
-        <div className="modal-box text-gray-200">
+        <div className="modal-box text-gray-400">
           <div className="flex justify-between">
             <h3 className="font-bold text-lg">Menu for {activeDay?.date}</h3>
             <h3 className="font-bold text-lg cursor-pointer text-red-200 hover:text-red-300" onClick={handleCloseModal}>X</h3>

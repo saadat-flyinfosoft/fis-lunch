@@ -279,11 +279,12 @@ const Hero = () => {
                             
                             <div className="block   items-center mx-auto">
                             <div className=" mx-auto">
-                                <p>Force update menu for </p> 
+                                <p className='text-gray-400'>Force update menu for </p> 
                                 <p className="text-red-500">{selectUser?.name}</p>
-                                <small className="text-gray-200 font-light">( Currently selected - {selectUser?.selectedMenu} )</small>
+                                <small className="text-gray-400 font-light">( Currently selected - {selectUser?.selectedMenu} )</small>
                             </div>
                             <select
+                            value={selectUser?.selectedMenu || ''}
                             onChange={handleMenuChange} 
                                 className="w-full md:w-56 p-1 rounded block text-center my-2 bg-slate-200 text-black border border-white focus:outline-none"
                             >
