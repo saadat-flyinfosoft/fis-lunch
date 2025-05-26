@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import useUsers from '../../Hooks/useUsers';
 import Manage from '../manage/page';
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
@@ -21,6 +21,14 @@ const Page = () => {
     const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [selectedItem, setSelectedItem] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredUsers = useMemo(() => {
+        return users.filter(user =>
+            user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [searchTerm, users]);
 
 
     const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
@@ -271,12 +279,20 @@ const Page = () => {
                             }
 
                         </form>
+                        
                     </div>
 
+                    <div className='border border-slate-600 bg-slate-600 my-1 p-2'>
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search by name / email..."
+                        className="w-[220px] p-2 rounded bg-white text-black border border-slate-500 focus:outline-none"
+                    />
+                    </div>
 
-
-
-                    {users.map((user, j) => (
+                    {filteredUsers.map((user, j) => (
                         <div className='block md:flex border border-slate-600 bg-slate-600 my-1 p-2' key={j}>
                             <div>
                                 <div className='my-2'>
