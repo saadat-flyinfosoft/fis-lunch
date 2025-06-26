@@ -188,7 +188,7 @@ const SelectMenu = () => {
       {/* Dropdown Modal */}
       <dialog
         id="dropdown_modal"
-        className="modal modal-center sm:modal-middle"
+        className="modal sm:modal-middle modal-top"
         style={{ zIndex: 50 }}
         onCancel={closeDropdownModal}
       >
