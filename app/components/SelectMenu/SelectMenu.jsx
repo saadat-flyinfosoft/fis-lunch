@@ -202,7 +202,7 @@ const SelectMenu = () => {
             autoFocus
           />
           
-          <div className="h-screen sm:max-h-60 overflow-auto border border-gray-300 rounded">
+          <div className="h-[36rem] sm:max-h-60 overflow-auto border border-gray-300 rounded">
             {filteredMenu.length > 0 ? (
               filteredMenu.map((item, index) => (
                 <div

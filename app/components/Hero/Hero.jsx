@@ -10,6 +10,7 @@ import useMenu from '../../../Hooks/useMenu';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
 import AudioPlayer from '../Audio/AudioPlay';
+import CallCateringButton from '@/Hooks/CallCateringButton';
 
 const Hero = () => {
     const { lunches, refetch } = useBookings();
@@ -227,6 +228,7 @@ const Hero = () => {
                 <div className="mx-auto mt-16 grid grid-cols-2 md:grid-cols-3 gap-2">
                     {memoizedLunches}
                 </div>
+                <CallCateringButton/>
                 
 
                 
