@@ -7,18 +7,20 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-import useUsers from "../../../Hooks/useUsers";
-import useBookings from "../../../Hooks/useBookings";
+import useStore from "@/app/store";
 
 
 
 const Header = () => {
 
-    const { user, loading, googleLogin, logOut } = useContext(AuthContext);
+    const { loading, googleLogin, logOut } = useContext(AuthContext);
+    const user = useStore((state) => state.user);
     const axiosPublic = useAxiosPublic();
-    const { users, refetch } = useUsers();
+    const users = useStore((state) => state.users);
+    const refetch = useStore((state) => state.fetchUsers);
     const [localUser, setLocalUser] = useState(null);
-    const { lunches, refetch: refetchLunches } = useBookings()
+    const refetchLunches = useStore((state) => state.fetchLunches);
+
 
     console.log('localUser', localUser?.displayName, localUser?.email);
 

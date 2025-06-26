@@ -2,14 +2,15 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
-import useUsers from '../../../Hooks/useUsers';
 import moment from 'moment';
+import useStore from '@/app/store';
 
 
 const Lunches = ({ onRefresh, lunches }) => {
-    const { user } = useContext(AuthContext);
+    const user = useStore((state) => state.user);
     const axiosPublic = useAxiosPublic();
-    const { users, refetch } = useUsers();
+    const users = useStore((state) => state.users);
+    const refetch = useStore((state) => state.fetchUsers);
     const [selectedItem, setSelectedItem] = useState('');
 
     const currentUserData = users?.filter(currentUser => currentUser.email === user?.email);

@@ -1,18 +1,17 @@
 "use client"
 import { useContext } from 'react';
-import useUsers from '../../Hooks/useUsers';
 import Manage from '../manage/page';
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2'
-import useBookings from '../../Hooks/useBookings';
 import Loading from '../../Shared/Loading';
+import useStore from '../store';
 
 const Page = () => {
 
-    const { user } = useContext(AuthContext);
-    const { users, refetch } = useUsers();
-    const { lunches } = useBookings()
+    const user = useStore((state) => state.user);
+    const users = useStore((state) => state.users);
+    const refetch = useStore((state) => state.fetchUsers);
     const axiosPublic = useAxiosPublic();
 
     const isAdmin = users?.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');

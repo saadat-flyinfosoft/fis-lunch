@@ -1,23 +1,23 @@
 "use client"
 import { useContext, useMemo, useState } from 'react';
-import useUsers from '../../Hooks/useUsers';
 import Manage from '../manage/page';
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2'
-import useBookings from '../../Hooks/useBookings';
 import Loading from '../../Shared/Loading';
 import { useForm } from 'react-hook-form';
-import Priority from '../components/Priority/Priority';
 import moment from 'moment';
+import useStore from '../store';
 
 
 
 const Page = () => {
 
-    const { user } = useContext(AuthContext);
-    const { users, refetch } = useUsers();
-    const { lunches, refetch: refetchLunches } = useBookings()
+    const user = useStore((state) => state.user);
+    const users = useStore((state) => state.users);
+    const refetch = useStore((state) => state.fetchUsers);
+    const refetchLunches = useStore((state) => state.fetchLunches);
+    const lunches = useStore((state) => state.lunches);
     const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [selectedItem, setSelectedItem] = useState('');
@@ -209,7 +209,6 @@ const Page = () => {
                     <Manage></Manage>
                 </div>
                 <div className='bg-slate-500 px-1 md:px-12 p-4 w-full'>
-                    {/* <Priority></Priority> */}
                     <h2 className='font-bold mb-4'>Manage Bookings ({users.length})</h2>
                     <div className='border border-slate-600 bg-slate-600 my-1 p-2'>
                         {/* Form for handling bookings for guests */}

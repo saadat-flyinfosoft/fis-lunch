@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
-import useBookings from '../../../Hooks/useBookings';
-import useMenu from '../../../Hooks/useMenu';
+import useStore from '@/app/store';
 
 const SelectMenu = () => {
-  const { menu, refetch } = useMenu();
-  const { lunches, refetch: refetchLunch } = useBookings();
+
+  const menu = useStore((state) => state.menu);
+  const refetch = useStore((state) => state.fetchMenu);
+  const lunches = useStore((state) => state.lunches);
+  const refetchLunch = useStore((state) => state.fetchLunches);
   const axiosPublic = useAxiosPublic();
 
   const [loading, setLoading] = useState(false);

@@ -1,5 +1,12 @@
-"use client"
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
+"use client";
+
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { app } from "../firebase/firebase.config";
 import useStore from "../../store";
@@ -9,51 +16,49 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
+  const user = useStore((state) => state.user);
+  const setStoreUser = useStore((state) => state.setUser);
 
-    const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    // Access the Zustand store's setUser function
-    const setStoreUser = useStore((state) => state.setUser);
+  const googleLogin = () => {
+    setLoading(true);
+    return signInWithPopup(auth, provider);
+  };
 
-    const googleLogin = () => {
-        setLoading(true);
-        return signInWithPopup(auth, provider)
+  const logOut = async () => {
+    setLoading(true);
+    try {
+      await signOut(auth);
+      setStoreUser(null);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const logOut = () => {
-        setLoading(true);
-        return signOut(auth);
-    }
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setStoreUser(currentUser);
+      setLoading(false);
+    });
 
-    const authInfo = {
-        user,
-        loading,
-        googleLogin,
-        logOut,
-    }
+    return () => unsubscribe();
+  }, [setStoreUser]);
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser);
-            if (currentUser) {
-                setLoading(false);
-                setStoreUser(currentUser); // Save the user to Zustand store
-            }
+  const authInfo = {
+    user,        // user from store, always up to date
+    loading,     // local loading state
+    googleLogin,
+    logOut,
+  };
 
-            // console.log('current user:', currentUser?.displayName, currentUser?.email);
-        })
-
-        return () => {
-            return unsubscribe();
-        };
-    }, [setStoreUser]); // Ensure that this effect runs only once and update the store
-
-    return (
-        <AuthContext.Provider value={authInfo}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={authInfo}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

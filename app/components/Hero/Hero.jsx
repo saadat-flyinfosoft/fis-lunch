@@ -1,22 +1,21 @@
 "use client"
 import React, { useContext, useMemo ,useState, useEffect} from 'react';
 import BookingButton from '../BookingButton/BookingButton';
-import useBookings from '../../../Hooks/useBookings';
-import Priority from '../Priority/Priority';
 import SelectMenu from '../SelectMenu/SelectMenu';
-import useUsers from '../../../Hooks/useUsers';
-import { AuthContext } from '../AuthProvider/AuthProvider';
-import useMenu from '../../../Hooks/useMenu';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
 import AudioPlayer from '../Audio/AudioPlay';
 import CallCateringButton from '@/Hooks/CallCateringButton';
+import useStore from '@/app/store';
 
 const Hero = () => {
-    const { lunches, refetch } = useBookings();
-    const { users,  } = useUsers();
-    const {menu, refetch: menuRefetch} = useMenu();
-    const { user } = useContext(AuthContext);
+    const refetch = useStore((state) => state.fetchLunches);
+    const lunches = useStore((state) => state.lunches);
+    const users = useStore((state) => state.users);
+    const fetchUsers = useStore((state) => state.fetchUsers);
+    const menu = useStore((state) => state.menu);
+    const menuRefetch = useStore((state) => state.fetchMenu);
+    const user = useStore((state) => state.user);
     const [selectUser, setSelectUser] = useState({ selectedMenu: null });
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(false);
@@ -30,7 +29,7 @@ const Hero = () => {
         // const isSuper = users.some(currentUser => currentUser.email === user?.email && currentUser?.super === 'yes');
         setIsAdmin(adminUser);
         // setIsSuper(isSuper);
-        refetch()
+        // refetch()
         // console.log('clg')
     }, [users, user]);
 
@@ -200,7 +199,6 @@ const Hero = () => {
             }}
         >
             <div className="absolute inset-0 bg-black opacity-50"></div>
-            {/* <Priority /> */}
             <div className='z-10'>
                 { Object.keys(menuCounts).length > 0 &&
                     <button

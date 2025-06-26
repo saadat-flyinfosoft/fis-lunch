@@ -4,13 +4,14 @@ import { IoMdMenu } from "react-icons/io";
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { AuthContext } from '../components/AuthProvider/AuthProvider';
-import useUsers from '../../Hooks/useUsers';
+import useStore from '../store';
 
 
 const Page = () => {
 
-    const { user } = useContext(AuthContext);
-    const { users, } = useUsers();
+    const user = useStore((state) => state.user);
+    const users = useStore((state) => state.users);
+    const refetch = useStore((state) => state.fetchUsers);
     const router = useRouter();
 
 

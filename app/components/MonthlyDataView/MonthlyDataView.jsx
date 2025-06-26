@@ -1,62 +1,76 @@
-import React from 'react';
-import useUsers from '../../../Hooks/useUsers';
+import React, { useMemo, useCallback } from 'react';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
+import useStore from '@/app/store';
 
-const MonthlyDataView = ({ data,date }) => {
-  const { users } = useUsers();
+const MonthlyDataView = ({ data, date }) => {
+  /** ────────────────────────────────
+   *  Store state
+   *  ──────────────────────────────── */
+  const users          = useStore(s => s.users);
+  const approvedUsers  = useMemo(
+    () => users.filter(u => u?.status === 'approve'),
+    [users]
+  );
 
-  // Filter approved users
-  const approvedUsers = users.filter(user => user?.status === 'approve');
-  const axiosPublic = useAxiosPublic()
+  /** ────────────────────────────────
+   *  Pre-compute lunch quantities
+   *  ──────────────────────────────── */
+  // 1. Build a map { email -> totalLunchQty } once
+  const lunchQtyByEmail = useMemo(() => {
+    const map = new Map();
+    data.forEach(day =>
+      day.data.forEach(({ email, lunchQuantity = 0 }) => {
+        map.set(email, (map.get(email) || 0) + lunchQuantity);
+      })
+    );
+    return map;        // stable reference until `data` changes
+  }, [data]);
 
+  // 2. Helper that just reads the memoised map
+  const userTotalLunchQuantity = useCallback(
+    email => lunchQtyByEmail.get(email) || 0,
+    [lunchQtyByEmail]
+  );
 
+  // 3. Total lunches for the month (scalar)
+  const totalLunchCount = useMemo(
+    () =>
+      [...lunchQtyByEmail.values()].reduce((sum, qty) => sum + qty, 0),
+    [lunchQtyByEmail]
+  );
 
-  const userTotalLunchQuantity = (email) => {
-    return data.reduce((totalQuantity, item) => {
-        const emailData = item.data.filter(itemData => itemData.email === email);
-        const sum = emailData.reduce((itemSum, itemData) => itemSum + (itemData.lunchQuantity || 0), 0);
-        return totalQuantity + sum;
-    }, 0);
-};
-
-
-  const totalLunchCount = data.reduce((count, item) => {
-    const sum = item.data.reduce((itemSum, itemData) => itemSum + (itemData.lunchQuantity || 0), 0);
-    return count + sum;
-  }, 0);
-
-  const handleDownload = async (email) => {
-
-    try {
-        const response = await axiosPublic.get(`/download-user-excel`, {
-            params: { 
-              date: date,
-              email: email
-          },
-            responseType: 'blob' 
-            //  set response type to blob
+  /** ────────────────────────────────
+   *  Download handler
+   *  ──────────────────────────────── */
+  const axiosPublic = useAxiosPublic();
+  const handleDownload = useCallback(
+    async (email) => {
+      try {
+        const res = await axiosPublic.get('/download-user-excel', {
+          params: { date, email },
+          responseType: 'blob',
         });
-
-        console.log(response)
-
-        // Create a link element to trigger the download
-        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const url  = URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'data.xlsx');
-        document.body.appendChild(link);
+        link.download = 'data.xlsx';
         link.click();
-        link.remove();
-    } catch (error) {
-        console.error('Error downloading file:', error);
-    }
-};
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error('Error downloading file:', err);
+      }
+    },
+    [axiosPublic, date]
+  );
 
-
-
+  /** ────────────────────────────────
+   *  Render
+   *  ──────────────────────────────── */
   return (
     <div className="container mx-auto p-1 mt-0">
-      <h2 className='font-bold mt-2'>Monthly Data View ({approvedUsers.length})</h2>
+      <h2 className="font-bold mt-2">
+        Monthly Data View ({approvedUsers.length})
+      </h2>
 
       <table className="min-w-full border-x-2 border border-slate-500 text-left border-collapse">
         <thead>
@@ -67,16 +81,19 @@ const MonthlyDataView = ({ data,date }) => {
         </thead>
 
         <tbody>
-          {approvedUsers.map((user, i) => (
-            <tr className='hover:bg-slate-300' key={i}>
-              <td className=" p-2 capitalize flex justify-between">
-                <span>{user.name}</span>
-                <span className='cursor-pointer hover:font-semibold p-1'>
-                  <span className='flex gap-1' onClick={() => handleDownload(user.email)}><span className='text-sm rounded-md '>⏬</span> xlsx</span>
+          {approvedUsers.map((u) => (
+            <tr className="hover:bg-slate-300" key={u.email}>
+              <td className="p-2 capitalize flex justify-between">
+                <span>{u.name}</span>
+                <span
+                  className="cursor-pointer hover:font-semibold p-1 flex gap-1"
+                  onClick={() => handleDownload(u.email)}
+                >
+                  <span className="text-sm rounded-md">⏬</span>xlsx
                 </span>
-                </td>
+              </td>
               <td className="border-x-2 border-slate-500 p-2">
-                {`Lunch: ${userTotalLunchQuantity(user.email)} (${userTotalLunchQuantity(user.email) * 110} BDT)`}
+                {`Lunch: ${userTotalLunchQuantity(u.email)} (${userTotalLunchQuantity(u.email) * 110} BDT)`}
               </td>
             </tr>
           ))}
@@ -84,13 +101,18 @@ const MonthlyDataView = ({ data,date }) => {
 
         <tfoot>
           <tr>
-            <td className="border border-slate-500 p-2 font-bold">Total Lunches</td>
-            <td className="border border-slate-500 p-2 font-bold">{totalLunchCount} - (110TK)</td>
+            <td className="border border-slate-500 p-2 font-bold">
+              Total Lunches
+            </td>
+            <td className="border border-slate-500 p-2 font-bold">
+              {totalLunchCount} (110 TK)
+            </td>
           </tr>
           <tr>
             <td className="border border-slate-500 p-2 font-bold">Total Cost</td>
-            {/* <td className="border p-2 font-bold">{(totalEmailCount + guestLunchQuantity) * 100}.00 BDT</td> */}
-            <td className="border border-slate-500 p-2 font-bold">{(totalLunchCount) * 110} BDT</td>
+            <td className="border border-slate-500 p-2 font-bold">
+              {totalLunchCount * 110} BDT
+            </td>
           </tr>
         </tfoot>
       </table>

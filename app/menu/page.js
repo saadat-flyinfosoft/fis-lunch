@@ -1,20 +1,21 @@
 "use client";
 import { useContext, useState } from "react";
-import useUsers from "../../Hooks/useUsers";
 import Manage from "../manage/page";
 import { AuthContext } from "../components/AuthProvider/AuthProvider";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
-import useMenu from "../../Hooks/useMenu";
 import Loading from "../../Shared/Loading";
+import useStore from "../store";
 
 const Page = () => {
-  const { user } = useContext(AuthContext);
-  const { users, refetch } = useUsers();
-  const { menu, refetch: refetchMenu } = useMenu();
+  const user = useStore((state) => state.user);
+  const users = useStore((state) => state.users);
+  const refetch = useStore((state) => state.fetchUsers);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const axiosPublic = useAxiosPublic();
+  const menu = useStore((state) => state.menu);
+  const refetchMenu = useStore((state) => state.fetchMenu);
 
   // Separate useForm hooks for add and edit
   const {

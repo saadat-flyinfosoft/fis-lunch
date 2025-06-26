@@ -1,22 +1,21 @@
 "use client"
 import { useContext, useState } from 'react';
-import useUsers from '../../../Hooks/useUsers';
 import Kitchen from '../../kitchen/page'
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2'
-import useBookings from '../../../Hooks/useBookings';
 import Loading from '../../../Shared/Loading';
 import { useForm } from 'react-hook-form';
 import axios from "axios"
+import useStore from '@/app/store';
 
 
 
 const Page = () => {
 
-    const { user } = useContext(AuthContext);
-    const { users, refetch } = useUsers();
-    const { lunches } = useBookings()
+    const user = useStore((state) => state.user);
+    const users = useStore((state) => state.users);
+    const refetch = useStore((state) => state.fetchUsers);
     const [loading, setLoading] = useState(false);
     const axiosPublic = useAxiosPublic();
     const [image, setImage] = useState();

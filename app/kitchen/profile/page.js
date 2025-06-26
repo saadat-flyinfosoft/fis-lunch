@@ -1,19 +1,20 @@
 "use client"
 import { useContext } from 'react';
-import useUsers from '../../../Hooks/useUsers';
 import Kitchen from '../../kitchen/page'
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Loading from '../../../Shared/Loading';
 import Image from 'next/image';
 import Link from 'next/link';
+import useStore from '@/app/store';
 
 
 
 const Page = () => {
 
-    const { user } = useContext(AuthContext);
-    const { users, refetch } = useUsers();
+    const user = useStore((state) => state.user);
+    const users = useStore((state) => state.users);
+    const refetch = useStore((state) => state.fetchUsers);
     const axiosPublic = useAxiosPublic();
 
 

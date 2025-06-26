@@ -5,19 +5,20 @@ import Manage from "../manage/page";
 import DatePicker from "react-datepicker";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import moment from "moment";
-import useUsers from "../../Hooks/useUsers";
 import { AuthContext } from "../components/AuthProvider/AuthProvider";
 import MonthlyDataView from "../components/MonthlyDataView/MonthlyDataView";
 import "react-datepicker/dist/react-datepicker.css";
 import Loading from "../../Shared/Loading";
 import XlsxDownloadButton from "../components/XlsxDownloadButton/XlsxDownloadButton";
 import ExcelDownloadCalenderView from "../components/XlsxDownloadButton/XlsxDownloadCalenderView";
+import useStore from "../store";
 
 const Page = () => {
   const axiosPublic = useAxiosPublic();
   const [selectedDate, setSelectedDate] = useState(null);
-  const { user } = useContext(AuthContext);
-  const { users } = useUsers();
+  const user = useStore((state) => state.user);
+  const users = useStore((state) => state.users);
+  const refetch = useStore((state) => state.fetchUsers);
   const [days, setDays] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeDay, setActiveDay] = useState(null);
@@ -53,8 +54,6 @@ const Page = () => {
       });
 };
 
-  // console.log(formattedDate)
-  // console.log(downloadByDate)
 
   useEffect(() => {
     handleDateChange(new Date());
