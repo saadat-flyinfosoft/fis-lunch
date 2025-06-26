@@ -3,7 +3,10 @@ import { useForm } from 'react-hook-form';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import useStore from '@/app/store';
 
-const SelectMenu = () => {
+const IDLE_BLUR_MS = 2000;      // ← 2-second inactivity timeout
+const CLOSE_DELAY  = 500;       // ← 0.5 s before returning to main view
+
+export default function SelectMenu() {
   const menu         = useStore(s => s.menu);
   const lunches      = useStore(s => s.lunches);
   const refetchMenu  = useStore(s => s.fetchMenu);
@@ -16,9 +19,9 @@ const SelectMenu = () => {
   const [search, setSearch]         = useState('');
   const [selected, setSelected]     = useState('');
 
-  const dlgRef     = useRef(null);
-  const inputRef   = useRef(null);
-  const idle       = useRef(null);
+  const dlgRef   = useRef(null);
+  const inputRef = useRef(null);
+  const idle     = useRef(null);
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -27,7 +30,7 @@ const SelectMenu = () => {
     [menu, search]
   );
 
-  // Dialog open/close
+  /* open / close dialog */
   useEffect(() => {
     const dlg = dlgRef.current;
     if (!dlg) return;
@@ -37,25 +40,31 @@ const SelectMenu = () => {
   const openDialog  = () => { setSearch(''); setShowSearch(false); setOpen(true); };
   const closeDialog = () => setOpen(false);
 
-  // Auto-focus and blur behavior
+  /* idle blur logic (2 s) */
   useEffect(() => {
     if (showSearch) {
       inputRef.current?.focus();
-      idle.current = setTimeout(() => inputRef.current?.blur(), 3000);
+      idle.current = setTimeout(() => inputRef.current?.blur(), IDLE_BLUR_MS);
     }
     return () => clearTimeout(idle.current);
   }, [showSearch]);
 
   const restartIdle = () => {
     clearTimeout(idle.current);
-    idle.current = setTimeout(() => inputRef.current?.blur(), 3000);
+    idle.current = setTimeout(() => inputRef.current?.blur(), IDLE_BLUR_MS);
   };
 
-  // Events
+  /* pick menu: blur immediately, hide search after 0.5 s */
   const pickMenu = val => {
     setSelected(val);
     setValue('menu', val);
-    setShowSearch(false);
+    inputRef.current?.blur();          // disable focus immediately
+    clearTimeout(idle.current);
+
+    setTimeout(() => {
+      setSearch('');
+      setShowSearch(false);            // return to main view (recentres)
+    }, CLOSE_DELAY);
   };
 
   const deleteMenu = async m => {
@@ -84,14 +93,10 @@ const SelectMenu = () => {
 
       <dialog ref={dlgRef} className="modal modal-middle" onCancel={closeDialog}>
         <div className="modal-box w-80 max-w-full relative">
-          <button
-            onClick={closeDialog}
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-          >
-            <span className="text-red-200">✕</span>
-          </button>
+          <button onClick={closeDialog}
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 
-          {/* Main Form View */}
+          {/* MAIN FORM */}
           {!showSearch && (
             <>
               <form onSubmit={handleSubmit(submitMenu)} className="space-y-4 mt-4">
@@ -112,8 +117,8 @@ const SelectMenu = () => {
                     disabled={loading}
                     className={`${
                       loading
-                        ? 'border w-16 shadow border-red-500 bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2'
-                        : 'border w-16 shadow border-gray-300 bg-blue-900 hover:bg-blue-800 text-blue-300 text-sm font-semibold md:mx-2 py-1 px-2 rounded my-2'
+                        ? 'border w-16 shadow border-red-500 bg-blue-900 text-blue-300 rounded'
+                        : 'border w-16 shadow border-gray-300 bg-blue-900 text-blue-300 rounded'
                     }`}
                   >
                     {loading ? '🫘' : '✓'}
@@ -121,41 +126,25 @@ const SelectMenu = () => {
                 </div>
               </form>
 
-              {/* Current Menus */}
+              {/* day menus */}
               <div className="flex flex-wrap justify-center gap-1 mt-4">
-                {lunches.menu?.map((menuName, i) => (
-                  <p className="flex items-center my-2" key={i}>
-                    <small
-                      className={`${
-                        loading
-                          ? 'border border-red-500 w-24 flex justify-center items-center rounded-md text-gray-400 mx-1 text-center'
-                          : 'border w-24 flex justify-center items-center rounded-md text-gray-400 mx-1 text-center'
-                      }`}
-                    >
-                      {menuName}
-                    </small>
-                    <span
-                      onClick={() => deleteMenu(menuName)}
-                      className="text-red-500 cursor-pointer"
-                    >
-                      ❌
-                    </span>
-                  </p>
+                {lunches.menu?.map((m,i) => (
+                  <span key={i} className="flex items-center gap-1">
+                    <small className="border rounded px-2 text-gray-400">{m}</small>
+                    <span onClick={() => deleteMenu(m)} className="text-red-500 cursor-pointer">❌</span>
+                  </span>
                 ))}
               </div>
             </>
           )}
 
-          {/* Search Menu View */}
+          {/* SEARCH SCREEN */}
           {showSearch && (
             <>
               <input
                 ref={inputRef}
                 value={search}
-                onChange={e => {
-                  setSearch(e.target.value);
-                  restartIdle();
-                }}
+                onChange={e => { setSearch(e.target.value); restartIdle(); }}
                 onFocus={restartIdle}
                 placeholder="Search menu…"
                 className="w-full p-2 mt-6 mb-2 rounded bg-gray-800 text-gray-300 border placeholder-gray-500"
@@ -163,7 +152,7 @@ const SelectMenu = () => {
 
               <div className="h-[36rem] sm:max-h-60 overflow-auto border rounded">
                 {filtered.length ? (
-                  filtered.map((m, i) => (
+                  filtered.map((m,i) => (
                     <div
                       key={i}
                       onClick={() => pickMenu(m.menu)}
@@ -177,10 +166,8 @@ const SelectMenu = () => {
                 )}
               </div>
 
-              <button
-                onClick={() => setShowSearch(false)}
-                className="btn btn-sm bg-blue-800 text-white mt-3"
-              >
+              <button onClick={() => { setShowSearch(false); setSearch(''); }}
+                      className="btn btn-sm bg-blue-800 text-white mt-3">
                 Back
               </button>
             </>
@@ -189,6 +176,4 @@ const SelectMenu = () => {
       </dialog>
     </>
   );
-};
-
-export default SelectMenu;
+}
