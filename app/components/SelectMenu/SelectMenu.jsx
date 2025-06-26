@@ -3,25 +3,21 @@ import { useForm } from 'react-hook-form';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import useStore from '@/app/store';
 
-const IDLE_BLUR_MS = 3000;      // ← 3-second inactivity timeout
-const CLOSE_DELAY  = 500;       // ← 0.5 s before returning to main view
-
 export default function SelectMenu() {
-  const menu         = useStore(s => s.menu);
-  const lunches      = useStore(s => s.lunches);
-  const refetchMenu  = useStore(s => s.fetchMenu);
+  const menu = useStore(s => s.menu);
+  const lunches = useStore(s => s.lunches);
+  const refetchMenu = useStore(s => s.fetchMenu);
   const refetchLunch = useStore(s => s.fetchLunches);
-  const axiosPublic  = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
 
-  const [open, setOpen]             = useState(false);
+  const [open, setOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const [loading, setLoading]       = useState(false);
-  const [search, setSearch]         = useState('');
-  const [selected, setSelected]     = useState('');
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
+  const [selected, setSelected] = useState('');
 
-  const dlgRef   = useRef(null);
+  const dlgRef = useRef(null);
   const inputRef = useRef(null);
-  const idle     = useRef(null);
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -30,57 +26,46 @@ export default function SelectMenu() {
     [menu, search]
   );
 
-  /* open / close dialog */
+  // Handle dialog open/close
   useEffect(() => {
     const dlg = dlgRef.current;
     if (!dlg) return;
-    open ? dlg.showModal() : dlg.open && dlg.close();
+    open ? dlg.showModal() : dlg.close();
   }, [open]);
 
-  const openDialog  = () => { setSearch(''); setShowSearch(false); setOpen(true); };
+  const openDialog = () => {
+    setSearch('');
+    setShowSearch(false);
+    setOpen(true);
+  };
+
   const closeDialog = () => setOpen(false);
 
-  /* idle blur logic (2 s) */
+  // Focus input when search is shown
   useEffect(() => {
     if (showSearch) {
       inputRef.current?.focus();
-      idle.current = setTimeout(() => inputRef.current?.blur(), IDLE_BLUR_MS);
     }
-    return () => clearTimeout(idle.current);
   }, [showSearch]);
 
-  const restartIdle = () => {
-    clearTimeout(idle.current);
-    idle.current = setTimeout(() => inputRef.current?.blur(), IDLE_BLUR_MS);
-  };
-
-  /* pick menu: blur immediately, hide search after 0.5 s */
-  const pickMenu = val => {
-    // 1. Blur input to close keyboard immediately
-    inputRef.current?.blur();
-    clearTimeout(idle.current);
-
-    // 2. Immediately update selected menu and hide search view
+  const pickMenu = (val) => {
+    // 1. Update selected menu immediately
     setSelected(val);
     setValue('menu', val);
+    setSearch('');
     setShowSearch(false);
-
-    // 3. After a short delay (keyboard closing time),
-    //    force modal reposition by closing & reopening it
+    
+    // 2. Force modal reposition after keyboard closes
     setTimeout(() => {
       const dlg = dlgRef.current;
-      if (!dlg) return;
-
-      // Close and reopen dialog to force center reposition
-      if (dlg.open) {
+      if (dlg?.open) {
         dlg.close();
         setTimeout(() => dlg.showModal(), 0);
       }
-    }, );
+    }, 100); // Short delay to ensure keyboard is closed
   };
 
-
-  const deleteMenu = async m => {
+  const deleteMenu = async (m) => {
     try {
       setLoading(true);
       await axiosPublic.delete('/menutoday', { data: { menu: m } });
@@ -90,7 +75,7 @@ export default function SelectMenu() {
     }
   };
 
-  const submitMenu = async data => {
+  const submitMenu = async (data) => {
     try {
       setLoading(true);
       await axiosPublic.patch('/menutoday', data);
@@ -110,12 +95,11 @@ export default function SelectMenu() {
                   className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 
           {/* MAIN FORM */}
-          {!showSearch && (
+          {!showSearch ? (
             <>
               <form onSubmit={handleSubmit(submitMenu)} className="space-y-4 mt-4">
                 <div className="flex items-center gap-2">
                   <span className="w-12 text-gray-400">Menu:</span>
-
                   <input
                     readOnly
                     value={selected}
@@ -139,7 +123,7 @@ export default function SelectMenu() {
                 </div>
               </form>
 
-              {/* day menus */}
+              {/* Current menus */}
               <div className="flex flex-wrap justify-center gap-1 mt-4">
                 {lunches.menu?.map((m,i) => (
                   <span key={i} className="flex items-center gap-1">
@@ -149,29 +133,26 @@ export default function SelectMenu() {
                 ))}
               </div>
             </>
-          )}
-
-          {/* SEARCH SCREEN */}
-          {showSearch && (
+          ) : (
+            /* SEARCH VIEW */
             <>
               <input
                 ref={inputRef}
                 value={search}
-                onChange={e => { setSearch(e.target.value); restartIdle(); }}
-                onFocus={restartIdle}
+                onChange={e => setSearch(e.target.value)}
                 placeholder="Search menu…"
                 className="w-full p-2 mt-6 mb-2 rounded bg-gray-800 text-gray-300 border placeholder-gray-500"
               />
 
-              <div className="h-[36rem] sm:max-h-60 overflow-auto border rounded">
+              <div className="max-h-60 overflow-auto border rounded">
                 {filtered.length ? (
                   filtered.map((m,i) => (
                     <div
                       key={i}
                       onClick={() => pickMenu(m.menu)}
-                      className="px-4 py-2 border cursor-pointer hover:bg-gray-700 text-gray-400 text-center"
+                      className="px-4 py-2 cursor-pointer hover:bg-gray-700 text-gray-400 text-center border border-gray-500"
                     >
-                      {i + 1}. {m.menu}
+                      {m.menu}
                     </div>
                   ))
                 ) : (
@@ -179,8 +160,10 @@ export default function SelectMenu() {
                 )}
               </div>
 
-              <button onClick={() => { setShowSearch(false); setSearch(''); }}
-                      className="btn btn-sm bg-blue-800 text-white mt-3">
+              <button 
+                onClick={() => setShowSearch(false)}
+                className="btn btn-sm bg-blue-800 text-white mt-3"
+              >
                 Back
               </button>
             </>
