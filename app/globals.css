@@ -102,3 +102,9 @@ body {
 .text-10px{
   font-size: 10px !important;
 }
+
+@media (max-width: 639px) {
+  .modal {
+    align-items: center !important;
+  }
+}
