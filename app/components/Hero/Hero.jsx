@@ -34,6 +34,9 @@ const Hero = () => {
         // console.log('clg')
     }, [users, user]);
 
+    const currentUser = users?.find(u => u.email === user?.email);
+
+
     // console.log( isSuper)
 
 
@@ -228,7 +231,7 @@ const Hero = () => {
                 <div className="mx-auto mt-16 grid grid-cols-2 md:grid-cols-3 gap-2">
                     {memoizedLunches}
                 </div>
-                <CallCateringButton/>
+                {currentUser?.status === 'approve' && <CallCateringButton />}
                 
 
                 
