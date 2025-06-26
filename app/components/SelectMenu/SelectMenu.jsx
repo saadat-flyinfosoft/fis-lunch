@@ -190,7 +190,7 @@ const SelectMenu = () => {
       {/* Dropdown Modal */}
       <dialog
         id="dropdown_modal"
-        className="modal sm:modal-middle modal-center"
+        className="modal sm:modal-middle modal-top"
         style={{ zIndex: 50 }}
         onCancel={closeDropdownModal}
       >
@@ -201,7 +201,7 @@ const SelectMenu = () => {
             placeholder="Search menu..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            autoFocus
+            autoFocus={isDropdownModalOpen}
           />
           
           <div className="h-[36rem] sm:max-h-60 overflow-auto border border-gray-300 rounded">
