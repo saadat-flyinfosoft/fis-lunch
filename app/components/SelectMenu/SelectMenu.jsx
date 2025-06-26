@@ -56,16 +56,19 @@ export default function SelectMenu() {
 
   /* pick menu: blur immediately, hide search after 0.5 s */
   const pickMenu = val => {
-    setSelected(val);
-    setValue('menu', val);
-    inputRef.current?.blur();          // disable focus immediately
+    // Close keyboard first
+    inputRef.current?.blur();
     clearTimeout(idle.current);
 
+    // Delay UI update until keyboard is closed
     setTimeout(() => {
+      setSelected(val);
+      setValue('menu', val);
       setSearch('');
-      setShowSearch(false);            // return to main view (recentres)
-    }, CLOSE_DELAY);
+      setShowSearch(false);
+    }, 350);
   };
+
 
   const deleteMenu = async m => {
     try {
