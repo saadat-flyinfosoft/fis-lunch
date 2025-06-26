@@ -10,29 +10,28 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useStore from "@/app/store";
 
 
-
 const Header = () => {
 
     const { loading, googleLogin, logOut } = useContext(AuthContext);
     const user = useStore((state) => state.user);
+    const setStoreUser = useStore(state => state.setUser);
     const axiosPublic = useAxiosPublic();
     const users = useStore((state) => state.users);
     const refetch = useStore((state) => state.fetchUsers);
-    const [localUser, setLocalUser] = useState(null);
     const refetchLunches = useStore((state) => state.fetchLunches);
 
 
-    console.log('localUser', localUser?.displayName, localUser?.email);
+    console.log('user', user?.displayName, user?.email);
 
     useEffect(() => {
         // Check if the user is already available in the local state
-        if (!localUser) {
-            setLocalUser(user);
+        if (!user) {
+            setStoreUser(user);
         }
-    }, [user, localUser]);
+    }, [user, setStoreUser]);
 
 
-    const isAdmin = users.filter(currentUser => currentUser.email === localUser?.email && currentUser.role === 'admin');
+    const isAdmin = users.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
     // console.log('admin', isAdmin);
     // console.log(users)
 
@@ -43,7 +42,7 @@ const Header = () => {
 
                 .then(async(result) => {
                     const user = result.user;
-                    setLocalUser(user);
+                    setStoreUser(user);
                     // console.log('user:', user);
 
                     const data = {
@@ -60,10 +59,10 @@ const Header = () => {
                         Swal.fire({
                             title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔 Book Now",
                             html: `🍇 Welcome to Lunch Manager, </br></b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
-                            // imageUrl: `${localUser?.photoURL}`,
+                            // imageUrl: `${user?.photoURL}`,
                             imageWidth: 400,
                             imageHeight: 200,
-                            // imageAlt: `${localUser?.displayName}`,
+                            // imageAlt: `${user?.displayName}`,
                             timer: 10000
                           });
                     }
@@ -90,10 +89,10 @@ const Header = () => {
                                 // Swal.fire({
                                 //     title: "🍌 Are you Hungry ?</br>🍗 Want food ? </br>🍔= Book Now",
                                 //     html: `🍇 Welcome Back, </br>🍔</b> </br></br><b>🍖🌭🍔🍗</br>🍱🌯🍳🍉</br>🍌🍒🍎🍆</b>`,
-                                //     // imageUrl: `${localUser?.photoURL}`,
+                                //     // imageUrl: `${user?.photoURL}`,
                                 //     imageWidth: 400,
                                 //     imageHeight: 200,
-                                //     // imageAlt: `${localUser?.displayName}`,
+                                //     // imageAlt: `${user?.displayName}`,
                                 //     // timer: 40000
                                 //   });
                             }
@@ -160,14 +159,14 @@ const Header = () => {
                 <div className='flex gap-2'>
 
                     <div className='flex justify-center items-center gap-2'>
-                        <Image className='rounded-xl ' width="50" height="100" src={localUser ? localUser?.photoURL : 'https://i.ibb.co/X5pYtby/FISLM-i.png'} alt=''></Image>
+                        <Image className='rounded-xl ' width="50" height="100" src={user ? user?.photoURL : 'https://i.ibb.co/X5pYtby/FISLM-i.png'} alt=''></Image>
 
                     </div>
                     <div className='flex flex-col justify-center'>
                         {user ?
                             (
                                 <div>
-                                    <p className='text-blue-700 font-semibold text-xs'>{localUser?.displayName.slice(0, 9)}</p>
+                                    <p className='text-blue-700 font-semibold text-xs'>{user?.displayName.slice(0, 9)}</p>
                                     <button
                                         onClick={handleGoogleLogIn}
                                         className={` border rounded px-2 text-white hover:text-gray-300 ${user ? 'bg-red-500' : 'bg-red-500'
