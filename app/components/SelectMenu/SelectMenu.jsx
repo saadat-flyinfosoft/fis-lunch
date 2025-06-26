@@ -107,7 +107,7 @@ const SelectMenu = () => {
       {/* Main Modal */}
       <dialog
         id="my_modal_select_menu"
-        className="modal modal-middle"
+        className="modal modal-center sm:modal-middle"
         style={{ zIndex: 50 }}
         onCancel={closeMainModal}
       >
