@@ -197,7 +197,7 @@ const SelectMenu = () => {
         <div className="modal-box w-80 max-w-full relative">
           <input
             type="text"
-            className="w-full p-2 mb-2 mt-8 rounded border border-gray-300"
+            className="w-full p-2 mb-2 mt-8 rounded border border-gray-300 text-gray-300 bg-gray-800 placeholder-gray-500"
             placeholder="Search menu..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
