@@ -33,6 +33,10 @@ const Hero = () => {
         // console.log('clg')
     }, [users, user]);
 
+    useEffect(() => {
+        refetch();
+    }, []);
+
     const currentUser = users?.find(u => u.email === user?.email);
 
 
