@@ -17,6 +17,52 @@ const Page = () => {
     const isAdmin = users?.filter(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
 
 
+    const handleUser = (id) => {
+
+        const user = users?.find(u => u._id === id);
+
+
+        Swal.fire({
+            title: "Make Admin to User?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, do it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                if (user.super === 'yes') {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "⚠️ Permission Denied.",
+                        text: "You cannot remove a super admin."
+                    });
+                    return;
+                }
+
+                axiosPublic.patch(`/admintouser/${id}`)
+                    .then(res => {
+                        if (res.data) {
+
+
+                            Swal.fire({
+                                position: "top-center",
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            refetch();
+
+                        }
+                        else {
+
+                        }
+                    })
+
+            }
+        });
+    };
     const handleAdmin = (id) => {
         // console.log("Item ID to admin:", id);
         // Perform logic to approve the request using the id
@@ -155,7 +201,7 @@ const Page = () => {
                                 user.role === 'admin' ?
 
                                     <button
-
+                                        onClick={() => handleUser(user._id)}
                                         className={`border w-[80px] border-slate-500 bg-slate-500 hover:bg-blue-800 ${user.super? 'text-yellow-100' : ''} text-white text-sm font-semibold py-1 px-2 mr-2 rounded`}
                                     >
                                         Admin
