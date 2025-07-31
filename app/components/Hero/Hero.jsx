@@ -263,7 +263,7 @@ const Hero = () => {
                 <div className="flex items-center gap-4 z-10">
                 {Object.keys(menuCounts).length > 0 && (
                     <button
-                    className="border rounded-md p-0 text-xl animate-slide-in delay-100"
+                    className="border rounded-md px-1 text-xl animate-slide-in delay-100"
                     onClick={() => {
                         refetch();
                         document.getElementById('my_modal_3').showModal();
