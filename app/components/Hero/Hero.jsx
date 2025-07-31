@@ -24,9 +24,10 @@ const Hero = () => {
     const [loading, setLoading] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     // const [isSuper, setIsSuper] = useState(false);
+    const [isCatering, setIsCatering] = useState(false);
     const [notifLoading, setNotifLoading] = useState(false);
 
-    console.log(user?.displayName)
+    const currentUser = users?.find(u => u.email === user?.email);
 
 
     const sendNotification = async () => {
@@ -77,20 +78,23 @@ const Hero = () => {
 
 
     useEffect(() => {
-        // Check if the current user is an admin
-        const adminUser = users.some(currentUser => currentUser.email === user?.email && currentUser.role === 'admin');
-        // const isSuper = users.some(currentUser => currentUser.email === user?.email && currentUser?.super === 'yes');
-        setIsAdmin(adminUser);
+        if (!user) return;
+
+        const matchedUser = users.find(currentUser => currentUser.email === user.email);
+
+        const isAdmin = matchedUser?.role === 'admin';
+        const isCatering = matchedUser?.role === 'catering';
+        // const isSuper = matchedUser?.super === 'yes';
+
+        setIsAdmin(isAdmin);
+        setIsCatering(isCatering);
         // setIsSuper(isSuper);
-        // refetch()
-        // console.log('clg')
     }, [users, user]);
 
     useEffect(() => {
         refetch();
     }, []);
 
-    const currentUser = users?.find(u => u.email === user?.email);
 
 
     // console.log( isSuper)
@@ -256,10 +260,10 @@ const Hero = () => {
             }}
         >
             <div className="absolute inset-0 bg-black opacity-50"></div>
-            <div className="flex items-center gap-4 z-10">
+                <div className="flex items-center gap-4 z-10">
                 {Object.keys(menuCounts).length > 0 && (
                     <button
-                    className="border rounded-md p-0 text-xl"
+                    className="border rounded-md p-0 text-xl animate-slide-in delay-100"
                     onClick={() => {
                         refetch();
                         document.getElementById('my_modal_3').showModal();
@@ -268,16 +272,27 @@ const Hero = () => {
                     ℹ️
                     </button>
                 )}
-                {isAdmin && <div className="mb-1"><SelectMenu /></div>}
-                <button onClick={sendNotification}>
-                    {notifLoading ? (
-                    <ImSpinner2 className="text-[30px] text-white animate-spin" />
-                    ) : (
-                    <MdOutlineNotificationsActive className="text-[30px] text-white hover:text-red-500 cursor-pointer transition-colors duration-300" />
-                    )}
-                </button>
 
-            </div>
+                {(isAdmin || isCatering) && (
+                    <div className="mb-1 animate-slide-in delay-400">
+                    <SelectMenu />
+                    </div>
+                )}
+
+                {(isAdmin || isCatering) && (
+                    <button
+                    onClick={sendNotification}
+                    className="animate-slide-in delay-600"
+                    >
+                    {notifLoading ? (
+                        <ImSpinner2 className="text-[30px] text-white animate-spin" />
+                    ) : (
+                        <MdOutlineNotificationsActive className="text-[30px] text-white hover:text-red-500 cursor-pointer transition-colors duration-300" />
+                    )}
+                    </button>
+                )}
+                </div>
+
 
             <h1 className="text-2xl font-bold z-10 pl">FlyInfoSoft Lunch Manager</h1>
             {/* <AudioPlayer/> */}
