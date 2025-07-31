@@ -35,11 +35,11 @@ const Hero = () => {
         }
           const confirmed = await Swal.fire({
             title: 'Send Lunch Notification?',
-            text: "Do you want to send the lunch notification?",
+            text: "Do you want to send notification to all users?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Yes, send it!',
-            cancelButtonText: 'Cancel',
+            cancelButtonText: 'No',
             position: 'top-center',
         });
 
