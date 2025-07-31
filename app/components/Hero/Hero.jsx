@@ -4,6 +4,9 @@ import BookingButton from '../BookingButton/BookingButton';
 import SelectMenu from '../SelectMenu/SelectMenu';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
+import { MdOutlineNotificationsActive } from "react-icons/md";
+import { BsFillInfoSquareFill } from "react-icons/bs";
+import { ImSpinner2 } from "react-icons/im";
 import AudioPlayer from '../Audio/AudioPlay';
 import CallCateringButton from '@/Hooks/CallCateringButton';
 import useStore from '@/app/store';
@@ -19,9 +22,59 @@ const Hero = () => {
     const [selectUser, setSelectUser] = useState({ selectedMenu: null });
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(false);
-    
     const [isAdmin, setIsAdmin] = useState(false);
     // const [isSuper, setIsSuper] = useState(false);
+    const [notifLoading, setNotifLoading] = useState(false);
+
+    console.log(user?.displayName)
+
+
+    const sendNotification = async () => {
+        if(!user?.displayName){
+            return;
+        }
+          const confirmed = await Swal.fire({
+            title: 'Send Lunch Notification?',
+            text: "Do you want to send the lunch notification?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, send it!',
+            cancelButtonText: 'Cancel',
+            position: 'top-center',
+        });
+
+        if (!confirmed.isConfirmed) {
+            return;
+        }
+
+        try {
+            setNotifLoading(true);
+            const res = await axiosPublic.post("/fire-notification", { message: `আপনার লাঞ্চ কনফার্ম করুন, (${user.displayName})`});
+            if (res.data.message === 'Lunch notification sent successfully') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Notification Sent Just Now!',
+                    timer: 2000,
+                    showConfirmButton: true,
+                    position: 'top-center',
+                });
+            }
+        } 
+        catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Notification Failed',
+                text: error?.message || 'Something went wrong.',
+                showConfirmButton: true,
+                position: 'top-center',
+            });
+            console.error("Notification send failed:", error);
+            }
+        finally {
+        setNotifLoading(false);
+        }
+    };
+
 
     useEffect(() => {
         // Check if the current user is an admin
@@ -203,25 +256,27 @@ const Hero = () => {
             }}
         >
             <div className="absolute inset-0 bg-black opacity-50"></div>
-            <div className='z-10'>
-                { Object.keys(menuCounts).length > 0 &&
+            <div className="flex items-center gap-4 z-10">
+                {Object.keys(menuCounts).length > 0 && (
                     <button
-                        className="border rounded-md px-3 text-xl"
-                        onClick={() => {
-                        refetch(); 
-                        document.getElementById('my_modal_3').showModal(); 
+                    className="border rounded-md p-0 text-xl"
+                    onClick={() => {
+                        refetch();
+                        document.getElementById('my_modal_3').showModal();
                     }}
-                  >
+                    >
                     ℹ️
-                  </button>
-                  
-                }
-            </div>
-            <div className='z-10 mt-4'>
-                {
-                isAdmin &&
-                    <SelectMenu/> 
-                }
+                    </button>
+                )}
+                {isAdmin && <div className="mb-1"><SelectMenu /></div>}
+                <button onClick={sendNotification}>
+                    {notifLoading ? (
+                    <ImSpinner2 className="text-[30px] text-white animate-spin" />
+                    ) : (
+                    <MdOutlineNotificationsActive className="text-[30px] text-white hover:text-red-500 cursor-pointer transition-colors duration-300" />
+                    )}
+                </button>
+
             </div>
 
             <h1 className="text-2xl font-bold z-10 pl">FlyInfoSoft Lunch Manager</h1>
@@ -234,6 +289,7 @@ const Hero = () => {
                     {memoizedLunches}
                 </div>
                 {currentUser?.status === 'approve' && <CallCateringButton />}
+
                 
 
                 
