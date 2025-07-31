@@ -57,10 +57,10 @@ const Lunches = ({ onRefresh, lunches }) => {
         };
         // console.log(data)
 
-        const startHour = 8;
-        const endHour = 11;
+        const startHour = 6;
+        const endHour = 10;
         const startMinutes = 0;
-        const endMinutes = 59;
+        const endMinutes = 30;
 
         if (
             currentHour < startHour || 
@@ -78,8 +78,8 @@ const Lunches = ({ onRefresh, lunches }) => {
         }
 
         const { value: selectedMenuItem } = await Swal.fire({
-            title: "Booking Time: 8 AM to 12 PM",
-            text: "Booking Time: 8 AM to 12 PM",
+            title: "Booking Time: 6 AM to 10:30 AM",
+            text: "Booking Time: 6 AM to 10:30 AM",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -177,9 +177,9 @@ const Lunches = ({ onRefresh, lunches }) => {
             if (result.isConfirmed) {
               
                 try {
-                    const response = await axiosPublic.delete(`/lunch/cancel`, {
-                        data: { email: email }
-                    });
+                    // const response = await axiosPublic.delete(`/lunch/cancel`, {
+                    //     data: { email: email }
+                    // });
             
                     console.log(response.data)
                     if (response.data.message === 'Booking cancelled successfully') {
