@@ -31,50 +31,55 @@ const Hero = () => {
 
 
     const sendNotification = async () => {
-        if(!user?.displayName){
-            return;
+    if (!user?.displayName) return;
+
+    const { isConfirmed, value: customMessage } = await Swal.fire({
+        title: 'Send Lunch Notification?',
+        text: "Enter a custom message to notify all users.",
+        input: 'textarea',
+        inputPlaceholder: 'Type your custom message here...',
+        inputValue: `আপনার লাঞ্চ কনফার্ম করুন`,
+        showCancelButton: true,
+        confirmButtonText: 'Send Notification',
+        cancelButtonText: 'Cancel',
+        position: 'top-center',
+        inputValidator: (value) => {
+        if (!value) return 'Message cannot be empty!';
         }
-          const confirmed = await Swal.fire({
-            title: 'Send Lunch Notification?',
-            text: "Do you want to send notification to all users?",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, send it!',
-            cancelButtonText: 'No',
-            position: 'top-center',
+    });
+
+    if (!isConfirmed) return;
+
+    try {
+        setNotifLoading(true);
+        const res = await axiosPublic.post("/fire-notification", {
+        message: customMessage.trim(),
         });
 
-        if (!confirmed.isConfirmed) {
-            return;
+        if (res.data.message === 'Lunch notification sent successfully') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Notification Sent!',
+            text: 'Your message was sent to all users.',
+            timer: 2000,
+            showConfirmButton: false,
+            position: 'top-center',
+        });
         }
-
-        try {
-            setNotifLoading(true);
-            const res = await axiosPublic.post("/fire-notification", { message: `আপনার লাঞ্চ কনফার্ম করুন, (${user.displayName})`});
-            if (res.data.message === 'Lunch notification sent successfully') {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Notification Sent Just Now!',
-                    timer: 2000,
-                    showConfirmButton: true,
-                    position: 'top-center',
-                });
-            }
-        } 
-        catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Notification Failed',
-                text: error?.message || 'Something went wrong.',
-                showConfirmButton: true,
-                position: 'top-center',
-            });
-            console.error("Notification send failed:", error);
-            }
-        finally {
+    } catch (error) {
+        Swal.fire({
+        icon: 'error',
+        title: 'Notification Failed',
+        text: error?.message || 'Something went wrong.',
+        showConfirmButton: true,
+        position: 'top-center',
+        });
+        console.error("Notification send failed:", error);
+    } finally {
         setNotifLoading(false);
-        }
+    }
     };
+
 
 
     useEffect(() => {
