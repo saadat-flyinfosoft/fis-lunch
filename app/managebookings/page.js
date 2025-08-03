@@ -45,8 +45,8 @@ const Page = () => {
         const now = new Date();
         const startHour = 6, 
         startMinutes = 0;
-        const endHour = 11, 
-        endMinutes = 45;
+        const endHour = 12, 
+        endMinutes = 0;
 
         const currentHour = now.getHours();
         const currentMinutes = now.getMinutes();
@@ -60,7 +60,7 @@ const Page = () => {
             Swal.fire({
             icon: "warning",
             title: "Booking Closed",
-            text: "Booking is allowed max 11:45 AM for admin",
+            text: "Booking is allowed max 12 PM for admin",
             timer: 3000
             });
             return;
@@ -171,8 +171,8 @@ const Page = () => {
         const now = new Date();
         const startHour = 6, 
         startMinutes = 0;
-        const endHour = 11, 
-        endMinutes = 45;
+        const endHour = 12, 
+        endMinutes = 0;
 
         const currentHour = now.getHours();
         const currentMinutes = now.getMinutes();
@@ -186,7 +186,7 @@ const Page = () => {
             Swal.fire({
             icon: "warning",
             title: "Booking Closed",
-            text: "Booking is allowed max 11:45 AM for admin",
+            text: "Booking is allowed max 12 PM for admin",
             timer: 3000
             });
             return;

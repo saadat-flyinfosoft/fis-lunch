@@ -38,7 +38,7 @@ const Hero = () => {
         text: "Enter a custom message to notify all users.",
         input: 'textarea',
         inputPlaceholder: 'Type your custom message here...',
-        inputValue: `আপনার লাঞ্চ কনফার্ম করুন`,
+        inputValue: `“অনাহার এড়াতে আপনার দুপুরের আহার নিশ্চিত করুন।”`,
         showCancelButton: true,
         confirmButtonText: 'Send Notification',
         cancelButtonText: 'Cancel',
