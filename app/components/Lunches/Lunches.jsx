@@ -70,7 +70,7 @@ const Lunches = ({ onRefresh, lunches }) => {
         ) {
             Swal.fire({
                 title: "Can't Book Now",
-                text: "You can only book Lunch between 8 AM to 12 PM.",
+                text: "You can only book Lunch between 6 AM to 10:30 AM",
                 icon: "warning",
                 timer: 3000
             });
