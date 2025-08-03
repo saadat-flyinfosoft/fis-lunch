@@ -224,31 +224,31 @@ const Hero = () => {
 
     setLoading(true);
 
-    const now = new Date();
-    const startHour = 6,
-        startMinutes = 0;
-    const endHour = 11,
-        endMinutes = 0;
+    // const now = new Date();
+    // const startHour = 6,
+    //     startMinutes = 0;
+    // const endHour = 11,
+    //     endMinutes = 0;
 
-    const currentHour = now.getHours();
-    const currentMinutes = now.getMinutes();
+    // const currentHour = now.getHours();
+    // const currentMinutes = now.getMinutes();
 
-    const isWithinBookingTime =
-        (currentHour > startHour || (currentHour === startHour && currentMinutes >= startMinutes)) &&
-        (currentHour < endHour || (currentHour === endHour && currentMinutes <= endMinutes));
+    // const isWithinBookingTime =
+    //     (currentHour > startHour || (currentHour === startHour && currentMinutes >= startMinutes)) &&
+    //     (currentHour < endHour || (currentHour === endHour && currentMinutes <= endMinutes));
 
-    if (!isWithinBookingTime) {
-        setLoading(false);
-        Swal.fire({
-        title: "Time Expired",
-        text: "Cancellation allowed before 11:00 AM.",
-        icon: "warning",
-        timer: 4000,
-        position: "top-center",
-        showConfirmButton: false,
-        });
-        return;
-    }
+    // if (!isWithinBookingTime) {
+    //     setLoading(false);
+    //     Swal.fire({
+    //     title: "Time Expired",
+    //     text: "Cancellation allowed before 11:00 AM.",
+    //     icon: "warning",
+    //     timer: 4000,
+    //     position: "top-center",
+    //     showConfirmButton: false,
+    //     });
+    //     return;
+    // }
 
     try {
         const response = await axiosPublic.delete(`/lunch/cancel`, {
