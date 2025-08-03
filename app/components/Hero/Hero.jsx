@@ -220,36 +220,57 @@ const Hero = () => {
     };
 
     const handleCancel = async (email) => {
-        setLoading(true);
-        if (!email) {
-            return;
-        }
+    if (!email) return;
 
-        const currentTime = new Date();
-        const currentHour = currentTime.getHours();
-        const currentMinutes = currentTime.getMinutes();
-    
-        try {
-            const response = await axiosPublic.delete(`/lunch/cancel`, {
-                data: { email: email, adminEmail: user?.email }
-            });
-            refetch();
+    setLoading(true);
 
-            if (response.data.message === 'Booking cancelled successfully') {
-                setLoading(false);
-            }
-        } catch (error) {
-            console.log(error)
-            setLoading(false);
-            // Swal.fire({
-            //     title: "Error",
-            //     text: error.response?.data?.message || "Failed to cancel booking.",
-            //     icon: "error",
-            //     timer: 5000
-            // });
+    const now = new Date();
+    const startHour = 6,
+        startMinutes = 0;
+    const endHour = 11,
+        endMinutes = 0;
+
+    const currentHour = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    const isWithinBookingTime =
+        (currentHour > startHour || (currentHour === startHour && currentMinutes >= startMinutes)) &&
+        (currentHour < endHour || (currentHour === endHour && currentMinutes <= endMinutes));
+
+    if (!isWithinBookingTime) {
+        setLoading(false);
+        Swal.fire({
+        title: "Time Expired",
+        text: "Cancellation allowed before 11:00 AM.",
+        icon: "warning",
+        timer: 4000,
+        position: "top-center",
+        showConfirmButton: false,
+        });
+        return;
+    }
+
+    try {
+        const response = await axiosPublic.delete(`/lunch/cancel`, {
+        data: { email: email, adminEmail: user?.email },
+        });
+        refetch();
+
+        if (response.data.message === "Booking cancelled successfully") {
+        setLoading(false);
         }
-        
+    } catch (error) {
+        setLoading(false);
+        Swal.fire({
+        title: "Error",
+        text: error.response?.data?.message || "Failed to cancel booking.",
+        icon: "error",
+        timer: 5000,
+        position: "top-center",
+        });
+    }
     };
+
       
   
 //   console.log(menuCounts);

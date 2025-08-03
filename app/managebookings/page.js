@@ -84,7 +84,7 @@ const Page = () => {
 
         const { value: selectedMenuItem } = await Swal.fire({
             title: "Booking Time: 6 AM to 11: 30 AM",
-            text: "Booking Time: 6 AM to 11: 30 AM",
+            text: "Booking is allowed max 12 PM for admin",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -207,7 +207,7 @@ const Page = () => {
 
 
         Swal.fire({
-            title: "Booking From Admin Panel!",
+            title: "Booking Time: 6 AM to 11: 30 AM",
             text: `Book Lunch for Guest ${name} ?`,
             icon: "warning",
             showCancelButton: true,
