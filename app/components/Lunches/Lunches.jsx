@@ -58,7 +58,7 @@ const Lunches = ({ onRefresh, lunches }) => {
         // console.log(data)
 
         const startHour = 6;
-        const endHour = 10;
+        const endHour = 11;
         const startMinutes = 0;
         const endMinutes = 30;
 
@@ -70,7 +70,7 @@ const Lunches = ({ onRefresh, lunches }) => {
         ) {
             Swal.fire({
                 title: "Can't Book Now",
-                text: "You can only book Lunch between 6 AM to 10:30 AM",
+                text: "You can only book Lunch between 6 AM to 11:30 AM",
                 icon: "warning",
                 timer: 3000
             });
@@ -78,8 +78,8 @@ const Lunches = ({ onRefresh, lunches }) => {
         }
 
         const { value: selectedMenuItem } = await Swal.fire({
-            title: "Booking Time: 6 AM to 10:30 AM",
-            text: "Booking Time: 6 AM to 10:30 AM",
+            title: "Booking Time: 6 AM to 11:30 AM",
+            text: "Booking Time: 6 AM to 11:30 AM",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -166,7 +166,7 @@ const Lunches = ({ onRefresh, lunches }) => {
         }
     
         Swal.fire({
-            title: "Cancel Before 12:30 PM !",
+            title: "Cancel Before 11:00 AM !",
             text:  `Selected Menu: [${isBooked?.selectedMenu}]`,
             icon: "warning",
             showCancelButton: true,
@@ -177,9 +177,9 @@ const Lunches = ({ onRefresh, lunches }) => {
             if (result.isConfirmed) {
               
                 try {
-                    // const response = await axiosPublic.delete(`/lunch/cancel`, {
-                    //     data: { email: email }
-                    // });
+                    const response = await axiosPublic.delete(`/lunch/cancel`, {
+                        data: { email: email }
+                    });
             
                     console.log(response.data)
                     if (response.data.message === 'Booking cancelled successfully') {

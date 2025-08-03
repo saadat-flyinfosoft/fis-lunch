@@ -41,6 +41,32 @@ const Page = () => {
 
 
     const handleBookForUser = async (name, email) => {
+
+        const now = new Date();
+        const startHour = 6, 
+        startMinutes = 0;
+        const endHour = 11, 
+        endMinutes = 45;
+
+        const currentHour = now.getHours();
+        const currentMinutes = now.getMinutes();
+
+        const isWithinBookingTime =
+            (currentHour > startHour || (currentHour === startHour && currentMinutes >= startMinutes)) &&
+            (currentHour < endHour || (currentHour === endHour && currentMinutes <= endMinutes));
+
+        // ⛔ Show warning if outside time window
+        if (!isWithinBookingTime) {
+            Swal.fire({
+            icon: "warning",
+            title: "Booking Closed",
+            text: "Booking is allowed max 11:45 AM for admin",
+            timer: 3000
+            });
+            return;
+        }
+
+
         refetchLunches();
 
         const data = {
@@ -57,8 +83,8 @@ const Page = () => {
 
 
         const { value: selectedMenuItem } = await Swal.fire({
-            title: "Booking Time: 10 AM to 12PM",
-            text: "Booking Time: 10 AM to 12PM",
+            title: "Booking Time: 6 AM to 11: 30 AM",
+            text: "Booking Time: 6 AM to 11: 30 AM",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -141,6 +167,30 @@ const Page = () => {
     
 
     const handleBookForGuest = (formData) => {
+
+        const now = new Date();
+        const startHour = 6, 
+        startMinutes = 0;
+        const endHour = 11, 
+        endMinutes = 45;
+
+        const currentHour = now.getHours();
+        const currentMinutes = now.getMinutes();
+
+        const isWithinBookingTime =
+            (currentHour > startHour || (currentHour === startHour && currentMinutes >= startMinutes)) &&
+            (currentHour < endHour || (currentHour === endHour && currentMinutes <= endMinutes));
+
+        // ⛔ Show warning if outside time window
+        if (!isWithinBookingTime) {
+            Swal.fire({
+            icon: "warning",
+            title: "Booking Closed",
+            text: "Booking is allowed max 11:45 AM for admin",
+            timer: 3000
+            });
+            return;
+        }
 
         const data = {
             name: formData.name,
