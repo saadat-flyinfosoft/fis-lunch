@@ -45,7 +45,7 @@ const Page = () => {
         const now = new Date();
         const startHour = 6, 
         startMinutes = 0;
-        const endHour = 12, 
+        const endHour = 14, 
         endMinutes = 0;
 
         const currentHour = now.getHours();
@@ -60,7 +60,7 @@ const Page = () => {
             Swal.fire({
             icon: "warning",
             title: "Booking Closed",
-            text: "Booking is allowed max 12 PM for admin",
+            text: "Booking is allowed max 2 PM for admin",
             timer: 3000
             });
             return;
@@ -84,7 +84,7 @@ const Page = () => {
 
         const { value: selectedMenuItem } = await Swal.fire({
             title: "Booking Time: 6 AM to 11: 30 AM",
-            text: "Booking is allowed max 12 PM for admin",
+            text: "Booking is allowed max 2 PM for admin",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -171,7 +171,7 @@ const Page = () => {
         const now = new Date();
         const startHour = 6, 
         startMinutes = 0;
-        const endHour = 12, 
+        const endHour = 14, 
         endMinutes = 0;
 
         const currentHour = now.getHours();
@@ -186,7 +186,7 @@ const Page = () => {
             Swal.fire({
             icon: "warning",
             title: "Booking Closed",
-            text: "Booking is allowed max 12 PM for admin",
+            text: "Booking is allowed max 2 PM for admin",
             timer: 3000
             });
             return;
