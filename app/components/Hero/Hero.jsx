@@ -53,7 +53,7 @@ const Hero = () => {
     try {
         setNotifLoading(true);
         const res = await axiosPublic.post("/fire-notification", {
-        message: `${customMessage.trim()} — Sent by ${user.displayName}`,
+        message: `${customMessage.trim()}:${user.displayName}`,
         });
 
         if (res.data.message === 'Lunch notification sent successfully') {
