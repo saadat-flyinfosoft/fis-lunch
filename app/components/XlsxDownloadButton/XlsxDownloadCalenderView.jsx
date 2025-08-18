@@ -1,4 +1,4 @@
-import { Lunch_cost } from "@/app/utils";
+import { lunchPrice } from "@/app/utils";
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 
@@ -10,6 +10,8 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
 
   const [monthFirstDay, setMonthFirstDay] = useState("");
   const [monthLastDay, setMonthLastDay] = useState("");
+  const [lunchPrice, setLunchPrice] = useState(100);
+
 
   useEffect(() => {
     if (transactions && transactions.length > 0) {
@@ -122,7 +124,7 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
       })
       .map(({ sl, name, staffId, bookings }) => {
         const totalLunch = bookings.reduce((sum, q) => sum + (q || 0), 0);
-        const totalCost = totalLunch > 0 ? totalLunch * Lunch_cost : "";
+        const totalCost = totalLunch > 0 ? totalLunch * lunchPrice : "";
         return [sl, name, staffId, ...bookings, totalLunch || "", totalCost];
       });
 
@@ -139,7 +141,7 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
       return {
         name,
         totalLunch,
-        totalCost: totalLunch * Lunch_cost,
+        totalCost: totalLunch * lunchPrice,
         status: "Pending",
       };
     });
@@ -190,7 +192,10 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
 
   // --- Summary list for UI ---
   useEffect(() => {
-    if (!transactions || transactions.length === 0) return;
+    if (!transactions || transactions.length === 0) {
+      setSummaryList([]);
+      return;
+    }
 
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
@@ -205,29 +210,24 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
     const userMap = new Map();
     filteredTransactions.forEach((record) => {
       record.data.forEach((user) => {
-        const userKey = user.email;
-        if (!userMap.has(userKey)) {
-          userMap.set(userKey, {
-            name: user.name,
-            bookings: Array(31).fill(0),
-          });
+        const key = user.email;
+        if (!userMap.has(key)) {
+          userMap.set(key, { name: user.name, bookings: Array(31).fill(0) });
         }
         const day = new Date(user.date).getDate();
-        userMap.get(userKey).bookings[day - 1] = user.lunchQuantity;
+        userMap.get(key).bookings[day - 1] = Number(user.lunchQuantity) || 0;
       });
     });
 
     const summary = Array.from(userMap.values()).map(({ name, bookings }) => {
-      const totalLunch = bookings.reduce((sum, q) => sum + (q || 0), 0);
-      return {
-        name,
-        totalLunch,
-        totalCost: totalLunch * Lunch_cost,
-        status: Lunch_cost,
-      };
+      const totalLunch = bookings.reduce((sum, q) => sum + (Number(q) || 0), 0);
+      const totalCost = totalLunch * (Number(lunchPrice) || 0);
+      return { name, totalLunch, totalCost, status: "Pending" };
     });
+
     setSummaryList(summary);
-  }, [transactions, startDate, endDate]);
+  }, [transactions, startDate, endDate, lunchPrice]); // <- include lunchPrice
+
 
   const isDisabled = !startDate || !endDate;
 
@@ -242,7 +242,7 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
       </button>
 
 
-      <div className="flex gap-2 items-center mb-4">
+      <div className="flex gap-2 items-center mb-1">
         <input
           type="date"
           value={startDate}
@@ -265,6 +265,18 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
 
       </div>
 
+      {/* ✅ Lunch price input */}
+      <div className="flex items-center gap-1 mb-4">
+        <label className="text-sm font-semibold">Lunch Price:</label>
+        <input
+          type="number"
+          value={lunchPrice}
+          onChange={(e) => setLunchPrice(Number(e.target.value) || 0)}
+          className="border rounded  text-sm w-12"
+          min="0"
+        /> TK
+      </div>
+
       {/* Summary List */}
       {/* Summary List */}
       <div className="border-t pt-2 mt-2">
@@ -273,36 +285,36 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
         ) : (
           <>
             {/* Header row */}
-            <div className="flex justify-between text-sm font-bold border-b py-1 bg-gray-400">
+            <div className="flex justify-between text-sm font-bold border-b py-1 bg-gray-400 p-1">
               <span className="w-1/12 ">SL.</span>
-              <span className="w-3/12">Name</span>
-              <span className="w-3/12 ">Total Lunch</span>
-              <span className="w-3/12 ">Total Cost</span>
-              <span className="w-2/12 ">Cost/Lunch</span>
+              <span className="w-4/12">Name</span>
+              <span className="w-4/12 ">Total Lunch</span>
+              <span className="w-2/12 ">Total Cost</span>
             </div>
 
             {/* User rows */}
             {summaryList.map((item, idx) => (
               <div key={idx} className="flex justify-between text-sm border-b py-1">
                 <span className="w-1/12 ">{idx + 1}</span>
-                <span className="w-3/12">{item.name}</span>
-                <span className="w-3/12 ">{item.totalLunch}</span>
-                <span className="w-3/12 ">{item.totalCost}</span>
-                <span className="w-2/12 ">{item.status}</span>
+                <span className="w-4/12">{item.name}</span>
+                <span className="w-4/12 ">{item.totalLunch}</span>
+                <span className="w-2/12 ">{item.totalCost}</span>
               </div>
             ))}
 
             {/* Grand total row */}
+            {/* Grand total row */}
             <div className="flex justify-between text-sm font-bold border-t py-1 bg-gray-400">
+              <span className="w-1/12">#</span>
               <span className="w-4/12">Grand Total</span>
-              <span className="w-3/12 ">
+              <span className="w-4/12">
                 {summaryList.reduce((sum, item) => sum + (item.totalLunch || 0), 0)}
               </span>
-              <span className="w-3/12 ">
+              <span className="w-2/12">
                 {summaryList.reduce((sum, item) => sum + (item.totalCost || 0), 0)}
               </span>
-              <span className="w-2/12 ">-</span>
             </div>
+
           </>
         )}
       </div>

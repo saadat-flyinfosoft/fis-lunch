@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import useStore from '@/app/store';
+import { Lunch_cost } from '@/app/utils';
 
 const MonthlyDataView = ({ data, date }) => {
   /** ────────────────────────────────
@@ -93,7 +94,7 @@ const MonthlyDataView = ({ data, date }) => {
                 </span>
               </td>
               <td className="border-x-2 border-slate-500 p-2">
-                {`Lunch: ${userTotalLunchQuantity(u.email)} (${userTotalLunchQuantity(u.email) * 110} BDT)`}
+                {`Lunch: ${userTotalLunchQuantity(u.email)} (${userTotalLunchQuantity(u.email) * {Lunch_cost}} BDT)`}
               </td>
             </tr>
           ))}
@@ -105,13 +106,13 @@ const MonthlyDataView = ({ data, date }) => {
               Total Lunches
             </td>
             <td className="border border-slate-500 p-2 font-bold">
-              {totalLunchCount} (110 TK)
+              {totalLunchCount} ({Lunch_cost} TK)
             </td>
           </tr>
           <tr>
             <td className="border border-slate-500 p-2 font-bold">Total Cost</td>
             <td className="border border-slate-500 p-2 font-bold">
-              {totalLunchCount * 110} BDT
+              {totalLunchCount * {Lunch_cost}} BDT
             </td>
           </tr>
         </tfoot>
