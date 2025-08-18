@@ -1,7 +1,43 @@
-import React from "react";
+import { Lunch_cost } from "@/app/utils";
+import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 
 const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx" }) => {
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [monthYear, setMonthYear] = useState("");
+  const [summaryList, setSummaryList] = useState([]);
+
+  const [monthFirstDay, setMonthFirstDay] = useState("");
+  const [monthLastDay, setMonthLastDay] = useState("");
+
+  useEffect(() => {
+    if (transactions && transactions.length > 0) {
+      const firstMonthYear = transactions[0]?.date2; // e.g. "8/2025"
+      if (firstMonthYear) {
+        setMonthYear(firstMonthYear);
+
+        const [month, year] = firstMonthYear.split("/");
+        const lastDay = new Date(year, month, 0).getDate(); // last day of month
+
+        setStartDate(`${year}-${month.padStart(2, "0")}-01`);
+        setEndDate(`${year}-${month.padStart(2, "0")}-${lastDay}`);
+
+        setMonthFirstDay(`${year}-${month.padStart(2, "0")}-01`);
+        setMonthLastDay(`${year}-${month.padStart(2, "0")}-${lastDay}`);
+      }
+    }
+  }, [transactions]);
+
+
+  const handleDayChange = (setter) => (e) => {
+    if (!monthYear) return;
+
+    const [month, year] = monthYear.split("/");
+    const day = e.target.value.split("-")[2]; // only day part
+    const formatted = `${year}-${month.padStart(2, "0")}-${day}`;
+    setter(formatted);
+  };
 
   const staffIDs = {
     "faroque.sust@gmail.com": "11",
@@ -19,20 +55,33 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
     "nurul.islam86061907@gmail.com": "",
     "jubayer8221@gmail.com": "",
     "mehzabmotin2025@gmail.com": "",
-    "guest@gmail.com": "", 
+    "guest@gmail.com": "",
   };
-  
+
   const exportToExcel = () => {
     if (!transactions || transactions.length === 0) {
       alert("No data available for export!");
       return;
     }
 
-    const reportMonth = transactions[0]?.date2 || "";
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
 
-    console.log(transactions)
+    const filteredTransactions = transactions.filter((record) => {
+      const recordDate = new Date(record.date);
+      if (start && recordDate < start) return false;
+      if (end && recordDate > end) return false;
+      return true;
+    });
 
-    // Define Headers: SL, Name, Staff ID, Days (1-31), Total Lunch, Total Cost
+    if (filteredTransactions.length === 0) {
+      alert("No data available for the selected date range!");
+      return;
+    }
+
+    const reportMonth = filteredTransactions[0]?.date2 || "";
+
+    // --- Calendar headers ---
     const headers = [
       "SL",
       "Name",
@@ -42,34 +91,30 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
       "Total Cost",
     ];
 
-    // Map to store unique users
+    // --- Map users for calendar ---
     const userMap = new Map();
     let sl = 1;
 
-    transactions.forEach((record) => {
-      const { data } = record;
-
-      data.forEach((user) => {
-        const userKey = user.email; // Use email as unique identifier (or staff ID if available)
+    filteredTransactions.forEach((record) => {
+      record.data.forEach((user) => {
+        const userKey = user.email;
 
         if (!userMap.has(userKey)) {
           userMap.set(userKey, {
             sl: sl++,
             name: user.name,
-            // staffId: user.email, // Replace with actual Staff ID if available
-            staffId: staffIDs[user.email] || "N/A", // Look up staff ID by email
-            bookings: Array(31).fill(""), // Initialize all days with empty strings
+            staffId: staffIDs[user.email] || "N/A",
+            bookings: Array(31).fill(""),
           });
         }
 
-        // Get Booking Day and add the quantity
         const day = new Date(user.date).getDate();
-        userMap.get(userKey).bookings[day - 1] = user.lunchQuantity; // Add quantity instead of 0
+        userMap.get(userKey).bookings[day - 1] = user.lunchQuantity;
       });
     });
 
-    // Convert userMap to rows
-      const rows = Array.from(userMap.values())
+    // --- Calendar rows ---
+    const rows = Array.from(userMap.values())
       .sort((a, b) => {
         const idA = a.staffId === "N/A" ? Infinity : parseInt(a.staffId, 10);
         const idB = b.staffId === "N/A" ? Infinity : parseInt(b.staffId, 10);
@@ -77,67 +122,192 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
       })
       .map(({ sl, name, staffId, bookings }) => {
         const totalLunch = bookings.reduce((sum, q) => sum + (q || 0), 0);
-        const totalCost = totalLunch > 0 ? totalLunch * 110 : "";
+        const totalCost = totalLunch > 0 ? totalLunch * Lunch_cost : "";
         return [sl, name, staffId, ...bookings, totalLunch || "", totalCost];
       });
 
+    const titleRow = ["Monthly Lunch Booking Report"];
+    const monthRow = [`Month: ${reportMonth}`];
+    const rangeRow = [`Date Range: ${startDate || "All"} → ${endDate || "All"}`];
 
-    // Convert Data to Worksheet
-      const titleRow = ["Monthly Lunch Booking Report"];
-      const monthRow = [`Month: ${reportMonth}`];
-      const emptyRow = [];
+    const grandTotalLunch = rows.reduce((sum, row) => sum + (row[headers.length - 2] || 0), 0);
+    const grandTotalCost = rows.reduce((sum, row) => sum + (row[headers.length - 1] || 0), 0);
 
-       // Calculate grand totals
-      const grandTotalLunch = rows.reduce((sum, row) => sum + (row[headers.length - 2] || 0), 0);
-      const grandTotalCost = rows.reduce((sum, row) => sum + (row[headers.length - 1] || 0), 0);
+    // --- Generate summary list ---
+    const summaryListExcel = Array.from(userMap.values()).map(({ name, bookings }) => {
+      const totalLunch = bookings.reduce((sum, q) => sum + (q || 0), 0);
+      return {
+        name,
+        totalLunch,
+        totalCost: totalLunch * Lunch_cost,
+        status: "Pending",
+      };
+    });
 
-      const sheetData = [
-        titleRow,
-        monthRow,
-        emptyRow,
-        headers,
-        ...rows,
-        [], // Empty row before totals
-        ["", "", "", ...Array(31).fill(""),  grandTotalLunch, grandTotalCost],
-      ];
-      
+    const summaryHeader = ["Name", "Total Lunch", "Total Cost", "Status"];
+    const summaryRows = summaryListExcel.map((item) => [
+      item.name,
+      item.totalLunch,
+      item.totalCost,
+      item.status,
+    ]);
 
-      const ws = XLSX.utils.aoa_to_sheet(sheetData);
-
-      ws["!merges"] = [
-        { s: { r: 0, c: 0 }, e: { r: 0, c: headers.length - 1 } }, // Title row
-        { s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }, // Month row
-      ];      
-
-
-    // Set Column Widths for better visibility
-    ws["!cols"] = [
-      { wch: 5 },  // SL
-      { wch: 20 }, // Name
-      { wch: 25 }, // Staff ID
-      ...Array(31).fill({ wch: 3 }), // Days 1-31
-      { wch: 12 }, // Total Lunch
-      { wch: 12 }, // Total Cost
+    const sheetData = [
+      titleRow,
+      monthRow,
+      rangeRow,
+      [],
+      headers,
+      ...rows,
+      [],
+      ["", "", "", ...Array(31).fill(""), grandTotalLunch, grandTotalCost],
+      [],
+      summaryHeader,
+      ...summaryRows,
     ];
 
-    // Create Workbook & Append Worksheet
+    const ws = XLSX.utils.aoa_to_sheet(sheetData);
+
+    ws["!merges"] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: headers.length - 1 } },
+      { s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } },
+      { s: { r: 2, c: 0 }, e: { r: 2, c: headers.length - 1 } },
+    ];
+
+    ws["!cols"] = [
+      { wch: 5 },
+      { wch: 20 },
+      { wch: 25 },
+      ...Array(31).fill({ wch: 3 }),
+      { wch: 12 },
+      { wch: 12 },
+    ];
+
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Monthly Bookings");
-
-    // Download the File
     XLSX.writeFile(wb, fileName);
   };
 
+  // --- Summary list for UI ---
+  useEffect(() => {
+    if (!transactions || transactions.length === 0) return;
+
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+
+    const filteredTransactions = transactions.filter((record) => {
+      const recordDate = new Date(record.date);
+      if (start && recordDate < start) return false;
+      if (end && recordDate > end) return false;
+      return true;
+    });
+
+    const userMap = new Map();
+    filteredTransactions.forEach((record) => {
+      record.data.forEach((user) => {
+        const userKey = user.email;
+        if (!userMap.has(userKey)) {
+          userMap.set(userKey, {
+            name: user.name,
+            bookings: Array(31).fill(0),
+          });
+        }
+        const day = new Date(user.date).getDate();
+        userMap.get(userKey).bookings[day - 1] = user.lunchQuantity;
+      });
+    });
+
+    const summary = Array.from(userMap.values()).map(({ name, bookings }) => {
+      const totalLunch = bookings.reduce((sum, q) => sum + (q || 0), 0);
+      return {
+        name,
+        totalLunch,
+        totalCost: totalLunch * Lunch_cost,
+        status: Lunch_cost,
+      };
+    });
+    setSummaryList(summary);
+  }, [transactions, startDate, endDate]);
+
+  const isDisabled = !startDate || !endDate;
+
   return (
-    <button className="btn btn-sm btn-danger my-1 mb-4 w-[240px]"  onClick={exportToExcel} style={styles.button}>
-      Download Calender View Excel
-    </button>
+    <div className="flex flex-col gap-2 mb-4">
+      <button
+        className="bg-black hover:bg-gray-800 text-white text-sm px-4 py-2 rounded mt-2 w-[240px] shadow-md"
+        onClick={exportToExcel}
+        disabled={isDisabled}
+      >
+        Download Calendar View Excel
+      </button>
+
+
+      <div className="flex gap-2 items-center mb-4">
+        <input
+          type="date"
+          value={startDate}
+          onChange={handleDayChange(setStartDate)}
+          onClick={(e) => e.target.showPicker && e.target.showPicker()}
+          min={monthFirstDay}   // first day of month
+          max={monthLastDay}    // last day of month
+          className="border rounded w-28 text-sm cursor-pointer bg-black"
+        />
+
+        <input
+          type="date"
+          value={endDate}
+          onChange={handleDayChange(setEndDate)}
+          onClick={(e) => e.target.showPicker && e.target.showPicker()}
+          min={monthFirstDay}   // first day of month
+          max={monthLastDay}    // last day of month
+          className="border rounded w-28 text-sm cursor-pointer bg-black"
+        />
+
+      </div>
+
+      {/* Summary List */}
+      {/* Summary List */}
+      <div className="border-t pt-2 mt-2">
+        {summaryList.length === 0 ? (
+          <p className="text-sm">No data for selected range</p>
+        ) : (
+          <>
+            {/* Header row */}
+            <div className="flex justify-between text-sm font-bold border-b py-1 bg-gray-400">
+              <span className="w-1/12 ">SL.</span>
+              <span className="w-3/12">Name</span>
+              <span className="w-3/12 ">Total Lunch</span>
+              <span className="w-3/12 ">Total Cost</span>
+              <span className="w-2/12 ">Cost/Lunch</span>
+            </div>
+
+            {/* User rows */}
+            {summaryList.map((item, idx) => (
+              <div key={idx} className="flex justify-between text-sm border-b py-1">
+                <span className="w-1/12 ">{idx + 1}</span>
+                <span className="w-3/12">{item.name}</span>
+                <span className="w-3/12 ">{item.totalLunch}</span>
+                <span className="w-3/12 ">{item.totalCost}</span>
+                <span className="w-2/12 ">{item.status}</span>
+              </div>
+            ))}
+
+            {/* Grand total row */}
+            <div className="flex justify-between text-sm font-bold border-t py-1 bg-gray-400">
+              <span className="w-4/12">Grand Total</span>
+              <span className="w-3/12 ">
+                {summaryList.reduce((sum, item) => sum + (item.totalLunch || 0), 0)}
+              </span>
+              <span className="w-3/12 ">
+                {summaryList.reduce((sum, item) => sum + (item.totalCost || 0), 0)}
+              </span>
+              <span className="w-2/12 ">-</span>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   );
-};
-
-// Basic Button Styles
-const styles = {
-
 };
 
 export default ExcelDownloadCalenderView;

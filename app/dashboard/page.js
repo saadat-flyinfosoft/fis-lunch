@@ -52,7 +52,7 @@ const Page = () => {
       .finally(() => {
         setLoading(false); // Set loading to false after fetching data (success or failure)
       });
-};
+  };
 
 
   useEffect(() => {
@@ -94,11 +94,11 @@ const Page = () => {
   const memoizedDays = useMemo(() => {
     return memoizeDays.map((item) => (
       <div className="" key={item._id}>
-        
-        <div className="block bg-slate-600 m-1 gap-1 border mt-2 p-2 border-slate-500 md:flex items-center hover:bg-slate-100 hover:p-2 hover:cursor-pointer">
+
+        <div className="block bg-slate-600 m-1 gap-1 border mt-2 p-2 border-slate-500 md:flex items-center hover:bg-slate-500 hover:p-2 hover:cursor-pointer">
           <div className="tooltip" data-tip="view detail">
             <p
-              className="bg-slate-700 w-auto justify-center rounded p-1 m-1 gap-1 flex  cursor-pointer hover:bg-blue-600 " 
+              className="bg-slate-700 w-auto justify-center rounded p-1 m-1 gap-1 flex  cursor-pointer hover:bg-blue-600 "
               onClick={() => handleOpenModal(item)}
             >
               <button className=" text-xs">🗨️</button>
@@ -109,15 +109,14 @@ const Page = () => {
             </p>
 
             {/* menu  */}
-            {showMenu && <p>{item.menu?.map((todaysMenu,i)=> <p className="m-1 text-sm text-slate-400 flex" key={i}>{i+1}. {todaysMenu}</p>)}</p>}
+            {showMenu && <p>{item.menu?.map((todaysMenu, i) => <p className="m-1 text-sm text-slate-400 flex" key={i}>{i + 1}. {todaysMenu}</p>)}</p>}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1 bg-slate-00 w-full ">
             {item.data.map((names, i) => (
               <div
                 key={i}
-                className={`bg-slate-0 text-center bg-slate-300 text-black rounded text-xs p-1 m-1 ${
-                  names?.bookBy === "admin" ? "bg-yellow-200" : ""
-                }`}
+                className={`bg-slate-0 text-center bg-slate-300 text-black rounded text-xs p-1 m-1 ${names?.bookBy === "admin" ? "bg-yellow-200" : ""
+                  }`}
               >
                 <div className="">
                   {names.name}
@@ -130,8 +129,8 @@ const Page = () => {
                   {
                     showMenu &&
                     <span className="text-10px text-slate-500">
-                    {names?.selectedMenu}
-                  </span>
+                      {names?.selectedMenu}
+                    </span>
                   }
                 </div>
               </div>
@@ -149,13 +148,13 @@ const Page = () => {
       </div>
       <div className="bg-slate-600 px-1 md:px-12 p-4 w-full">
         <h2 className="text-xl font-bold my-4">Dashboard</h2>
-        
+
         <div className=" flex flex-col ">
-          <XlsxDownloadButton date ={downloadByDate}/>
+          <XlsxDownloadButton date={downloadByDate} />
           <ExcelDownloadCalenderView transactions={memoizeDays} fileName="Monthly_Lunch.xlsx" />
         </div>
 
-        
+
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none">
             <BsCalendarDate className="text-xl m-2" />
@@ -166,10 +165,10 @@ const Page = () => {
             dateFormat="MM/yyyy"
             showMonthYearPicker
             placeholderText="Select a month"
-            className="outline-none pl-10 p-1 rounded hover:cursor-pointer"
+            className="outline-none pl-10 p-1 rounded hover:cursor-pointer bg-black"
           />
           {
-            loading && 
+            loading &&
             <span>
               <span className="loading text-blue-300 loading-bars loading-md mt-2 h-5 ml-1"></span>
               <span className="loading text-blue-300 loading-bars loading-md mt-2 h-5 ml-1"></span>
@@ -177,15 +176,15 @@ const Page = () => {
           }
         </div>
         <div>
-          {memoizeDays.length > 0 ? (
+          {/* {memoizeDays.length > 0 ? (
             <MonthlyDataView  date ={downloadByDate} data={memoizeDays} />
           ) : (
             <div className="my-8">
               <h2>No data found or Select a month first</h2>
             </div>
-          )}
-        {/* show hide menu button  */}
-        <input onChange={() => setShowMenu((prev) => !prev)} type="checkbox" className="toggle toggle-info mt-8" />
+          )} */}
+          {/* show hide menu button  */}
+          <input onChange={() => setShowMenu((prev) => !prev)} type="checkbox" className="toggle toggle-info mt-8" />
           {memoizedDays}
         </div>
       </div>
@@ -210,7 +209,7 @@ const Page = () => {
                   <span className="text-yellow-100">
                     <p>Lunch Quantity : {menu.lunchQuantity}</p>
                     <p>Note : {menu.note}</p>
-                    <p>Modified : {menu?.modifiedCount? menu.modifiedCount : 0} time</p>
+                    <p>Modified : {menu?.modifiedCount ? menu.modifiedCount : 0} time</p>
                   </span>
                 )}
                 <p>Booked By : <span>{menu?.bookBy}</span></p>
@@ -218,7 +217,7 @@ const Page = () => {
                   menu?.forceUpdateMenu &&
                   <p>Force Update Menu : {menu.forceUpdateMenu}</p>
                 }
-                { menu?.adminName &&
+                {menu?.adminName &&
                   <p><span>Admin name: {menu?.adminName}</span></p>
                 }
                 <p><span>{menu?.date}</span></p>
