@@ -40,10 +40,10 @@ const Page = () => {
                 <div className="drawer-side ">
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                     <ul className="menu p-4 w-80 min-h-full text-base-content gap-2 bg-black">
-                        <h1 className="text-xl text-center font-bold">Admin Dashboard
-                            <span className='text-xs font-normal'>
-                                <p>Email: {currentUserData[0]?.email}
-                                </p>
+                        <h1 className="text-xl text-center font-bold text-gray-100 dark:text-gray-200">
+                            Admin Dashboard
+                            <span className="text-xs font-normal text-gray-100 dark:text-gray-200 block mt-1">
+                                Email: {currentUserData[0]?.email}
                             </span>
                         </h1>
 

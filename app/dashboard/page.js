@@ -149,11 +149,6 @@ const Page = () => {
       <div className="bg-slate-600 px-1 md:px-12 p-4 w-full">
         <h2 className="text-xl font-bold my-4">Dashboard</h2>
 
-        <div className=" flex flex-col ">
-          <XlsxDownloadButton date={downloadByDate} />
-          <ExcelDownloadCalenderView transactions={memoizeDays} fileName="Monthly_Lunch.xlsx" />
-        </div>
-
 
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none">
@@ -165,7 +160,14 @@ const Page = () => {
             dateFormat="MM/yyyy"
             showMonthYearPicker
             placeholderText="Select a month"
-            className="outline-none pl-10 p-1 rounded hover:cursor-pointer bg-black"
+            className="
+              outline-none pl-4 p-1 rounded my-1
+              hover:cursor-pointer 
+              bg-gray-100 text-gray-900 border border-gray-400 placeholder-gray-400
+              dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+              focus:outline-none focus:ring-2 focus:ring-blue-500
+            "
+
           />
           {
             loading &&
@@ -175,6 +177,14 @@ const Page = () => {
             </span>
           }
         </div>
+
+        <div className=" flex flex-col ">
+          <XlsxDownloadButton date={downloadByDate} />
+          <ExcelDownloadCalenderView transactions={memoizeDays} fileName="Monthly_Lunch.xlsx" />
+        </div>
+
+
+
         <div>
           {/* {memoizeDays.length > 0 ? (
             <MonthlyDataView  date ={downloadByDate} data={memoizeDays} />

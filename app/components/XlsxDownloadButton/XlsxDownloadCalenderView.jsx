@@ -264,9 +264,17 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
           value={startDate}
           onChange={handleDayChange(setStartDate)}
           onClick={(e) => e.target.showPicker && e.target.showPicker()}
-          min={monthFirstDay}   // first day of month
-          max={monthLastDay}    // last day of month
-          className="border rounded w-28 text-sm cursor-pointer bg-black"
+          min={monthFirstDay}
+          max={monthLastDay}
+          className="
+            border border-gray-400 
+            rounded w-28 text-sm 
+            cursor-pointer 
+            bg-gray-100 text-gray-900 
+            placeholder-gray-400
+            dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+            focus:outline-none focus:ring-2 focus:ring-blue-500
+            "
         />
 
         <input
@@ -274,12 +282,20 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
           value={endDate}
           onChange={handleDayChange(setEndDate)}
           onClick={(e) => e.target.showPicker && e.target.showPicker()}
-          min={monthFirstDay}   // first day of month
-          max={monthLastDay}    // last day of month
-          className="border rounded w-28 text-sm cursor-pointer bg-black"
+          min={monthFirstDay}
+          max={monthLastDay}
+          className="
+            border border-gray-400 
+            rounded w-28 text-sm 
+            cursor-pointer 
+            bg-gray-100 text-gray-900 
+            placeholder-gray-400
+            dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+            focus:outline-none focus:ring-2 focus:ring-blue-500
+            "
         />
-
       </div>
+
 
       {/* ✅ Lunch price input */}
       <div className="flex items-center gap-1 mb-4">

@@ -1,1 +1,1 @@
-export const Lunch_cost = 100;
+export const Lunch_cost = 110;
