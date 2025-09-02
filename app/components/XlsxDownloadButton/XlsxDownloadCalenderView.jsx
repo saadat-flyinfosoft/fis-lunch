@@ -69,12 +69,22 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
 
+    function normalizeDate(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+
     const filteredTransactions = transactions.filter((record) => {
-      const recordDate = new Date(record.date);
+      const recordDate = normalizeDate(new Date(record.date));
+      const start = startDate ? normalizeDate(new Date(startDate)) : null;
+      const end = endDate ? normalizeDate(new Date(endDate)) : null;
+
       if (start && recordDate < start) return false;
       if (end && recordDate > end) return false;
       return true;
     });
+
+
 
     if (filteredTransactions.length === 0) {
       alert("No data available for the selected date range!");
@@ -197,15 +207,20 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
       return;
     }
 
-    const start = startDate ? new Date(startDate) : null;
-    const end = endDate ? new Date(endDate) : null;
+    function normalizeDate(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    const start = startDate ? normalizeDate(new Date(startDate)) : null;
+    const end = endDate ? normalizeDate(new Date(endDate)) : null;
 
     const filteredTransactions = transactions.filter((record) => {
-      const recordDate = new Date(record.date);
+      const recordDate = normalizeDate(new Date(record.date));
       if (start && recordDate < start) return false;
       if (end && recordDate > end) return false;
       return true;
     });
+
 
     const userMap = new Map();
     filteredTransactions.forEach((record) => {
