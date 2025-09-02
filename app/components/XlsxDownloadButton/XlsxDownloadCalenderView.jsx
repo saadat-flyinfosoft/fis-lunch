@@ -1,4 +1,4 @@
-import { lunchPrice } from "@/app/utils";
+import { Lunch_cost, lunchPrice } from "@/app/utils";
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 
@@ -11,7 +11,7 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
 
   const [monthFirstDay, setMonthFirstDay] = useState("");
   const [monthLastDay, setMonthLastDay] = useState("");
-  const [lunchPrice, setLunchPrice] = useState(100);
+  const [lunchPrice, setLunchPrice] = useState(Lunch_cost);
 
 
   useEffect(() => {
