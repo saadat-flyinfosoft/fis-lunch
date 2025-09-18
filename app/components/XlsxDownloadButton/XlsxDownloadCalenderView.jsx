@@ -315,7 +315,7 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
         {summaryList.length === 0 ? (
           <p className="text-sm">No data for selected range</p>
         ) : (
-          <>
+          <div>
             {/* Header row */}
             <div className="flex justify-between text-sm font-bold border-b py-1 bg-gray-400 p-1">
               <span className="w-1/12 ">SL.</span>
@@ -326,8 +326,8 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
 
             {/* User rows */}
             {summaryList.map((item, idx) => (
-              <div key={idx} className="flex justify-between text-sm border-b py-1">
-                <span className="w-1/12 ">{idx + 1}</span>
+              <div key={idx} className="flex justify-between text-sm border-b py-1 hover:bg-blue-500">
+                <span className="w-1/12 ">{idx + 1}. </span>
                 <span className="w-4/12">{item.name}</span>
                 <span className="w-4/12 ">{item.totalLunch}</span>
                 <span className="w-2/12 ">{item.totalCost}</span>
@@ -347,7 +347,7 @@ const ExcelDownloadCalenderView = ({ transactions, fileName = "Transactions.xlsx
               </span>
             </div>
 
-          </>
+          </div>
         )}
       </div>
     </div>
